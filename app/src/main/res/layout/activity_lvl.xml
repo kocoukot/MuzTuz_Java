@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Lvl1"
+    android:layout_weight="1"
+    android:background="@color/background">
+
+    <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginTop="20dp"
+            android:gravity="end"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+            app:srcCompat="@mipmap/melodiy" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginEnd="120dp"
+            app:srcCompat="@mipmap/zvuk" />
+
+
+        <TextView
+                android:id="@+id/textViewCoins"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:gravity="end"
+                android:text="0"
+                android:textSize="30sp" />
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@mipmap/moneta" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textSongName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/optima_bold"
+            android:text="Альбом: Точно Ртуть Алоэ\nПесня: Невеста?"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+    <ImageView
+        android:id="@+id/imageViewArtist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_weight="1"
+        android:src="@drawable/artist_1_1_pugacheva"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/amoutnLettes" />
+
+
+        <TextView
+            android:id="@+id/textViewAmoutnLettes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:visibility="invisible"
+            android:text="_ _ _ _ _   _ _ _ _ _ _"
+            android:textColor="@color/backgroundInfo"
+            android:textSize="30sp"
+
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.991" />
+
+
+    <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal"
+
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <EditText
+                android:id="@+id/editTextTipedAnswer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Введите ответ..." />
+
+            <Button
+                android:id="@+id/buttonSayAnswer"
+                android:layout_width="65dp"
+                android:layout_height="53dp"
+                android:background="@mipmap/vvod_galka"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:onClick="onCheckAnswer"/>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+
+            app:layout_constraintStart_toStartOf="parent">
+
+            <Button
+                android:id="@+id/buttonShowAmountLetters"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@mipmap/podskazka_kolichestvo_bukv"
+                android:clickable="false"
+                android:contextClickable="false"
+                android:onClick="onShowOneLetter"/>
+
+            <Button
+                android:id="@+id/buttonShowOneLetter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contextClickable="false"
+                android:layout_weight="1"
+                android:background="@mipmap/podskazka_lubay_bukva"
+                android:clickable="false"/>
+
+            <Button
+                android:id="@+id/buttonSongName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contextClickable="false"
+                android:layout_weight="1"
+                android:background="@mipmap/podskazka_albom_pesny"
+                android:clickable="false" />
+
+
+            <Button
+                android:id="@+id/buttonFriendHelp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contextClickable="false"
+                android:layout_weight="1"
+                android:background="@mipmap/podskazka_pomoshh_druga"
+                android:clickable="false" />
+
+            <Button
+                android:id="@+id/buttonAboutHelp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@mipmap/podskazka_podskazok"
+                android:onClick="onHelpAboutHelp"/>
+        </LinearLayout>
+
+</LinearLayout>
