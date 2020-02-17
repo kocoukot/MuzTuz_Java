@@ -35,22 +35,6 @@
 
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="10dp"
-                android:gravity="end"
-                android:text="0"
-                android:textSize="30sp" />
-
-            <ImageView
-                android:id="@+id/imageView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="100dp"
-                app:srcCompat="@mipmap/zvezda_ochki" />
-
-            <TextView
-
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
                 android:gravity="end"
                 android:text="0"
@@ -69,6 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:layout_marginStart="10dp"
             android:fontFamily="@font/optima_bold"
             android:text="Альбом: Точно Ртуть Алоэ\nПесня: Невеста?"
             android:textSize="15sp"
@@ -112,8 +97,9 @@
 
             <Button
                 android:id="@+id/buttonSayAnswer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="65dp"
+                android:layout_height="53dp"
+
                 android:background="@mipmap/vvod_galka_zakrita"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
                 app:layout_constraintEnd_toEndOf="parent" />
@@ -124,8 +110,9 @@
             android:id="@+id/linearLayout3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="bottom"
+            android:gravity="center_horizontal"
             android:orientation="horizontal"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -135,7 +122,7 @@
                 android:id="@+id/buttonShowAmountLetters"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+
                 android:background="@mipmap/podskazka_kolichestvo_bukv_zakrita"
                 android:clickable="false"
                 android:contextClickable="false"
@@ -146,7 +133,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contextClickable="false"
-                android:layout_weight="1"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
                 android:background="@mipmap/podskazka_lubay_bukva_zakrita"
                 android:clickable="false"
                 android:onClick="onShowOneLetter" />
@@ -156,29 +144,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contextClickable="false"
-                android:layout_weight="1"
+
                 android:background="@mipmap/podskazka_albom_pesny_zakrita"
                 android:clickable="false"
                 android:onClick="onShowSongName" />
 
-
-            <Button
-                android:id="@+id/buttonFriendHelp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contextClickable="false"
-                android:layout_weight="1"
-                android:background="@mipmap/podskazka_pomoshh_druga_zakrita"
-                android:clickable="false"
-                android:onClick="onFriendHelp" />
-
-            <Button
-                android:id="@+id/buttonAboutHelp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@mipmap/podskazka_podskazok_zakrita"
-                android:onClick="onHelpAboutHelp" />
 
         </LinearLayout>
 
@@ -187,7 +157,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="_ _ _ _ _   _ _ _ _ _ _"
+
             android:textColor="@color/backgroundInfo"
             android:textSize="37sp"
             android:visibility="invisible"
@@ -209,40 +179,6 @@
             app:layout_constraintVertical_bias="0.5"
             app:srcCompat="@mipmap/artist_0_1_mumitrol" />
 
-
-        <LinearLayout
-            android:id="@+id/linearLayout3333"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginEnd="35dp"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent">
-
-
-            <ImageView
-                android:id="@+id/imageBlueRow4"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:layout_weight="1"
-                android:visibility="invisible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:srcCompat="@mipmap/strelka1_1_animaciya" />
-
-            <ImageView
-                android:id="@+id/imageBlueRow5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="invisible"
-                app:layout_constraintEnd_toStartOf="@+id/imageBlueRow4"
-                app:srcCompat="@mipmap/strelka1_1_animaciya" />
-
-
-        </LinearLayout>
 
 
         <ImageView
@@ -271,57 +207,56 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="65dp"
             app:srcCompat="@mipmap/strelka1_1_animaciya" />
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="5dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:id="@+id/imageBlueRow1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:visibility="invisible"
+                app:srcCompat="@mipmap/strelka2_1_animaciya" />
+
+            <ImageView
+                android:id="@+id/imageBlueRow2"
+                android:layout_width="75dp"
+                android:layout_height="101dp"
+                android:visibility="invisible"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/strelka2_11_animaciya" />
+
+            <ImageView
+                android:id="@+id/imageBlueRow3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                app:srcCompat="@mipmap/strelka1_1_animaciya" />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    <LinearLayout
-        android:id="@+id/linearLayout333"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginStart="25dp"
-        android:layout_marginBottom="85dp"
-        android:gravity="bottom"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <ImageView
-            android:id="@+id/imageBlueRow1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:visibility="invisible"
-            app:srcCompat="@mipmap/strelka2_1_animaciya" />
-
-        <ImageView
-            android:id="@+id/imageBlueRow2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:visibility="invisible"
-            android:layout_weight="1"
-            app:srcCompat="@mipmap/strelka2_1_animaciya" />
-
-        <ImageView
-            android:id="@+id/imageBlueRow3"
-            android:layout_width="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:visibility="invisible"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:srcCompat="@mipmap/strelka2_1_animaciya" />
-    </LinearLayout>
-
 
     <LinearLayout
         android:id="@+id/linearLayout33"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:gravity="bottom"
+        android:gravity="center_horizontal"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -330,7 +265,7 @@
 
     <ImageView
         android:id="@+id/fistBlock"
-        android:layout_width="81dp"
+        android:layout_width="wrap_content"
         android:layout_height="70dp"
         app:srcCompat="@mipmap/podskazka_close"
         android:layout_gravity="bottom"
@@ -338,14 +273,16 @@
 
         <ImageView
             android:id="@+id/secodBlock"
-            android:layout_width="81dp"
+            android:layout_width="wrap_content"
             android:layout_height="70dp"
             app:srcCompat="@mipmap/podskazka_close"
             android:layout_gravity="bottom"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
             android:visibility="invisible"/>
         <ImageView
             android:id="@+id/thirdBlock"
-            android:layout_width="81dp"
+            android:layout_width="wrap_content"
             android:layout_height="70dp"
             app:srcCompat="@mipmap/podskazka_close"
             android:layout_gravity="bottom"

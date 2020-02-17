@@ -26,11 +26,12 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class TutorialLvl extends AppCompatActivity {
 
     Handler handler;
-    Button buttonShowAmountLetters, buttonShowOneLetter, buttonSongName, buttonFriendHelp, buttonAboutHelp;
+    Button buttonShowAmountLetters, buttonShowOneLetter, buttonSongName;
     Button buttonSayAnswer;
     ImageView firstBlock, secondBlock, thirdBlock;
     int delay = 450;
-    ImageView blueRow1,blueRow2,blueRow3, blueRow4, blueRow5, blueRow6, blueRow7 ;
+    int idButton;
+    ImageView blueRow1,blueRow2,blueRow3, blueRow4,  blueRow6, blueRow7 ;
     TextView textSongName;
     TextView amoutnLettes;
 
@@ -42,15 +43,9 @@ public class TutorialLvl extends AppCompatActivity {
         setContentView(R.layout.activity_tutorial_lvl);
 
 
-
-
-
-
         blueRow1 = findViewById(R.id.imageBlueRow1);
         blueRow2 = findViewById(R.id.imageBlueRow2);
         blueRow3 = findViewById(R.id.imageBlueRow3);
-        blueRow4 = findViewById(R.id.imageBlueRow4);
-        blueRow5 = findViewById(R.id.imageBlueRow5);
         blueRow6 = findViewById(R.id.imageBlueRow6);
         blueRow7 = findViewById(R.id.imageBlueRow7);
 
@@ -63,14 +58,8 @@ public class TutorialLvl extends AppCompatActivity {
         buttonSongName = findViewById(R.id.buttonSongName);
         buttonSongName.setClickable(false);
 
-        buttonFriendHelp = findViewById(R.id.buttonFriendHelp);
-        buttonFriendHelp.setClickable(false);
-
-        buttonAboutHelp = findViewById(R.id.buttonAboutHelp);
-        buttonAboutHelp.setClickable(false);
 
         buttonSayAnswer = findViewById(R.id.buttonSayAnswer);
-        buttonAboutHelp.setClickable(false);
 
         amoutnLettes = findViewById(R.id.amoutnLettes);
         firstBlock = findViewById(R.id.fistBlock);
@@ -81,7 +70,7 @@ public class TutorialLvl extends AppCompatActivity {
 
 
 
-       LinkedBlockingQueue<Dialog> dialogsToShow = new LinkedBlockingQueue<>();
+     //  LinkedBlockingQueue<Dialog> dialogsToShow = new LinkedBlockingQueue<>();
 
         showInfo(R.string.helloFriend, 0);
         showInfo(R.string.firstHelp, 0);
@@ -142,17 +131,8 @@ public class TutorialLvl extends AppCompatActivity {
                     buttonSongName.setBackground(TutorialLvl.this.getDrawable(R.mipmap.podskazka_albom_pesny));
                     blueRow3.setVisibility(View.VISIBLE);
                 }
-                else if (number == 4){
-                    buttonFriendHelp.setClickable(true);
-                    buttonFriendHelp.setBackground(TutorialLvl.this.getDrawable(R.mipmap.podskazka_pomoshh_druga));
-                    blueRow4.setVisibility(View.VISIBLE);
-                }else if (number == 5){
-                    buttonAboutHelp.setClickable(true);
-                    buttonAboutHelp.setBackground(TutorialLvl.this.getDrawable(R.mipmap.podskazka_podskazok));
-                    blueRow5.setVisibility(View.VISIBLE);
-                } else if(number == 6){
+                else if(number == 6){
                     finishTutorial();
-
                 }
 
             }
@@ -171,43 +151,14 @@ private void finishTutorial(){
     TutorialLvl.this.finish();
 }
 
-    public void onShowAmountLetters(View view) {
+    public void onShowAmountLetters(View view) {useHelp(R.string.showLettersAmount,buttonShowAmountLetters ); }
 
-        useHelp(R.string.showLettersAmount,buttonShowAmountLetters );
-    }
+    public void onShowOneLetter(View view) {useHelp(R.string.showOneLetter,buttonShowOneLetter ); }
 
-    public void onShowOneLetter(View view) {
-        useHelp(R.string.showOneLetter,buttonShowOneLetter );
-    }
-
-    public void onShowSongName(View view) {
-        useHelp(R.string.showSongName,buttonSongName );
-    }
+    public void onShowSongName(View view) {useHelp(R.string.showSongName,buttonSongName );  }
 
 
-    public void onFriendHelp(View view) {
-        useHelp(R.string.showFriendHelp,buttonFriendHelp );
-    }
 
-    public void onHelpAboutHelp(View view) {
-        final Dialog builder = new Dialog(this);
-        builder.setCanceledOnTouchOutside(false);
-        builder.setContentView(R.layout.information);
-        final Button buttonInformation = builder.findViewById(R.id.buttonInformation);
-        buttonInformation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                builder.cancel();
-                blueRow5.setVisibility(View.INVISIBLE);
-                blueRow6.setVisibility(View.VISIBLE);
-                blueRow7.setVisibility(View.VISIBLE);
-                buttonSayAnswer.setBackground(TutorialLvl.this.getDrawable(R.mipmap.vvod_galka));
-                showInfo(R.string.commonText, 0);
-                showInfo(R.string.lastText, 6);
-            }
-        });
-        builder.show();
-    }
 
 
 
@@ -235,6 +186,7 @@ private void finishTutorial(){
                     builder.cancel();
                     firstBlock.setVisibility(View.VISIBLE);
                     buttonPressed.setClickable(false);
+                    setTextViewAmountLetters(-1);
                     amoutnLettes.setVisibility(View.VISIBLE);
                     blueRow1.setVisibility(View.INVISIBLE);
 
@@ -259,66 +211,85 @@ private void finishTutorial(){
 
                     handler.postDelayed(new Runnable() {
                         public void run() {
-                            showInfo(R.string.friendHelp, 4);
+                            showInfo(R.string.commonText, 0);
+                            blueRow6.setVisibility(View.VISIBLE);
+                            blueRow7.setVisibility(View.VISIBLE);
+                            showInfo(R.string.lastText, 6);
                         }
                     }, delay);
                 }
-                else if (buttonPressed.equals(buttonFriendHelp)){
-                    builder.cancel();
-                    buttonPressed.setClickable(false);
-                    blueRow4.setVisibility(View.INVISIBLE);
-
-                    showPublicHelp();
-                }
-
-
             }
         });
         builder.show();
     }
 
-private void chooseOneLetter(){
-    final Dialog builder = new Dialog(this);
-    builder.setCanceledOnTouchOutside(false);
-    builder.setContentView(R.layout.show_one_letter);
-    final Button buttonOneLetter = builder.findViewById(R.id.buttonShowOneLetter);
 
-    buttonOneLetter.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            builder.cancel();
-            amoutnLettes.setText("_ _ _ _ _   _ Р _ _ _ _");
-            handler.postDelayed(new Runnable() {
-                public void run() {
-                    showInfo(R.string.thirdHelp, 3);
-                }
-            }, delay);
 
+    private void setTextViewAmountLetters(int id){
+        String lettersAmount = "";
+        String correctAnswer = "Мумий Тролль";
+        String choosenLetter = "";
+        if (id >= 0) {
+            choosenLetter = String.valueOf(correctAnswer.charAt(id)).toUpperCase();
         }
-    });
-    builder.show();
-}
-
-private void showPublicHelp(){
-    final Dialog builder = new Dialog(this);
-    builder.setCanceledOnTouchOutside(false);
-    builder.setContentView(R.layout.friends_help);
-    final Button friendsHelp = builder.findViewById(R.id.buttonInformOK);
-    friendsHelp.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            builder.cancel();
-            handler.postDelayed(new Runnable() {
-                public void run() {
-                    showInfo(R.string.helpAboutHelp, 5);
+        for (int i = 0; i < correctAnswer.length(); i++) {
+            if (i == id){
+                lettersAmount += choosenLetter + " ";
+            } else {
+                if (!String.valueOf(correctAnswer.charAt(i)).equals(" ")) {
+                    lettersAmount += "_ ";
+                } else {
+                    lettersAmount += "   ";
                 }
-            }, delay);
-
-
+            }
         }
-    });
-    builder.show();
-}
+
+        amoutnLettes.setText(lettersAmount.trim());
+    }
+
+
+    private void chooseOneLetter() {
+
+        String correctAnswer = "Мумий Тролль";
+        final Dialog builder = new Dialog(this);
+        builder.setCanceledOnTouchOutside(false);
+        builder.setContentView(R.layout.show_one_letter);
+
+        LinearLayout linearLayout = builder.findViewById(R.id.layoutHelpShowOneLetter);
+
+        for (int i = 0; i < correctAnswer.length(); i++) {
+            ImageView imageView = new ImageView(this);
+
+            LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            layout.setMargins(0,50,0,50);
+            imageView.setLayoutParams(layout);
+
+            if (!String.valueOf(correctAnswer.charAt(i)).equals(" ")) {
+                imageView.setImageResource(R.drawable.button_letter);
+                imageView.setId(i);
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        idButton =  v.getId();
+                        builder.cancel();
+                        setTextViewAmountLetters(idButton);
+                        amoutnLettes.setVisibility(View.VISIBLE);
+                        handler.postDelayed(new Runnable() {
+                            public void run() {
+                                showInfo(R.string.thirdHelp, 3);
+                            }
+                        }, delay);
+
+                    }
+                });
+            }
+            else{
+                imageView.setImageResource(R.mipmap.vybor_bukvy_podskazki_space);
+            }
+            linearLayout.addView(imageView);
+        }
+        builder.show();
+    }
 
 }
 

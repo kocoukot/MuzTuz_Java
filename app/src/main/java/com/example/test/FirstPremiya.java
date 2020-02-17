@@ -17,8 +17,9 @@ public class FirstPremiya extends AppCompatActivity {
     Intent intent;
     String coins = "1000";
     private static final int CODEFORLVL11 = 1;
-    String picture;
-    Drawable drawable;
+    String picture, artistSong ;
+    private boolean[] lvlsPast;
+    private boolean lvlPast;
     String[] artist ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,13 +37,18 @@ public class FirstPremiya extends AppCompatActivity {
         lvl17 = findViewById(R.id.lvl17);
         lvl18 = findViewById(R.id.lvl18);
         lvl19 = findViewById(R.id.lvl19);
+        lvlsPast = new boolean[] {true,false,false,false,false,false,false};
 
 
         lvl11.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 picture = String.valueOf(R.drawable.artist_1_1_pugacheva);
-                artist = new String[]{"Алла Пугачева", "Пугачева", "Алла Борисовна", "Пугачева Алла", "Алла Пугачева", "Алла Борисовна Пугачева"};
+                artist = new String[]{"алла пугачева", "пугачева", "алла борисовна", "пугачева алла", "алла борисовна пугачева", ""};
+                artistSong = "Песня: Миллион алых роз\nАльбом: Миллион роз";
+                lvlPast = lvlsPast[0];
+
+
                 startLvl();
             }
         });
@@ -53,7 +59,8 @@ public class FirstPremiya extends AppCompatActivity {
             public void onClick(View v) {
 
                 picture = String.valueOf(R.drawable.artist_1_2_timati);
-                artist = new String[]{"Тимати", "Тимур Юнусов", "Timati", "Тимур Сказка", "Тимур Беноевский", "Теймураз"};
+                artist = new String[]{"тимати", "тимур юнусов", "timati", "тимур сказка", "тимур беноевский", "теймураз"};
+                lvlPast = lvlsPast[1];
                 startLvl();
             }
         });
@@ -62,7 +69,7 @@ public class FirstPremiya extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 picture = String.valueOf(R.drawable.artist_1_3_bi2);
-                artist = new String[]{"Би 2", "Би-2", "БИ 2", "БИ-2", "БИ два"};
+                artist = new String[]{"би 2", "би-2", "би два", "би2"};
                 startLvl();
             }
         });
@@ -127,6 +134,8 @@ public class FirstPremiya extends AppCompatActivity {
         intent.putExtra("coins", String.valueOf(coins));
         intent.putExtra("artistName",artist);
         intent.putExtra("artistPicture",picture);
+        intent.putExtra("artistSong",artistSong);
+        intent.putExtra("lvlPast", lvlPast);
         startActivityForResult(intent,CODEFORLVL11);
     }
 

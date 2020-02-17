@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_marginTop="20dp"
-            android:gravity="end"
+
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -28,19 +28,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-
+            android:layout_gravity="left"
+            android:layout_marginStart="-50dp"
             app:srcCompat="@mipmap/melodiy" />
 
         <ImageView
             android:id="@+id/imageView3"
+            android:layout_gravity="left"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_marginEnd="120dp"
+            android:layout_marginStart="-100dp"
             app:srcCompat="@mipmap/zvuk" />
 
+        <LinearLayout
+            android:layout_width="10dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:orientation="horizontal">
 
-        <TextView
+            <TextView
                 android:id="@+id/textViewCoins"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -54,6 +63,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@mipmap/moneta" />
+        </LinearLayout>
+
+
 
         </LinearLayout>
 
@@ -62,6 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/optima_bold"
+            android:layout_marginStart="10dp"
             android:text="Альбом: Точно Ртуть Алоэ\nПесня: Невеста?"
             android:textSize="15sp"
             android:textStyle="bold"
@@ -120,6 +133,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+
                 android:hint="Введите ответ..." />
 
             <Button
@@ -139,7 +153,9 @@
             android:id="@+id/linearLayout3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="bottom"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -151,47 +167,27 @@
                 android:id="@+id/buttonShowAmountLetters"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:background="@mipmap/podskazka_kolichestvo_bukv"
-                android:clickable="false"
-                android:contextClickable="false"
-                android:onClick="onShowOneLetter"/>
+                android:onClick="onShowLettersAmount"/>
 
             <Button
                 android:id="@+id/buttonShowOneLetter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contextClickable="false"
-                android:layout_weight="1"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
                 android:background="@mipmap/podskazka_lubay_bukva"
-                android:clickable="false"/>
+                android:onClick="onShowLetter"/>
 
             <Button
                 android:id="@+id/buttonSongName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contextClickable="false"
-                android:layout_weight="1"
                 android:background="@mipmap/podskazka_albom_pesny"
-                android:clickable="false" />
+                android:onClick="onShowSongName"/>
 
 
-            <Button
-                android:id="@+id/buttonFriendHelp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contextClickable="false"
-                android:layout_weight="1"
-                android:background="@mipmap/podskazka_pomoshh_druga"
-                android:clickable="false" />
 
-            <Button
-                android:id="@+id/buttonAboutHelp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@mipmap/podskazka_podskazok"
-                android:onClick="onHelpAboutHelp"/>
         </LinearLayout>
 
 </LinearLayout>
