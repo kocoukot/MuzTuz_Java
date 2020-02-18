@@ -55,7 +55,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
                 android:gravity="end"
-                android:text="0"
+                android:text="1300"
                 android:textSize="30sp" />
 
             <ImageView
@@ -168,7 +168,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@mipmap/podskazka_kolichestvo_bukv"
-                android:onClick="onShowLettersAmount"/>
+                android:onClick="onHelpUse"/>
 
             <Button
                 android:id="@+id/buttonShowOneLetter"
@@ -177,14 +177,14 @@
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
                 android:background="@mipmap/podskazka_lubay_bukva"
-                android:onClick="onShowLetter"/>
+                android:onClick="onHelpUse"/>
 
             <Button
                 android:id="@+id/buttonSongName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@mipmap/podskazka_albom_pesny"
-                android:onClick="onShowSongName"/>
+                android:onClick="onHelpUse"/>
 
 
 

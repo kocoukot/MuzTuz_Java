@@ -19,5 +19,8 @@
     <string name="showSongName">Вы уверены, что хотите использовать подсказку «Название песни и альбома» (200 монет)?</string>
     <string name="showFriendHelp">Вы уверены, что хотите использовать подсказку «Помощь друга»?</string>
     <string name="showHelpAboutHelp">Подсказки про подсказки</string>
+    <string name="ThreeStars">300</string>
+    <string name="TwoStars">200</string>
+    <string name="OneStar">100</string>
 
 </resources>

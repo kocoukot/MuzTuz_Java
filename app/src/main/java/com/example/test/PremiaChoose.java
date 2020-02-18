@@ -27,8 +27,9 @@ public class PremiaChoose extends AppCompatActivity {
     ArrayList<Integer> arrayListPercents = new ArrayList<>();
     ArrayList<Button> arrayListButtons;
     private static final int CODEFORTUTORIAL = 1;
-    private static final int CODEFORFIRSTTUTORIAL = 2;
+    private static final int CODEFORFIRSTPREMIYA = 2;
     final String PREFERENCES = "testColorTutorial2222";
+    final String PREFERENCESCOINS = "CoinsAmount";
     Button buttonTutorial, buttonLvl1, buttonLvl2, buttonLvl3, buttonLvl4, buttonLvl5, buttonLvl6, buttonLvl7;
 
 
@@ -37,7 +38,6 @@ public class PremiaChoose extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_premia_choose);
-
 
         arrayListButtons = new ArrayList<>();
 
@@ -49,7 +49,6 @@ public class PremiaChoose extends AppCompatActivity {
         buttonLvl5 = findViewById(R.id.lvl5);
         buttonLvl6 = findViewById(R.id.lvl6);
         buttonLvl7 = findViewById(R.id.lvl7);
-
 
 
         if(arrayListButtons.size() == 0) {
@@ -73,16 +72,16 @@ public class PremiaChoose extends AppCompatActivity {
 
 
 
-      if(arrayListPercents.size() == 0) {
-          arrayListPercents.add(R.mipmap.obychenie_0);
-          arrayListPercents.add(R.mipmap.lvl11);
-          arrayListPercents.add(R.mipmap.lvl21);
-          arrayListPercents.add(R.mipmap.lvl31);
-          arrayListPercents.add(R.mipmap.lvl41);
-          arrayListPercents.add(R.mipmap.lvl51);
-          arrayListPercents.add(R.mipmap.lvl61);
-          arrayListPercents.add(R.mipmap.lvl71);
-      }
+        if(arrayListPercents.size() == 0) {
+            arrayListPercents.add(R.mipmap.obychenie_0);
+            arrayListPercents.add(R.mipmap.lvl11);
+            arrayListPercents.add(R.mipmap.lvl21);
+            arrayListPercents.add(R.mipmap.lvl31);
+            arrayListPercents.add(R.mipmap.lvl41);
+            arrayListPercents.add(R.mipmap.lvl51);
+            arrayListPercents.add(R.mipmap.lvl61);
+            arrayListPercents.add(R.mipmap.lvl71);
+        }
 
 
         buttonTutorial.setOnClickListener(new View.OnClickListener() {
@@ -139,7 +138,12 @@ public class PremiaChoose extends AppCompatActivity {
 
     public void onFirstPremiya(View view) {
         Intent intent = new Intent(PremiaChoose.this, FirstPremiya.class);
-        startActivityForResult(intent,CODEFORFIRSTTUTORIAL);
+        startActivityForResult(intent,CODEFORFIRSTPREMIYA);
 
     }
+
+
+
+
+
 }

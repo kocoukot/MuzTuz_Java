@@ -22,21 +22,26 @@ import android.widget.Toast;
 
 public class Lvl1 extends AppCompatActivity {
 
-    ImageView imageView;
-    EditText editText;
-    String[] artistName;
-    private TextView textViewAmountLetters, textViewCoins, textSongName;
-    private String answer, coins,artistSong, newCoins, correctAnswer;
     private final int helpLettersAmount = 150;
-    private final int helpOneLetter = 150;
+    private final int helpOneLetter = 400;
     private final int helpSongName = 250;
-    TextView textCoinsWon;
-    Button buttonShowAmountLetters, buttonSongName, buttonShowOneLetter, buttonSayAnswer;
+    private final int maxDuration = 30000;
+    private final int priceOneStar = 100;
+    private final int priceTwoStars = 200;
+    private final int priceThreeStars = 300;
     private boolean correctAnswerBool = false;
     private boolean lvlPast = false;
     private boolean helpUsed = false;
-    private int idButton;
     private int starsForLvl = 3;
+    ImageView imageView;
+    EditText editText;
+    private String[] artistName;
+    private TextView textViewAmountLetters, textViewCoins, textSongName;
+    private String artistSong, correctAnswer;
+    private Button buttonShowAmountLetters, buttonSongName, buttonShowOneLetter, buttonSayAnswer;
+    private int lvlID, intCoinsWon, coins,artistPicture, coinsAtStart;            //переделать в short?
+    private long start, lvlDuration ;
+
 
 
     @Override
@@ -45,144 +50,117 @@ public class Lvl1 extends AppCompatActivity {
         setContentView(R.layout.activity_lvl);
 
 
-
-        imageView = findViewById(R.id.imageViewArtist);
-        editText = findViewById(R.id.editTextTipedAnswer);
-        textViewAmountLetters = findViewById(R.id.textViewAmoutnLettes);
-        textViewCoins = findViewById(R.id.textViewCoins);
-
-        buttonShowAmountLetters = findViewById(R.id.buttonShowAmountLetters);
-        buttonShowOneLetter = findViewById(R.id.buttonShowOneLetter);
-        buttonSongName = findViewById(R.id.buttonSongName);
-        buttonSayAnswer = findViewById(R.id.buttonSayAnswer);
+        setViews();							//ищем все вью
+        setLvlInformation();				//получаем входную информацию
+        lvlBuild();							//строим уровень по полученным данным (картинка, ответ, песня, состояние музыки и звуков, монеты)
 
 
-        textSongName = findViewById(R.id.textSongName);
-
-
-        Intent newLvl = getIntent();
-        artistName = newLvl.getStringArrayExtra("artistName");          //Получение массива правильных ответов
-        correctAnswer = artistName[0];
-        artistSong = newLvl.getStringExtra("artistSong");
-        coins = newLvl.getStringExtra("coins");                                    //получение количества монет
-        lvlPast = newLvl.getBooleanExtra("lvlPast", false);
-
-        textViewCoins.setText(coins);
-        textSongName.setText(artistSong);
-
-        String artistPicture = newLvl.getStringExtra("artistPicture");                 //получение изображения артиста
-        int picture = Integer.valueOf(artistPicture);
-        imageView.setImageResource(picture);
-
-        if (lvlPast){
-            buttonShowAmountLetters.setClickable(false);
-            buttonShowOneLetter.setClickable(false);
-            buttonSongName.setClickable(false);
-            buttonSayAnswer.setClickable(false);
-
-            editText.setClickable(false);
-            editText.setCursorVisible(false);
-            editText.setEnabled(false);
-            String text = "";
-            for (int i = 0; i < correctAnswer.length(); i++ ){
-                text += correctAnswer.charAt(i) + " ";
-
-            }
-
-            textViewAmountLetters.setText(text.trim().toUpperCase());
-            textViewAmountLetters.setVisibility(View.VISIBLE);
-            textSongName.setVisibility(View.VISIBLE);
+        if (lvlPast){									//если уровень пройден
+            toDoIfLvlPast();
+        } else{
+            start = System.currentTimeMillis();				//запускаем счетчик
         }
 
     }
 
+
+    //проверка введенного ответа
     public void onCheckAnswer(View view) {
 
-        answer = editText.getText().toString().trim().toLowerCase();
-        answer = answer.replaceAll("[ёЁ]", "е");
+        String answer = editText.getText().toString().trim().toLowerCase();		//берем ответ, переводим в строку, обрезаем пробелы и приводим к нижнему регистру
+        answer = answer.replaceAll("[ёЁ]", "е");					//меняем все ё на е
 
-        for (int i = 0; i < artistName.length; i++) {
-            if (answer.equals(artistName[i])) {
+        for (String s : artistName) {                //перебор всех ответов
+            if (answer.equals(s)) {
+                long finish = System.currentTimeMillis();            //останавливаем счетчик
+                lvlDuration = finish - start;
                 correctAnswerBool = true;
                 break;
             }
         }
 
-        if (correctAnswerBool) {
-
+        if (correctAnswerBool) {                        //если правильный ответ угадан
             final Dialog builder = new Dialog(this);
             builder.setCanceledOnTouchOutside(false);
             builder.setContentView(R.layout.layout_end_lvl);
 
-            ImageView imageStar1 = builder.findViewById(R.id.imageStar1);
+            ImageView imageStar1 = builder.findViewById(R.id.imageStar1);            //звезды оценки
             ImageView imageStar2 = builder.findViewById(R.id.imageStar2);
             ImageView imageStar3 = builder.findViewById(R.id.imageStar3);
-            textCoinsWon = builder.findViewById(R.id.textCoinsWon);
+            TextView textCoinsWonAtFish = builder.findViewById(R.id.textCoinsWonAtFish);
             Button buttonOk = builder.findViewById(R.id.buttonFinishLvl);
 
-            if (helpUsed){
+            if (helpUsed) {                        //минус звезда за использование подсказок
+                starsForLvl -= 1;
+            }
+            if (lvlDuration > maxDuration) {            //минус звезда за время
                 starsForLvl -= 1;
             }
 
-            switch (starsForLvl){
+            switch (starsForLvl) {                    //проверяем сколько звезд мы выиграли и монет заработали
                 case (1):
                     imageStar1.setImageResource(R.drawable.zvezda1_prizovogo_okna);
-                    textCoinsWon.setText("100");
+                    intCoinsWon = priceOneStar;
+                    textCoinsWonAtFish.setText(R.string.OneStar);
                     break;
                 case (2):
                     imageStar1.setImageResource(R.drawable.zvezda1_prizovogo_okna);
                     imageStar2.setImageResource(R.drawable.zvezda2_prizovogo_okna);
-                    textCoinsWon.setText("200");
+                    intCoinsWon = priceTwoStars;
+                    textCoinsWonAtFish.setText(R.string.TwoStars);
                     break;
                 case (3):
                     imageStar1.setImageResource(R.drawable.zvezda1_prizovogo_okna);
                     imageStar2.setImageResource(R.drawable.zvezda2_prizovogo_okna);
                     imageStar3.setImageResource(R.drawable.zvezda3_prizovogo_okna);
-                    textCoinsWon.setText("300");
+                    intCoinsWon = priceThreeStars;
+                    textCoinsWonAtFish.setText(R.string.ThreeStars);
                     break;
             }
 
 
-            buttonOk.setOnClickListener(new View.OnClickListener() {
+            buttonOk.setOnClickListener(new View.OnClickListener() {                //заканчиваем уровень после нажатия ОК
                 @Override
                 public void onClick(View v) {
-                    finishLvl(Integer.valueOf(textCoinsWon.getText().toString()) + Integer.valueOf(textViewCoins.getText().toString()));
+                    finishLvl();
                 }
             });
 
             builder.show();
         }
 
-
-
-
-
-        else {
+        else {														//если ответ неправильный, то сообщаем об этом
             Toast toast1 = Toast.makeText(this, "Неправильный ответ!", Toast.LENGTH_LONG);
-            toast1.setGravity(Gravity.CENTER, 0, 0);
+            toast1.setGravity(Gravity.CENTER, 0, 50);
             toast1.show();
         }
     }
 
+    public void onHelpUse(View view) {
+        int message = 0;
+        Button button = null;
 
-
-
-    public void onShowLettersAmount(View view) {
-        setTextViewAmountLetters(-1);
-        useHelp(R.string.showLettersAmount, buttonShowAmountLetters);
+        switch (view.getId()){
+            case (R.id.buttonShowAmountLetters):
+                setTextViewAmountLetters(-1);
+                message	= R.string.showLettersAmount;
+                button = buttonShowAmountLetters;
+                break;
+            case (R.id.buttonShowOneLetter):
+                message	= R.string.showOneLetter;
+                button = buttonShowOneLetter;
+                break;
+            case (R.id.buttonSongName):
+                message	= R.string.showSongName;
+                button = buttonSongName;
+                break;
+        }
+        useHelp(message, button);
     }
 
-    public void onShowSongName(View view) {
-        useHelp(R.string.showSongName, buttonSongName);
-    }
-
-    public void onShowLetter(View view) {
-        useHelp(R.string.showOneLetter, buttonShowOneLetter);
-    }
 
 
-
-    private void useHelp(int message, final Button buttonPressed) {
+    private void useHelp(final int message, final Button buttonPressed) {
         helpUsed = true;
         final Dialog builder = new Dialog(this);
         builder.setCanceledOnTouchOutside(false);
@@ -201,38 +179,9 @@ public class Lvl1 extends AppCompatActivity {
         buttonYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (buttonPressed.equals(buttonShowAmountLetters)) {
-                    builder.cancel();
-
-                    if (coinsCalc(helpLettersAmount)){
-                        buttonPressed.setClickable(false);
-                        buttonPressed.setBackground(Lvl1.this.getDrawable(R.mipmap.podskazka_kolichestvo_bukv_zakrita));
-                        textViewAmountLetters.setVisibility(View.VISIBLE);
-                    }
-
-                } else if (buttonPressed.equals(buttonSongName)) {
-                    builder.cancel();
-
-                    if (coinsCalc(helpOneLetter)){
-                        buttonPressed.setClickable(false);
-                        buttonPressed.setBackground(Lvl1.this.getDrawable(R.mipmap.podskazka_albom_pesny_zakrita));
-                        textSongName.setVisibility(View.VISIBLE);
-                    }
-                }
-
-                else if (buttonPressed.equals(buttonShowOneLetter)) {
-                    builder.cancel();
-
-                    if (coinsCalc(helpSongName)){
-                        buttonPressed.setClickable(false);
-                        buttonPressed.setBackground(Lvl1.this.getDrawable(R.mipmap.podskazka_lubay_bukva_zakrita));
-                         chooseOneLetter();
-                        buttonShowAmountLetters.setClickable(false);
-                        buttonShowAmountLetters.setBackground(Lvl1.this.getDrawable(R.mipmap.podskazka_kolichestvo_bukv_zakrita));
-                    }
-                }
-
-
+                buttonPressed.setClickable(false);
+                builder.cancel();
+                helpButtonYes(buttonPressed);
             }
         });
 
@@ -246,20 +195,47 @@ public class Lvl1 extends AppCompatActivity {
     }
 
 
+    private void helpButtonYes(Button buttonPressed){
+        //подсказка первая
+        if (buttonPressed.equals(buttonShowAmountLetters)) {
+            if (coinsCalc(helpLettersAmount)){							//проверка достатка монет
+                buttonPressed.setBackground(Lvl1.this.getDrawable(R.mipmap.podskazka_kolichestvo_bukv_zakrita));
+                textViewAmountLetters.setVisibility(View.VISIBLE);
+            }
+        }
+
+        //подсказка вторая
+        else if (buttonPressed.equals(buttonShowOneLetter)) {
+            if (coinsCalc(helpOneLetter)){							//проверка достатка монет
+                buttonPressed.setBackground(Lvl1.this.getDrawable(R.mipmap.podskazka_lubay_bukva_zakrita));
+                chooseOneLetter();
+                buttonShowAmountLetters.setClickable(false);
+                buttonShowAmountLetters.setBackground(Lvl1.this.getDrawable(R.mipmap.podskazka_kolichestvo_bukv_zakrita));
+            }
+        }
+
+        //подсказка третья
+        else if (buttonPressed.equals(buttonSongName)) {
+            if (coinsCalc(helpSongName)){							//проверка достатка монет
+                buttonPressed.setBackground(Lvl1.this.getDrawable(R.mipmap.podskazka_albom_pesny_zakrita));
+                textSongName.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+
     private void chooseOneLetter() {
 
-        String correctAnswer = artistName[0];
         final Dialog builder = new Dialog(this);
         builder.setCanceledOnTouchOutside(false);
         builder.setContentView(R.layout.show_one_letter);
-
         LinearLayout linearLayout = builder.findViewById(R.id.layoutHelpShowOneLetter);
 
         for (int i = 0; i < correctAnswer.length(); i++) {
             ImageView imageView = new ImageView(this);
 
             LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            layout.setMargins(0,50,0,50);
+            layout.setMargins(1,50,1,50);
             imageView.setLayoutParams(layout);
 
             if (!String.valueOf(correctAnswer.charAt(i)).equals(" ")) {
@@ -268,11 +244,9 @@ public class Lvl1 extends AppCompatActivity {
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        idButton =  v.getId();
                         builder.cancel();
-                        setTextViewAmountLetters(idButton);
+                        setTextViewAmountLetters(v.getId());
                         textViewAmountLetters.setVisibility(View.VISIBLE);
-
                     }
                 });
             }
@@ -281,46 +255,54 @@ public class Lvl1 extends AppCompatActivity {
             }
             linearLayout.addView(imageView);
         }
-
-
         builder.show();
 
     }
 
-
+    // задаем тект для подсказки по количеству буков и выбранной букве
     private void setTextViewAmountLetters(int id){
-        String lettersAmount = "";
+        StringBuilder lettersAmount = new StringBuilder();
         String choosenLetter = "";
         if (id >= 0) {
             choosenLetter = String.valueOf(correctAnswer.charAt(id)).toUpperCase();
         }
         for (int i = 0; i < correctAnswer.length(); i++) {
             if (i == id){
-                lettersAmount += choosenLetter + " ";
+                lettersAmount.append(choosenLetter).append(" ");
             } else {
                 if (!String.valueOf(correctAnswer.charAt(i)).equals(" ")) {
-                    lettersAmount += "_ ";
+                    lettersAmount.append("_ ");
                 } else {
-                    lettersAmount += "   ";
+                    lettersAmount.append("   ");
                 }
             }
         }
 
-        textViewAmountLetters.setText(lettersAmount.trim());
+        textViewAmountLetters.setText(lettersAmount.toString().trim());
     }
 
 
 
 
 
+    //закрываем уровень
+    private void finishLvl(){
 
-    private void finishLvl(int coinsAmount){
+        Intent intentLvlPast = new Intent();
 
-        Intent intent_finish = new Intent();
-        intent_finish.putExtra("coinsFromLvl", coinsAmount);
-        intent_finish.putExtra("lvlPast", true);
-        setResult(RESULT_OK, intent_finish);
-        Lvl1.this.finish();
+        intentLvlPast.putExtra("coinsFromLvl", String.valueOf(coins + intCoinsWon));
+        intentLvlPast.putExtra("lvlPast", true);
+        intentLvlPast.putExtra("lvlDuration", lvlDuration);
+        intentLvlPast.putExtra("lvlID", lvlID);
+
+        setResult(RESULT_OK, intentLvlPast);
+        this.finish();
+
+/*        						//передаем длительность прохождения уровня
+
+
+        */
+
     }
 
 
@@ -330,14 +312,13 @@ public class Lvl1 extends AppCompatActivity {
 
     private boolean coinsCalc(int helpPrice){
 
-        int haveCoins = Integer.valueOf((String) textViewCoins.getText());
-        Toast toast;
-        if (haveCoins - helpPrice >= 0){
-            newCoins = String.valueOf(haveCoins - helpPrice);
-            textViewCoins.setText(newCoins);
+
+        if (coins - helpPrice >= 0){
+            coins -= helpPrice;
+            textViewCoins.setText(String.valueOf(coins));
             return true;
         } else {
-            toast = Toast.makeText(Lvl1.this, "К сожалению у вас недостаточно монет", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(Lvl1.this, "К сожалению у вас недостаточно монет", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER,0,350);
             toast.show();
             return false;
@@ -345,6 +326,58 @@ public class Lvl1 extends AppCompatActivity {
     }
 
 
+    private void setViews(){
+
+        imageView = findViewById(R.id.imageViewArtist);
+        editText = findViewById(R.id.editTextTipedAnswer);
+        textViewAmountLetters = findViewById(R.id.textViewAmoutnLettes);
+        textViewCoins = findViewById(R.id.textViewCoins);
+        buttonShowAmountLetters = findViewById(R.id.buttonShowAmountLetters);
+        buttonShowOneLetter = findViewById(R.id.buttonShowOneLetter);
+        buttonSongName = findViewById(R.id.buttonSongName);
+        buttonSayAnswer = findViewById(R.id.buttonSayAnswer);
+        textSongName = findViewById(R.id.textSongName);
+    }
 
 
+    private void setLvlInformation(){
+
+        Intent newLvl = getIntent();
+
+        lvlID = newLvl.getIntExtra("lvlID", 0);						//ID уровня
+        artistPicture = newLvl.getIntExtra("artistPicture", 0);                 //получение изображения артиста
+        artistName = newLvl.getStringArrayExtra("artistName");          //Получение массива правильных ответов
+        correctAnswer = artistName[0];
+        //Правильный ответ
+        artistSong = newLvl.getStringExtra("artistSong");				//получение названия песни
+        lvlPast = newLvl.getBooleanExtra("lvlPast", false);				//получение информации о факте прохождения песни
+        coins = newLvl.getIntExtra("coins", 0);                                    //получение количества монет
+        coinsAtStart = newLvl.getIntExtra("coins", 0);                                    //получение количества монет на старте
+    }
+    private void lvlBuild(){
+        textViewCoins.setText(String.valueOf(coins));								//присвоение вьюхе монет
+        textSongName.setText(artistSong);							//присвоение вьюхе песни
+        imageView.setImageResource(artistPicture);								//присвоение вьюхе картинки артиста
+
+    }
+
+    private void toDoIfLvlPast(){
+        buttonShowAmountLetters.setClickable(false);		//блокируем подсказки и кнопку ответа
+        buttonShowOneLetter.setClickable(false);
+        buttonSongName.setClickable(false);
+        buttonSayAnswer.setClickable(false);
+
+        editText.setClickable(false);				//блокируем эдит текст
+        editText.setCursorVisible(false);
+        editText.setEnabled(false);
+
+        StringBuilder text = new StringBuilder();								// присваиваем и открываем ответ
+        for (int i = 0; i < correctAnswer.length(); i++ ){
+            text.append(correctAnswer.charAt(i)).append(" ");
+        }
+        textViewAmountLetters.setText(text.toString().trim().toUpperCase());
+        textViewAmountLetters.setVisibility(View.VISIBLE);
+
+        textSongName.setVisibility(View.VISIBLE);				//открываем название песни
+    }
 }
