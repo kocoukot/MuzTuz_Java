@@ -1,193 +1,198 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".Lvl1"
     android:layout_weight="1"
-    android:background="@color/background">
+    android:background="@color/background"
+    android:orientation="vertical"
+    tools:context=".Level">
 
     <LinearLayout
-            android:id="@+id/linearLayout2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_marginTop="20dp"
-
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/levelMusic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_gravity="left"
-            android:layout_marginStart="-50dp"
             app:srcCompat="@mipmap/melodiy" />
 
         <ImageView
-            android:id="@+id/imageView3"
-            android:layout_gravity="left"
+            android:id="@+id/levelZvuk"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_marginStart="-100dp"
+            android:contentDescription="TODO"
             app:srcCompat="@mipmap/zvuk" />
 
-        <LinearLayout
-            android:layout_width="10dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="right"
+        <TextView
+            android:id="@+id/levelStars"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="right"
-            android:orientation="horizontal">
+            android:lines="01"
+            android:text="0"
+            android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/textViewCoins"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginRight="10dp"
-                android:gravity="end"
-                android:text="1300"
-                android:textSize="30sp" />
-
-            <ImageView
-                android:id="@+id/imageView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@mipmap/moneta" />
-        </LinearLayout>
-
-
-
-        </LinearLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@mipmap/zvezda_ochki" />
 
         <TextView
-            android:id="@+id/textSongName"
-            android:layout_width="wrap_content"
+            android:id="@+id/levelCoins"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/optima_bold"
-            android:layout_marginStart="10dp"
-            android:text="Альбом: Точно Ртуть Алоэ\nПесня: Невеста?"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+            android:layout_weight="1"
+            android:gravity="right"
+            android:lines="01"
+            android:text="0"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@mipmap/moneta" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textSongName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:fontFamily="@font/optima_bold"
+        android:text="Альбом: Точно Ртуть Алоэ\nПесня: Невеста?"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
     <ImageView
         android:id="@+id/imageViewArtist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
         android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="30dp"
         android:layout_weight="1"
-        android:src="@drawable/artist_1_1_pugacheva"
         android:scaleType="fitCenter"
+        android:src="@drawable/artist_1_1_pugacheva"
         app:layout_constraintBottom_toTopOf="@+id/amoutnLettes" />
 
 
-        <TextView
-            android:id="@+id/textViewAmoutnLettes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:visibility="invisible"
-            android:text="_ _ _ _ _   _ _ _ _ _ _"
-            android:textColor="@color/backgroundInfo"
-            android:textSize="30sp"
+    <TextView
+        android:id="@+id/textViewAmoutnLettes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="_ _ _ _ _   _ _ _ _ _ _"
+        android:textColor="@color/backgroundInfo"
+        android:textSize="30sp"
+        android:visibility="invisible"
 
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.991" />
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.991" />
 
 
     <LinearLayout
-            android:id="@+id/linearLayout4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:orientation="horizontal"
+        android:id="@+id/linearLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal"
 
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <EditText
+            android:id="@+id/editTextTipedAnswer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+            android:hint="Введите ответ..." />
+
+        <Button
+            android:id="@+id/buttonSayAnswer"
+            android:layout_width="65dp"
+            android:layout_height="53dp"
+            android:background="@drawable/buton_vvod_galka"
+            android:onClick="onCheckAnswer"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <EditText
-                android:id="@+id/editTextTipedAnswer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-
-                android:hint="Введите ответ..." />
-
-            <Button
-                android:id="@+id/buttonSayAnswer"
-                android:layout_width="65dp"
-                android:layout_height="53dp"
-                android:background="@mipmap/vvod_galka"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:onClick="onCheckAnswer"/>
+            app:layout_constraintEnd_toEndOf="parent" />
 
 
-        </LinearLayout>
+    </LinearLayout>
 
 
-        <LinearLayout
-            android:id="@+id/linearLayout3"
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.25"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/buttonShowAmountLetters"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/buton_help_letters_amount"
+            android:onClick="onHelpUse" />
 
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+        <Button
+            android:id="@+id/buttonShowOneLetter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/buton_help_one_letter"
+            android:onClick="onHelpUse" />
 
-            app:layout_constraintStart_toStartOf="parent">
+        <Button
+            android:id="@+id/buttonSongName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
 
-            <Button
-                android:id="@+id/buttonShowAmountLetters"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@mipmap/podskazka_kolichestvo_bukv"
-                android:onClick="onHelpUse"/>
+            android:background="@drawable/buton_help_song"
+            android:onClick="onHelpUse" />
 
-            <Button
-                android:id="@+id/buttonShowOneLetter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
-                android:layout_marginEnd="25dp"
-                android:background="@mipmap/podskazka_lubay_bukva"
-                android:onClick="onHelpUse"/>
+        <Button
+            android:id="@+id/buttonHelpAnswer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
-            <Button
-                android:id="@+id/buttonSongName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@mipmap/podskazka_albom_pesny"
-                android:onClick="onHelpUse"/>
+            android:layout_weight="1"
+            android:background="@drawable/buton_help_answer"
+            android:onClick="onHelpUse"/>
 
 
-
-        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

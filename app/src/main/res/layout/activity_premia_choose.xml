@@ -12,66 +12,63 @@
         android:id="@+id/linearLayout5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="20dp"
-
             android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center">
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/premiaSelectMusic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginStart="-50dp"
                 android:layout_weight="1"
                 app:srcCompat="@mipmap/melodiy" />
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/premiaSelectZvuk"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_gravity="left"
-                android:layout_marginStart="-100dp"
                 android:layout_weight="1"
-                app:srcCompat="@mipmap/zvuk" />
+                app:srcCompat="@mipmap/zvuk"
+                android:contentDescription="TODO" />
 
-            <LinearLayout
-                android:layout_width="10dp"
+            <TextView
+                android:id="@+id/premiaSelectStars"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:lines="01"
+                android:textSize="20sp"
+                android:layout_weight="1"
+                android:text="0" />
+
+            <ImageView
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_gravity="right"
+                android:layout_weight="1"
+                app:srcCompat="@mipmap/zvezda_ochki" />
+
+            <TextView
+                android:id="@+id/premiaSelectCoins"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:orientation="horizontal">
+                android:text="0"
+                android:lines="01"
+                android:textSize="20sp"/>
 
-                <TextView
-                    android:id="@+id/textViewCoins"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="10dp"
-                    android:gravity="end"
-                    android:text="0"
-                    android:textSize="30sp" />
-
-                <ImageView
-                    android:id="@+id/imageView5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@mipmap/moneta" />
-            </LinearLayout>
-
-
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:srcCompat="@mipmap/moneta" />
         </LinearLayout>
 
     </LinearLayout>
@@ -83,78 +80,14 @@
 
 
         <LinearLayout
+            android:id="@+id/premiaSelect"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="vertical">
 
 
-            <Button
 
-                android:id="@+id/buttonTutorial"
-                android:layout_width="170dp"
-                android:layout_height="170dp"
-                android:layout_gravity="center_horizontal"
-
-                android:background="@mipmap/obychenie_0" />
-
-            <Button
-                android:id="@+id/lvl1"
-                android:layout_width="230dp"
-                android:layout_height="230dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="50dp"
-                android:background="@mipmap/lvl11"
-                android:onClick="onFirstPremiya" />
-
-            <Button
-                android:id="@+id/lvl2"
-                android:layout_width="230dp"
-                android:layout_height="230dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="50dp"
-                android:background="@mipmap/lvl21" />
-
-            <Button
-                android:id="@+id/lvl3"
-                android:layout_width="230dp"
-                android:layout_height="230dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="50dp"
-                android:background="@mipmap/lvl31" />
-
-            <Button
-                android:id="@+id/lvl4"
-                android:layout_width="230dp"
-                android:layout_height="230dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="50dp"
-                android:background="@mipmap/lvl41" />
-
-
-            <Button
-                android:id="@+id/lvl5"
-                android:layout_width="230dp"
-                android:layout_height="230dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="50dp"
-                android:background="@mipmap/lvl51" />
-
-            <Button
-                android:id="@+id/lvl6"
-                android:layout_width="230dp"
-                android:layout_height="230dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="50dp"
-                android:background="@mipmap/lvl61" />
-
-            <Button
-                android:id="@+id/lvl7"
-                android:layout_width="230dp"
-                android:layout_height="230dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="50dp"
-                android:layout_marginBottom="20dp"
-                android:background="@mipmap/lvl71" />
 
         </LinearLayout>
     </ScrollView>

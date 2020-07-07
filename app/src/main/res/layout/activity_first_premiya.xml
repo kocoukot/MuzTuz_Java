@@ -5,210 +5,82 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/background"
-    tools:context=".FirstPremiya"
-    >
+    android:orientation="vertical"
+    tools:context=".Premia">
+
     <LinearLayout
-        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_marginTop="20dp"
-
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/premiaMusic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_gravity="left"
-            android:layout_marginStart="-50dp"
             app:srcCompat="@mipmap/melodiy" />
 
         <ImageView
-            android:id="@+id/imageView3"
-            android:layout_gravity="left"
+            android:id="@+id/premiaZvuk"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_marginStart="-100dp"
+            android:contentDescription="TODO"
             app:srcCompat="@mipmap/zvuk" />
 
-        <LinearLayout
-            android:layout_width="10dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="right"
+        <TextView
+            android:id="@+id/premiaStars"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="right"
-            android:orientation="horizontal">
+            android:lines="01"
+            android:text="0"
+            android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/textViewCoins"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginRight="10dp"
-                android:gravity="end"
-                android:text=""
-                android:textSize="30sp" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@mipmap/zvezda_ochki" />
 
-            <ImageView
-                android:id="@+id/imageView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@mipmap/moneta" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/premiaCoins"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:lines="01"
+            android:text="0"
+            android:textSize="20sp" />
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@mipmap/moneta" />
 
 
     </LinearLayout>
-    <ScrollView
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center">
-<FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-        <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <GridView
+            android:id="@+id/gridView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_height="match_parent"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="50dp"
-            android:layout_gravity="top">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-
-                <ImageView
-                    android:id="@+id/lvl10"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:scaleType="center"
-                    android:src="@drawable/artist_1_1_pugacheva_little" />
-
-                <ImageView
-                    android:id="@+id/lvl11"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:layout_marginEnd="15dp"
-                    android:layout_marginStart="15dp"
-                    android:src="@drawable/artist_1_2_timati_little" />
-
-                <ImageView
-                    android:id="@+id/lvl12"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/artist_1_3_bi2_little" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="20dp"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"
-                android:gravity="center">
-
-
-                <ImageView
-                    android:id="@+id/lvl13"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-
-                    android:src="@drawable/artist_1_4_mihaylov_little" />
-
-                <ImageView
-                    android:id="@+id/lvl14"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:layout_marginStart="85dp"
-                    android:layout_marginEnd="85dp"
-
-                    android:src="@drawable/artist_1_5_leps_little" />
-
-                <ImageView
-                    android:id="@+id/lvl15"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/artist_1_6_elka_little" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="20dp"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginBottom="50dp"
-                android:gravity="center">
-
-
-                <ImageView
-                    android:id="@+id/lvl16"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/artist_1_7_bilan_little" />
-
-                <ImageView
-                    android:id="@+id/lvl17"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:adjustViewBounds="true"
-                    android:layout_marginStart="90dp"
-                    android:layout_marginEnd="90dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/artist_1_8_shnur_little" />
-
-                <ImageView
-                    android:id="@+id/lvl18"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/artist_1_9_gradskiy_little" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-
-
-</FrameLayout>
-    </ScrollView>
+            android:foregroundGravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:numColumns="3" />
+    </LinearLayout>
 
 </LinearLayout>

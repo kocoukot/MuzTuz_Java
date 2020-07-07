@@ -12,7 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center">
 
         <ImageView
             android:id="@+id/imageView2"
@@ -26,7 +28,18 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:srcCompat="@mipmap/zvuk" />
+            app:srcCompat="@mipmap/zvuk"
+            android:contentDescription="TODO" />
+
+        <TextView
+            android:id="@+id/menuStars"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:lines="01"
+            android:textSize="20sp"
+            android:layout_weight="1"
+            android:text="0" />
 
         <ImageView
             android:id="@+id/imageView4"
@@ -35,23 +48,35 @@
             android:layout_weight="1"
             app:srcCompat="@mipmap/zvezda_ochki" />
 
+        <TextView
+            android:id="@+id/menuCoins"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="0"
+            android:lines="01"
+            android:textSize="20sp"/>
+
         <ImageView
             android:id="@+id/imageView5"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:srcCompat="@mipmap/moneta" />
+
     </LinearLayout>
 
     <Button
         android:id="@+id/buttonPlay"
         android:layout_width="303dp"
         android:layout_height="57dp"
-        android:layout_marginTop="35dp"
         android:layout_gravity="center_horizontal"
-        android:background="@mipmap/igra"
-        android:backgroundTintMode="screen"
-        android:onClick="onStartPlay"/>
+        android:layout_marginTop="35dp"
+        android:background="@drawable/buton_igra"
+        android:onClick="onStartPlay"
+
+        />
 
     <Button
         android:id="@+id/buttonStatistic"
@@ -59,7 +84,7 @@
         android:layout_height="49dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="15dp"
-        android:background="@mipmap/statistika"
+        android:background="@drawable/buton_statistika"
         android:onClick="onStatistic"/>
 
     <Button
@@ -68,7 +93,8 @@
         android:layout_height="49dp"
         android:layout_marginTop="15dp"
         android:layout_gravity="center_horizontal"
-        android:background="@mipmap/magazin" />
+        android:background="@drawable/buton_magazin"
+        android:onClick="onTest"/>
 
     <Button
         android:id="@+id/buttonReset"
@@ -76,7 +102,8 @@
         android:layout_height="49dp"
         android:layout_marginTop="15dp"
         android:layout_gravity="center_horizontal"
-        android:background="@mipmap/sbros" />
+        android:background="@drawable/buton_reset"
+        android:onClick="onReset"/>
 
     <Button
         android:id="@+id/buttonSozdateli"
@@ -84,7 +111,8 @@
         android:layout_height="49dp"
         android:layout_marginTop="15dp"
         android:layout_gravity="center_horizontal"
-        android:background="@mipmap/cozdateli" />
+        android:background="@drawable/buton_cozdateli"
+        android:onClick="onSozdateli"/>
 
     <Button
         android:id="@+id/buttonFreeCoins"
