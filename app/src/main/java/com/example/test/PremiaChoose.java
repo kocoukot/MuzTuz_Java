@@ -8,16 +8,24 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+
 import com.example.test.commonFuncs.LevelsInfo;
 
-import java.sql.Array;
-import java.util.List;
+
+
 
 public class PremiaChoose extends AppCompatActivity {
 
@@ -36,6 +44,8 @@ public class PremiaChoose extends AppCompatActivity {
     final String PREFERENCESPrizes = "Preferences.prizes";
 
     LinearLayout premiaSelectView;
+
+    private InterstitialAd mInterstitialAd;
 
 
     @Override
@@ -66,6 +76,24 @@ public class PremiaChoose extends AppCompatActivity {
             editor.apply();
             showInfo("Похоже это твой первый визит в игру МузТус! Рекомендуем сперва пройти небольшое обучение, чтобы разобраться что к чему. К тому же, если пройдешь обучение, получишь небольшой приятный стартовый бонус.");
         }
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                // Load the next interstitial.
+                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+            }
+
+        });
+
     }
 
     private void premiaCreate() {
@@ -136,6 +164,12 @@ public class PremiaChoose extends AppCompatActivity {
             if (resultCode == RESULT_CANCELED) {
                 premiaSelectView.removeAllViews();
                 premiaCreate();
+
+                if (mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                } else {
+                    Log.d("TAG", "The interstitial wasn't loaded yet.");
+                }
             }
         }
          if (requestCode == CODEFORTUTORIAL) {

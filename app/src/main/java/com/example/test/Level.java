@@ -16,10 +16,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.test.commonFuncs.LevelsInfo;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.reward.RewardItem;
+import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 
-import java.util.Calendar;
 
-public class Level extends AppCompatActivity {
+public class Level extends AppCompatActivity implements RewardedVideoAdListener{
 
     private final int helpLettersAmount = 100;
     private final int helpOneLetter = 250;
@@ -28,7 +34,7 @@ public class Level extends AppCompatActivity {
 
     private final int maxDuration = 7000;
 
-    private int startWinAmount = 0;
+    private int coinsWinAmount = 0;
     private int starsAmount = 0;
 
 
@@ -36,7 +42,7 @@ public class Level extends AppCompatActivity {
     private int[] usedHelpsList = {0, 0, 0, 0};
     private boolean helpUsed = false;
     Integer helpPrice = 0;
-    ImageView imageView;
+    ImageView imageView, freeCoinsImage;
     EditText editText;
     private String[] artistName;
     private TextView textViewAmountLetters, textViewCoins, textViewStars, textSongName;
@@ -52,7 +58,7 @@ public class Level extends AppCompatActivity {
 
     private Toast toast1;
     Button[] buttonsList;
-
+    private RewardedVideoAd mRewardedVideoAd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +66,12 @@ public class Level extends AppCompatActivity {
 
         preferencesProgress = getSharedPreferences(PREFERENCESProgress, MODE_PRIVATE);
         preferencesPrizes = getSharedPreferences(PREFERENCESPrizes, MODE_PRIVATE);
+
+        if (preferencesPrizes.getInt("freeCoinsCounter", 0) >= 5){
+            SharedPreferences.Editor prizesEditor = preferencesPrizes.edit();
+            prizesEditor.putInt("freeCoinsCounter",0);
+            prizesEditor.apply();
+        }
 
         setViews();                            //ищем все вью
         setLvlInformation();                //получаем входную информацию
@@ -78,7 +90,21 @@ public class Level extends AppCompatActivity {
 
         }
 
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
+        // Use an activity context to get the rewarded video instance.
+        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
+        mRewardedVideoAd.setRewardedVideoAdListener((RewardedVideoAdListener) this);
+        loadRewardedVideoAd();
+
+
     }
+
+
 
     @Override
     protected void onStop() {
@@ -88,6 +114,24 @@ public class Level extends AppCompatActivity {
         editor.apply();
         finishLvl();
 
+    }
+
+    @Override
+    public void onResume() {
+        mRewardedVideoAd.resume(this);
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        mRewardedVideoAd.pause(this);
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        mRewardedVideoAd.destroy(this);
+        super.onDestroy();
     }
 
     //проверка введенного ответа
@@ -117,14 +161,21 @@ public class Level extends AppCompatActivity {
 
                 for (int i = 0; i < helpsUsedAmount(); i++) {
                     imageViews[i].setImageResource(starsList[i]);
-                    startWinAmount += 10;
+                    coinsWinAmount += 10;
                     starsAmount += 1;
 
                 }
-                startWinAmount = startWinAmount == 0 ? 5 : startWinAmount;
 
-                textCoinsWonAtFish.setText(String.valueOf(startWinAmount));
-                textViewCoins.setText(String.valueOf(coins + startWinAmount));
+                coinsWinAmount = coinsWinAmount == 0 ? 5 : coinsWinAmount;
+                int mult = 1;
+                if (lvlDuration < maxDuration){
+                    mult = 2;
+                    textCoinsWonAtFish.setText(String.valueOf(coinsWinAmount) + " x2");
+                } else {
+                    textCoinsWonAtFish.setText(String.valueOf(coinsWinAmount));
+
+                }
+                textViewCoins.setText(String.valueOf(coins + coinsWinAmount*mult));
                 textViewStars.setText(String.valueOf(stars + starsAmount));
 
                 SharedPreferences.Editor progressEditor = preferencesProgress.edit();
@@ -133,8 +184,9 @@ public class Level extends AppCompatActivity {
                 progressEditor.apply();
 
                 SharedPreferences.Editor prizesEditor = preferencesPrizes.edit();
-                prizesEditor.putInt("coins", coins + startWinAmount);
+                prizesEditor.putInt("coins", coins + coinsWinAmount*mult);
                 prizesEditor.putInt("stars", stars + starsAmount);
+                prizesEditor.putInt("freeCoinsCounter",preferencesPrizes.getInt("freeCoinsCounter", 0)+1);
                 prizesEditor.apply();
 
                 buttonOk.setOnClickListener(new View.OnClickListener() {                //заканчиваем уровень после нажатия ОК
@@ -280,6 +332,11 @@ public class Level extends AppCompatActivity {
             SharedPreferences.Editor editor = preferencesProgress.edit();
             editor.putInt("solved" + lvlPremia + lvlID, lvlPast);
             editor.apply();
+
+            SharedPreferences.Editor prizesEditor = preferencesPrizes.edit();
+            prizesEditor.putInt("freeCoinsCounter",1);
+            prizesEditor.apply();
+
             toDoIfLvlPast();
             saveHelpUsed(3);
             CoinsChange();
@@ -372,8 +429,6 @@ public class Level extends AppCompatActivity {
 
         Intent intentLvlPast = new Intent();
         Intent intentLvlExited = new Intent();
-
-        //intentLvlPast.putExtra("lvlDuration", lvlDuration);
         intentLvlPast.putExtra("lvlID", lvlID);
 
         intentLvlExited.putExtra("lvlID", lvlID);
@@ -411,6 +466,7 @@ public class Level extends AppCompatActivity {
 
         buttonSayAnswer = findViewById(R.id.buttonSayAnswer);
         textSongName = findViewById(R.id.textSongName);
+        freeCoinsImage = findViewById(R.id.freeCoins);
 
         buttonsList = new Button[]{buttonShowAmountLetters, buttonShowOneLetter, buttonSongName, buttonHelpAnswer, buttonSayAnswer};
 
@@ -428,6 +484,11 @@ public class Level extends AppCompatActivity {
         correctAnswer = artistName[0];
         artistSong = new LevelsInfo().albomsList[lvlPremia][lvlID];
         coinsStarsUpDate();
+        if (preferencesPrizes.getInt("freeCoinsCounter", 0) == 0){
+            freeCoinsImage.setVisibility(View.VISIBLE);
+        } else {
+            freeCoinsImage.setVisibility(View.INVISIBLE);
+        }
 
         //Правильный ответ
         // lvlPast = newLvl.getBooleanExtra("lvlPast", false);                //получение информации о факте прохождения песни
@@ -485,4 +546,54 @@ public class Level extends AppCompatActivity {
         toast1.setGravity(Gravity.CENTER, 0, 50);
         toast1.show();
     }
+
+    public void onGetFreeCoins(View view) {
+        if (mRewardedVideoAd.isLoaded()) {
+            mRewardedVideoAd.show();
+        }
+    }
+
+    private void loadRewardedVideoAd() {
+        mRewardedVideoAd.loadAd("ca-app-pub-3940256099942544/5224354917",
+                new AdRequest.Builder().build());
+    }
+    @Override
+    public void onRewarded(RewardItem reward) {
+        SharedPreferences.Editor prizesEditor = preferencesPrizes.edit();
+        prizesEditor.putInt("coins", coins + 150);
+        prizesEditor.putInt("freeCoinsCounter",1);
+        prizesEditor.apply();
+        coinsStarsUpDate();
+        freeCoinsImage.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onRewardedVideoAdLeftApplication() {
+    }
+
+    @Override
+    public void onRewardedVideoAdFailedToLoad(int i) {
+    }
+
+    @Override
+    public void onRewardedVideoAdLoaded() {
+    }
+
+    @Override
+    public void onRewardedVideoAdOpened() {
+    }
+
+    @Override
+    public void onRewardedVideoStarted() {
+    }
+
+    @Override
+    public void onRewardedVideoAdClosed() {
+        loadRewardedVideoAd();
+    }
+
+    @Override
+    public void onRewardedVideoCompleted() {
+    }
+
 }

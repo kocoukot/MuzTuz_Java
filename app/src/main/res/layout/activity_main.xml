@@ -6,15 +6,15 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:orientation="vertical"
-    tools:context=".MainActivity" >
+    tools:context=".MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
         android:layout_gravity="center_horizontal"
-        android:gravity="center">
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/imageView2"
@@ -28,18 +28,18 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:srcCompat="@mipmap/zvuk"
-            android:contentDescription="TODO" />
+            android:contentDescription="TODO"
+            app:srcCompat="@mipmap/zvuk" />
 
         <TextView
             android:id="@+id/menuStars"
             android:layout_width="30dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:gravity="right"
             android:lines="01"
-            android:textSize="20sp"
-            android:layout_weight="1"
-            android:text="0" />
+            android:text="0"
+            android:textSize="20sp" />
 
         <ImageView
             android:id="@+id/imageView4"
@@ -54,9 +54,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="right"
-            android:text="0"
             android:lines="01"
-            android:textSize="20sp"/>
+            android:text="0"
+            android:textSize="20sp" />
 
         <ImageView
             android:id="@+id/imageView5"
@@ -85,41 +85,87 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="15dp"
         android:background="@drawable/buton_statistika"
-        android:onClick="onStatistic"/>
+        android:onClick="onStatistic" />
 
     <Button
         android:id="@+id/buttonShop"
         android:layout_width="240dp"
         android:layout_height="49dp"
-        android:layout_marginTop="15dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
         android:background="@drawable/buton_magazin"
-        android:onClick="onTest"/>
+        android:onClick="onTest" />
 
     <Button
         android:id="@+id/buttonReset"
         android:layout_width="240dp"
         android:layout_height="49dp"
-        android:layout_marginTop="15dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
         android:background="@drawable/buton_reset"
-        android:onClick="onReset"/>
+        android:onClick="onReset" />
 
     <Button
         android:id="@+id/buttonSozdateli"
         android:layout_width="240dp"
         android:layout_height="49dp"
-        android:layout_marginTop="15dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
         android:background="@drawable/buton_cozdateli"
-        android:onClick="onSozdateli"/>
+        android:onClick="onSozdateli" />
 
-    <Button
-        android:id="@+id/buttonFreeCoins"
-        android:layout_width="313dp"
-        android:layout_height="77dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="15dp"
-        android:background="@mipmap/bm_1_animaciya" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom">
+
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="366dp"
+                android:layout_height="166dp"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="10dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/chelovechek_ochen_rady"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/socialVK"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="120dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/button_vk"
+                android:onClick="onClickVK"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+                app:layout_constraintStart_toStartOf="@+id/imageView7" />
+
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="bottom"
+                android:layout_marginEnd="60dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/button_inst"
+                android:onClick="onClickInst"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+                app:layout_constraintEnd_toEndOf="@+id/imageView7" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </LinearLayout>
 
 </LinearLayout>
