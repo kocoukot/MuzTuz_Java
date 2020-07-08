@@ -10,7 +10,8 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Sozdateli"></activity>
+        <activity android:name=".Shop" />
+        <activity android:name=".Sozdateli" />
         <activity android:name=".Level" />
         <activity android:name=".Premia" />
         <activity
@@ -33,12 +34,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
+        </activity> <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-8364051315582457~3265789330"/>
+            android:value="ca-app-pub-8364051315582457~3265789330" />
     </application>
 
 </manifest>

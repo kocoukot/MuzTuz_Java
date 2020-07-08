@@ -1,7 +1,6 @@
 package com.example.test.commonFuncs;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.example.test.R;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class GridAdapter extends BaseAdapter {
 
@@ -20,8 +17,7 @@ public class GridAdapter extends BaseAdapter {
 
     private Integer premiaID;
     private Context context;
-    private LayoutInflater inflater;
-    ImageView lvlSolved;
+    private ImageView lvlSolved;
 
     public GridAdapter(Context context, Integer[] images, Integer[] levelsSolvedList) {
         this.context = context;
@@ -50,8 +46,8 @@ public class GridAdapter extends BaseAdapter {
 
         View gridView = convertView;
         if (convertView == null) {
-            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            gridView = inflater.inflate(R.layout.relative_premia, null);
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            gridView = inflater != null ? inflater.inflate(R.layout.relative_premia, null) : null;
 
         }
         ImageView image = gridView.findViewById(R.id.lvlImage);
@@ -67,8 +63,5 @@ public class GridAdapter extends BaseAdapter {
         return gridView;
     }
 
-    @Override
-    public void notifyDataSetChanged() {
-        super.notifyDataSetChanged();
-    }
+
 }

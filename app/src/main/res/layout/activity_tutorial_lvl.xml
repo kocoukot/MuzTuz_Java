@@ -120,11 +120,13 @@
                 android:fontFamily="@font/optima_bold"
                 android:freezesText="true"
                 android:gravity="start"
+                android:inputType="text"
                 android:hint="Введите ответ..."
                 android:textColorHighlight="#9E943F"
                 android:textColorLink="#020202"
                 android:textCursorDrawable="@android:color/background_dark"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:importantForAutofill="no" />
 
             <Button
                 android:id="@+id/buttonSayAnswer"

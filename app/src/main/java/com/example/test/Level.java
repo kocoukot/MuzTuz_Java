@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -25,7 +26,7 @@ import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 
 
-public class Level extends AppCompatActivity implements RewardedVideoAdListener{
+public class Level extends AppCompatActivity implements RewardedVideoAdListener {
 
     private final int helpLettersAmount = 100;
     private final int helpOneLetter = 250;
@@ -40,25 +41,33 @@ public class Level extends AppCompatActivity implements RewardedVideoAdListener{
 
     private Integer lvlPast = 0;
     private int[] usedHelpsList = {0, 0, 0, 0};
-    private boolean helpUsed = false;
-    Integer helpPrice = 0;
-    ImageView imageView, freeCoinsImage;
-    EditText editText;
+    private Integer helpPrice = 0;
+    private ImageView imageView;
+    private ImageView freeCoinsImage;
+    private EditText editText;
     private String[] artistName;
     private TextView textViewAmountLetters, textViewCoins, textViewStars, textSongName;
     private String artistSong, correctAnswer;
     private Button buttonShowAmountLetters, buttonSongName, buttonShowOneLetter, buttonHelpAnswer, buttonSayAnswer;
-    private int lvlID, intCoinsWon, coins, stars, artistPicture, coinsAtStart, lvlPremia;            //переделать в short?
+    private int lvlID,  coins, stars, artistPicture, lvlPremia;            //переделать в short?
     private long start, lvlDuration;
 
-    SharedPreferences preferencesProgress, preferencesPrizes;
+    private SharedPreferences preferencesProgress;
+    private SharedPreferences preferencesPrizes;
 
-    final String PREFERENCESProgress = "Preferences.progress";
-    final String PREFERENCESPrizes = "Preferences.prizes";
+    private final String PREFERENCESProgress = "Preferences.progress";
+    private final String PREFERENCESPrizes = "Preferences.prizes";
 
     private Toast toast1;
-    Button[] buttonsList;
+    private Button[] buttonsList;
     private RewardedVideoAd mRewardedVideoAd;
+
+
+   //String freeID = "ca-app-pub-8364051315582457/5955782184";
+
+   // test
+   String freeID =  "ca-app-pub-3940256099942544/5224354917";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,9 +76,9 @@ public class Level extends AppCompatActivity implements RewardedVideoAdListener{
         preferencesProgress = getSharedPreferences(PREFERENCESProgress, MODE_PRIVATE);
         preferencesPrizes = getSharedPreferences(PREFERENCESPrizes, MODE_PRIVATE);
 
-        if (preferencesPrizes.getInt("freeCoinsCounter", 0) >= 5){
+        if (preferencesPrizes.getInt("freeCoinsCounter", 0) >= 5) {
             SharedPreferences.Editor prizesEditor = preferencesPrizes.edit();
-            prizesEditor.putInt("freeCoinsCounter",0);
+            prizesEditor.putInt("freeCoinsCounter", 0);
             prizesEditor.apply();
         }
 
@@ -98,12 +107,11 @@ public class Level extends AppCompatActivity implements RewardedVideoAdListener{
         MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
         // Use an activity context to get the rewarded video instance.
         mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
-        mRewardedVideoAd.setRewardedVideoAdListener((RewardedVideoAdListener) this);
+        mRewardedVideoAd.setRewardedVideoAdListener( this);
         loadRewardedVideoAd();
 
 
     }
-
 
 
     @Override
@@ -168,14 +176,14 @@ public class Level extends AppCompatActivity implements RewardedVideoAdListener{
 
                 coinsWinAmount = coinsWinAmount == 0 ? 5 : coinsWinAmount;
                 int mult = 1;
-                if (lvlDuration < maxDuration){
+                if (lvlDuration < maxDuration) {
                     mult = 2;
-                    textCoinsWonAtFish.setText(String.valueOf(coinsWinAmount) + " x2");
+                    textCoinsWonAtFish.setText(coinsWinAmount + " x2");
                 } else {
                     textCoinsWonAtFish.setText(String.valueOf(coinsWinAmount));
 
                 }
-                textViewCoins.setText(String.valueOf(coins + coinsWinAmount*mult));
+                textViewCoins.setText(String.valueOf(coins + coinsWinAmount * mult));
                 textViewStars.setText(String.valueOf(stars + starsAmount));
 
                 SharedPreferences.Editor progressEditor = preferencesProgress.edit();
@@ -184,9 +192,9 @@ public class Level extends AppCompatActivity implements RewardedVideoAdListener{
                 progressEditor.apply();
 
                 SharedPreferences.Editor prizesEditor = preferencesPrizes.edit();
-                prizesEditor.putInt("coins", coins + coinsWinAmount*mult);
+                prizesEditor.putInt("coins", coins + coinsWinAmount * mult);
                 prizesEditor.putInt("stars", stars + starsAmount);
-                prizesEditor.putInt("freeCoinsCounter",preferencesPrizes.getInt("freeCoinsCounter", 0)+1);
+                prizesEditor.putInt("freeCoinsCounter", preferencesPrizes.getInt("freeCoinsCounter", 0) + 1);
                 prizesEditor.apply();
 
                 buttonOk.setOnClickListener(new View.OnClickListener() {                //заканчиваем уровень после нажатия ОК
@@ -213,7 +221,7 @@ public class Level extends AppCompatActivity implements RewardedVideoAdListener{
     }
 
     private Integer helpsUsedAmount() {
-        Integer amount = 3;
+        int amount = 3;
         for (int i = 0; i < usedHelpsList.length - 1; i++) {
             if (usedHelpsList[i] > 0) {
                 amount -= 1;
@@ -270,7 +278,6 @@ public class Level extends AppCompatActivity implements RewardedVideoAdListener{
 
 
     private void useHelp(final int message, final Button buttonPressed) {
-        helpUsed = true;
         final Dialog builder = new Dialog(this);
         builder.setCanceledOnTouchOutside(false);
         builder.setContentView(R.layout.help);
@@ -334,7 +341,7 @@ public class Level extends AppCompatActivity implements RewardedVideoAdListener{
             editor.apply();
 
             SharedPreferences.Editor prizesEditor = preferencesPrizes.edit();
-            prizesEditor.putInt("freeCoinsCounter",1);
+            prizesEditor.putInt("freeCoinsCounter", 1);
             prizesEditor.apply();
 
             toDoIfLvlPast();
@@ -351,11 +358,26 @@ public class Level extends AppCompatActivity implements RewardedVideoAdListener{
     }
 
     private void CoinsChange() {
+        final Handler handler = new Handler();
+        final int[] firstNum = {coins};
+        final int secondNum = coins - helpPrice;
+        //int step = 1;
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                textViewCoins.setText(String.valueOf(firstNum[0]));
+
+                if (firstNum[0] >= secondNum+4){
+                    firstNum[0] -= 5;
+                }
+                handler.postDelayed(this, (long) 0.0001);
+            }
+        });
+
         coins -= helpPrice;
         SharedPreferences.Editor editor = preferencesPrizes.edit();
         editor.putInt("coins", coins);
         editor.apply();
-        textViewCoins.setText(String.valueOf(coins));
     }
 
 
@@ -484,7 +506,7 @@ public class Level extends AppCompatActivity implements RewardedVideoAdListener{
         correctAnswer = artistName[0];
         artistSong = new LevelsInfo().albomsList[lvlPremia][lvlID];
         coinsStarsUpDate();
-        if (preferencesPrizes.getInt("freeCoinsCounter", 0) == 0){
+        if (preferencesPrizes.getInt("freeCoinsCounter", 0) == 0) {
             freeCoinsImage.setVisibility(View.VISIBLE);
         } else {
             freeCoinsImage.setVisibility(View.INVISIBLE);
@@ -541,12 +563,6 @@ public class Level extends AppCompatActivity implements RewardedVideoAdListener{
         textViewStars.setText(String.valueOf(preferencesPrizes.getInt("stars", 0)));
     }
 
-    private void showToast(String ms) {
-        toast1 = Toast.makeText(this, ms, Toast.LENGTH_SHORT);
-        toast1.setGravity(Gravity.CENTER, 0, 50);
-        toast1.show();
-    }
-
     public void onGetFreeCoins(View view) {
         if (mRewardedVideoAd.isLoaded()) {
             mRewardedVideoAd.show();
@@ -554,14 +570,15 @@ public class Level extends AppCompatActivity implements RewardedVideoAdListener{
     }
 
     private void loadRewardedVideoAd() {
-        mRewardedVideoAd.loadAd("ca-app-pub-3940256099942544/5224354917",
+        mRewardedVideoAd.loadAd( freeID,
                 new AdRequest.Builder().build());
     }
+
     @Override
     public void onRewarded(RewardItem reward) {
         SharedPreferences.Editor prizesEditor = preferencesPrizes.edit();
         prizesEditor.putInt("coins", coins + 150);
-        prizesEditor.putInt("freeCoinsCounter",1);
+        prizesEditor.putInt("freeCoinsCounter", 1);
         prizesEditor.apply();
         coinsStarsUpDate();
         freeCoinsImage.setVisibility(View.INVISIBLE);

@@ -20,24 +20,22 @@ import com.example.test.commonFuncs.LevelsInfo;
 public class Premia extends AppCompatActivity {
 
     private static final int CODEFORLVL = 3;
-    private String artistSong;
-    TextView textViewCoins, textViewStars;
-    private int minDuration;
-    private int sumDuration;
+    private TextView textViewCoins;
+    private TextView textViewStars;
     private int selectedLvl;
 
-    SharedPreferences preferencesProgress, preferencesPrizes;
+    private SharedPreferences preferencesProgress;
+    private SharedPreferences preferencesPrizes;
 
-    final String PREFERENCESProgress = "Preferences.progress";
-    final String PREFERENCESPrizes = "Preferences.prizes";
+    private final String PREFERENCESProgress = "Preferences.progress";
+    private final String PREFERENCESPrizes = "Preferences.prizes";
 
     private Integer[] levelsSolvedList;
     private boolean nextPremiaIsOpened;
 
     private int premiaID;
-    GridView gridView;
-    GridAdapter adapter;
-    private Integer[] levelsList;
+    private GridView gridView;
+    private GridAdapter adapter;
 
 
     @Override
@@ -55,7 +53,7 @@ public class Premia extends AppCompatActivity {
 
 
         premiaID = premiaIntent.getIntExtra("premiaIDChoosed", 0);
-        levelsList = new LevelsInfo().premiaImagesList[premiaIntent.getIntExtra("premiaIDChoosed", 0)];
+        Integer[] levelsList = new LevelsInfo().premiaImagesList[premiaIntent.getIntExtra("premiaIDChoosed", 0)];
         levelsSolvedList = new Integer[levelsList.length];
         for (int i = 0; i < levelsList.length; i++) {
             levelsSolvedList[i] = preferencesProgress.getInt("solved" + premiaID + i, 0);
@@ -77,10 +75,6 @@ public class Premia extends AppCompatActivity {
         nextPremiaIsOpened = hasOpenedNextPremia();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
 
     private void startLvl(Integer position) {
         selectedLvl = position;
@@ -105,7 +99,7 @@ public class Premia extends AppCompatActivity {
             adapter.notifyDataSetChanged();
             if (hasOpenedNextPremia() & !nextPremiaIsOpened) {
                 nextPremiaIsOpened = hasOpenedNextPremia();
-                showInfo("Поздравляем с открытием следующей премии!");
+                showInfo();
             }
 //            if (resultCode == RESULT_OK) {
 //               // data.getIntExtra("lvlID", 0);
@@ -121,15 +115,11 @@ public class Premia extends AppCompatActivity {
     }
 
     private boolean hasOpenedNextPremia() {
-        if ((((Double.valueOf(levelsSolvedAmount(premiaID)) / Double.valueOf(new LevelsInfo().premiaDisksList[premiaID].length)) * 100) >= new LevelsInfo().requaredAmount) && premiaID < 6) {
-            return true;
-        } else {
-            return false;
-        }
+        return (((Double.valueOf(levelsSolvedAmount(premiaID)) / (double) new LevelsInfo().premiaDisksList[premiaID].length) * 100) >= new LevelsInfo().requaredAmount) && premiaID < 6;
     }
 
     private Integer levelsSolvedAmount(Integer premia) {
-        Integer levelsSolvedAmount = 0;
+        int levelsSolvedAmount = 0;
         for (int i = 0; i < new LevelsInfo().premiaDisksList[premia].length; i++) {
             if (preferencesProgress.getInt("solved" + premia + i, 0) == 1) {
                 levelsSolvedAmount += 1;
@@ -138,7 +128,7 @@ public class Premia extends AppCompatActivity {
         return levelsSolvedAmount;
     }
 
-    private void showInfo(String message) {
+    private void showInfo() {
 
         final Dialog builder = new Dialog(this);
         builder.setCanceledOnTouchOutside(false);
@@ -146,7 +136,7 @@ public class Premia extends AppCompatActivity {
 
         TextView text = builder.findViewById(R.id.textInform);
         final Button button = builder.findViewById(R.id.buttonInformOK);
-        text.setText(message);
+        text.setText("Поздравляем с открытием следующей премии!");
 
 
         LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 0.67f);

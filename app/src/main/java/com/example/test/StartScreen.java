@@ -11,8 +11,8 @@ import android.widget.VideoView;
 
 public class StartScreen extends AppCompatActivity {
 
-    VideoView videoView;
-    ImageView imageView;
+    private VideoView videoView;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

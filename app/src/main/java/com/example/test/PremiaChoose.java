@@ -25,28 +25,29 @@ import com.google.android.gms.ads.initialization.OnInitializationCompleteListene
 import com.example.test.commonFuncs.LevelsInfo;
 
 
-
-
 public class PremiaChoose extends AppCompatActivity {
 
 
-    private Integer imageSize = 0;
     private TextView textViewCoins, textViewStars;
-    Integer width;
+    private Integer width;
     private static final int CODEFORTUTORIAL = 1;
     private static final int CODEFORPREMIA = 2;
     private boolean gotMoneyForTutorial;
-  //  private final int requaredAmount = 20;
+    //  private final int requaredAmount = 20;
 
-    SharedPreferences preferencesProgress, preferencesPrizes;
+    private SharedPreferences preferencesProgress;
+    private SharedPreferences preferencesPrizes;
 
-    final String PREFERENCESProgress = "Preferences.progress";
-    final String PREFERENCESPrizes = "Preferences.prizes";
+    private final String PREFERENCESProgress = "Preferences.progress";
+    private final String PREFERENCESPrizes = "Preferences.prizes";
 
-    LinearLayout premiaSelectView;
+    private LinearLayout premiaSelectView;
 
     private InterstitialAd mInterstitialAd;
-
+//test
+    String AdID = "ca-app-pub-3940256099942544/1033173712";
+//norm
+//    String AdID = "ca-app-pub-8364051315582457/2833852870";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,6 @@ public class PremiaChoose extends AppCompatActivity {
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int height = displayMetrics.heightPixels;
         width = displayMetrics.widthPixels;
 
         premiaSelectView = findViewById(R.id.premiaSelect);
@@ -74,7 +74,7 @@ public class PremiaChoose extends AppCompatActivity {
             SharedPreferences.Editor editor = preferencesPrizes.edit();
             editor.putBoolean("firstMesInPremiaChoose", true);
             editor.apply();
-            showInfo("Похоже это твой первый визит в игру МузТус! Рекомендуем сперва пройти небольшое обучение, чтобы разобраться что к чему. К тому же, если пройдешь обучение, получишь небольшой приятный стартовый бонус.");
+            showInfo();
         }
 
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
@@ -83,7 +83,7 @@ public class PremiaChoose extends AppCompatActivity {
             }
         });
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.setAdUnitId(AdID);
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
         mInterstitialAd.setAdListener(new AdListener() {
             @Override
@@ -100,6 +100,7 @@ public class PremiaChoose extends AppCompatActivity {
         for (int i = 0; i < new LevelsInfo().premiasAmount; i++) {
             final ImageView premiaView = new ImageView(this);
 
+            int imageSize;
             if (i == 0 || i == 1) {
                 imageSize = width / 3;
             } else {
@@ -138,7 +139,7 @@ public class PremiaChoose extends AppCompatActivity {
 
 
     private Integer levelsSolvedAmount(Integer premia) {
-        Integer levelsSolvedAmount = 0;
+        int levelsSolvedAmount = 0;
         for (int i = 0; i < new LevelsInfo().premiaDisksList[premia].length; i++) {
             if (preferencesProgress.getInt("solved" + premia + i, 0) == 1) {
                 levelsSolvedAmount += 1;
@@ -148,16 +149,12 @@ public class PremiaChoose extends AppCompatActivity {
     }
 
     private boolean isNextOpened(Integer premia) {
-        if ((((Double.valueOf(levelsSolvedAmount(premia - 1)) / Double.valueOf(new LevelsInfo().premiaDisksList[premia - 1].length)) * 100) >= new LevelsInfo().requaredAmount)) {
-            return true;
-        } else {
-            return false;
-        }
+        return (((Double.valueOf(levelsSolvedAmount(premia - 1)) / (double) new LevelsInfo().premiaDisksList[premia - 1].length) * 100) >= new LevelsInfo().requaredAmount);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+            super.onActivityResult(requestCode, resultCode, data);
         coinsStarsUpDate();
 
         if (requestCode == CODEFORPREMIA) {
@@ -172,41 +169,38 @@ public class PremiaChoose extends AppCompatActivity {
                 }
             }
         }
-         if (requestCode == CODEFORTUTORIAL) {
-             if (resultCode == RESULT_CANCELED) {
-                 premiaSelectView.removeAllViews();
-                 premiaCreate();
-                 System.out.println("test 1 ");
-             } else {
-                 if (!gotMoneyForTutorial) {
-                     System.out.println("test 3");
-                     gotMoneyForTutorial = true;
+        if (requestCode == CODEFORTUTORIAL) {
+            if (resultCode == RESULT_CANCELED) {
+                premiaSelectView.removeAllViews();
+                premiaCreate();
+                System.out.println("test 1 ");
+            } else {
+                if (!gotMoneyForTutorial) {
+                    System.out.println("test 3");
+                    gotMoneyForTutorial = true;
 
-                     SharedPreferences.Editor coinsEditor = preferencesPrizes.edit();
-                     coinsEditor.putInt("coins",preferencesPrizes.getInt("coins", 0) + 200);
-                     coinsEditor.putBoolean("moneyForTutorial",true);
-                     coinsEditor.apply();
-                 }
-                 premiaSelectView.removeAllViews();
-                 premiaCreate();
-                 coinsStarsUpDate();
-                 System.out.println("test 2 ");
+                    SharedPreferences.Editor coinsEditor = preferencesPrizes.edit();
+                    coinsEditor.putInt("coins", preferencesPrizes.getInt("coins", 0) + 200);
+                    coinsEditor.putBoolean("moneyForTutorial", true);
+                    coinsEditor.apply();
+                }
+                premiaSelectView.removeAllViews();
+                premiaCreate();
+                coinsStarsUpDate();
+                System.out.println("test 2 ");
 
-             }
+            }
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
+
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
     }
 
-    public void onShowPremia(Integer premiaID) {
+    private void onShowPremia(Integer premiaID) {
         Intent intent;
         if (premiaID > 0) {
             intent = new Intent(this, Premia.class);
@@ -223,7 +217,7 @@ public class PremiaChoose extends AppCompatActivity {
         textViewStars.setText(String.valueOf(preferencesPrizes.getInt("stars", 0)));
     }
 
-    private void showInfo(String message) {
+    private void showInfo() {
 
         final Dialog builder = new Dialog(this);
         builder.setCanceledOnTouchOutside(false);
@@ -231,7 +225,7 @@ public class PremiaChoose extends AppCompatActivity {
 
         TextView text = builder.findViewById(R.id.textInform);
         final Button button = builder.findViewById(R.id.buttonInformOK);
-        text.setText(message);
+        text.setText("Похоже это твой первый визит в игру МузТус! Рекомендуем сперва пройти небольшое обучение, чтобы разобраться что к чему. К тому же, если пройдешь обучение, получишь небольшой приятный стартовый бонус.");
 
         LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 0.67f);
         layout.setMargins(50, 50, 50, 50);

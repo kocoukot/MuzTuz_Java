@@ -1,51 +1,53 @@
 package com.example.test;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.Point;
-import android.graphics.Rect;
+
 import android.os.Bundle;
 
 import android.os.Handler;
-import android.text.Layout;
 import android.util.DisplayMetrics;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class TutorialLvl extends AppCompatActivity {
 
-    Handler handler;
-    Button buttonShowAmountLetters, buttonShowOneLetter, buttonSongName, buttonHelpAnswer;
-    Button buttonSayAnswer;
-    int delay = 450;
-    int width;
-    int idButton;
-    ImageView blueRow1, blueRow2, blueRow3, blueRow4, blueRow6, blueRow7;
-    TextView textSongName, amoutnLettes, textViewCoins, textViewStars;
-    LinearLayout linearLayout;
+    private Handler handler;
+    private Button buttonShowAmountLetters;
+    private Button buttonShowOneLetter;
+    private Button buttonSongName;
 
-    SharedPreferences preferencesProgress, preferencesPrizes;
+    private int delay = 450;
+    private int width;
+    private int idButton;
+    private ImageView blueRow1;
+    private ImageView blueRow2;
 
-    final String PREFERENCESProgress = "Preferences.progress";
-    final String PREFERENCESPrizes = "Preferences.prizes";
+    private ImageView blueRow6;
+    private ImageView blueRow7;
+    private TextView textSongName;
+    private TextView amoutnLettes;
+    private TextView textViewCoins;
+    private TextView textViewStars;
+
+    private SharedPreferences preferencesProgress;
+    private SharedPreferences preferencesPrizes;
+
+    private final String PREFERENCESPrizes = "Preferences.prizes";
+    private final String PREFERENCESProgress = "Preferences.progress";
 
 
-    LinkedBlockingQueue<Dialog> dialogsToShow = new LinkedBlockingQueue<>();
+
+    private LinkedBlockingQueue<Dialog> dialogsToShow = new LinkedBlockingQueue<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +55,6 @@ public class TutorialLvl extends AppCompatActivity {
         setContentView(R.layout.activity_tutorial_lvl);
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int height = displayMetrics.heightPixels;
         width = displayMetrics.widthPixels;
         preferencesProgress = getSharedPreferences(PREFERENCESProgress, MODE_PRIVATE);
         preferencesPrizes = getSharedPreferences(PREFERENCESPrizes, MODE_PRIVATE);
@@ -62,17 +63,13 @@ public class TutorialLvl extends AppCompatActivity {
         blueRow2 = findViewById(R.id.imageBlueRow2);
         blueRow6 = findViewById(R.id.imageBlueRow6);
         blueRow7 = findViewById(R.id.imageBlueRow7);
-        linearLayout = findViewById(R.id.linearLayoutHelps);
         textViewCoins = findViewById(R.id.tutorialCoins);
         textViewStars = findViewById(R.id.tutorialStars);
 
         buttonShowAmountLetters = findViewById(R.id.buttonShowAmountLetters);
         buttonShowOneLetter = findViewById(R.id.buttonShowOneLetter);
         buttonSongName = findViewById(R.id.buttonSongName);
-        buttonHelpAnswer = findViewById(R.id.buttonHelpAnswer);
 
-
-        buttonSayAnswer = findViewById(R.id.buttonSayAnswer);
         amoutnLettes = findViewById(R.id.amoutnLettes);
         textSongName = findViewById(R.id.textSongName);
 
@@ -91,7 +88,7 @@ public class TutorialLvl extends AppCompatActivity {
 
     }
 
-    void showDialog(final Dialog dialog) {
+    private void showDialog(final Dialog dialog) {
         if (dialogsToShow.isEmpty()) {
             dialog.show();
         }
@@ -101,7 +98,9 @@ public class TutorialLvl extends AppCompatActivity {
             public void onDismiss(DialogInterface d) {
                 dialogsToShow.remove(dialog);
                 if (!dialogsToShow.isEmpty()) {
-                    dialogsToShow.peek().show();
+                    if (dialogsToShow.peek() != null) {
+                        dialogsToShow.peek().show();
+                    }
                 }
             }
         });
@@ -237,7 +236,7 @@ public class TutorialLvl extends AppCompatActivity {
 
 
     private void setTextViewAmountLetters(int id) {
-        String lettersAmount = "";
+        StringBuilder lettersAmount = new StringBuilder();
         String correctAnswer = "Мумий Тролль";
         String choosenLetter = "";
         if (id >= 0) {
@@ -245,17 +244,17 @@ public class TutorialLvl extends AppCompatActivity {
         }
         for (int i = 0; i < correctAnswer.length(); i++) {
             if (i == id) {
-                lettersAmount += choosenLetter + " ";
+                lettersAmount.append(choosenLetter).append(" ");
             } else {
                 if (!String.valueOf(correctAnswer.charAt(i)).equals(" ")) {
-                    lettersAmount += "_ ";
+                    lettersAmount.append("_ ");
                 } else {
-                    lettersAmount += "   ";
+                    lettersAmount.append("   ");
                 }
             }
         }
 
-        amoutnLettes.setText(lettersAmount.trim());
+        amoutnLettes.setText(lettersAmount.toString().trim());
     }
 
 

@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -14,13 +13,20 @@ import com.example.test.commonFuncs.LevelsInfo;
 
 public class Statistika extends AppCompatActivity {
 
-    TextView sumDuration, levelSolved, helpsUsed, fastestText, lowestText, statisticHead;
-    ImageView fastestImage, lowestImage;
-    ScrollView statisticScroll;
+    private TextView sumDuration;
+    private TextView levelSolved;
+    private TextView helpsUsed;
+    private TextView fastestText;
+    private TextView lowestText;
+    private TextView statisticHead;
+    private ImageView fastestImage;
+    private ImageView lowestImage;
+    private ScrollView statisticScroll;
 
-    SharedPreferences preferencesProgress, preferencesPrizes;
+    private SharedPreferences preferencesProgress;
+    SharedPreferences preferencesPrizes;
 
-    final String PREFERENCESProgress = "Preferences.progress";
+    private final String PREFERENCESProgress = "Preferences.progress";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +49,8 @@ public class Statistika extends AppCompatActivity {
             levelSolved.setText(levelSolved.getText() + " " + helpsUsedAmount()[0] + " / " + new LevelsInfo().getLevelsAmount());
             helpsUsed.setText(helpsUsed.getText() + " " + helpsUsedAmount()[1]);
 
-            fastestText.setText(fastestText.getText() + " " + Double.valueOf(list[1]) / 1000 + " сек.");
-            lowestText.setText(lowestText.getText() + " " + Double.valueOf(list[2]) / 1000 + " сек.");
+            fastestText.setText(fastestText.getText() + " " + (double) list[1] / 1000 + " сек.");
+            lowestText.setText(lowestText.getText() + " " + (double) list[2] / 1000 + " сек.");
 
             fastestImage.setImageResource(new LevelsInfo().premiaImagesList[(int) list[3]][(int) list[4]]);
             lowestImage.setImageResource(new LevelsInfo().premiaImagesList[(int) list[5]][(int) list[6]]);
@@ -58,7 +64,7 @@ public class Statistika extends AppCompatActivity {
 
     private int[] helpsUsedAmount() {
         // пройденно уровней , использованно подсказок, быстрый ответ картинка, долгий ответ картинка
-        int[] list = new int [2];
+        int[] list = new int[2];
 
         for (int p = 1; p < new LevelsInfo().premiaImagesList.length; p++) {
             for (int l = 0; l < new LevelsInfo().premiaImagesList[p].length; l++) {
@@ -70,17 +76,18 @@ public class Statistika extends AppCompatActivity {
         }
         return list;
     }
+
     private long[] sumDuration() {
         // пройденно уровней , использованно подсказок, быстрый ответ картинка, долгий ответ картинка
-        long[] list = new long [7];
+        long[] list = new long[7];
         list[0] = 0;
         list[1] = 999999;
         list[2] = 0;
-        for (int p = 1; p < new LevelsInfo().premiaImagesList.length-1; p++) {
+        for (int p = 1; p < new LevelsInfo().premiaImagesList.length - 1; p++) {
             for (int l = 0; l < new LevelsInfo().premiaImagesList[p].length; l++) {
                 long timespend = preferencesProgress.getLong("lvlDuration" + p + l, 0);
                 list[0] += preferencesProgress.getLong("lvlDuration" + p + l, 0);
-                if (timespend < list[1] & timespend != 0){
+                if (timespend < list[1] & timespend != 0) {
                     list[1] = timespend;
                     list[3] = p;
                     list[4] = l;
@@ -95,8 +102,8 @@ public class Statistika extends AppCompatActivity {
         return list;
     }
 
-    private String secondsToHoursMinutesSeconds (long seconds) {
-        seconds = seconds/1000;
+    private String secondsToHoursMinutesSeconds(long seconds) {
+        seconds = seconds / 1000;
         return ((seconds % 3600) / 60) + " мин. " + ((seconds % 3600) % 60) + " сек.";
     }
 

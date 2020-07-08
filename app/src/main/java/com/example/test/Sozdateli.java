@@ -12,7 +12,8 @@ public class Sozdateli extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sozdateli);    }
+        setContentView(R.layout.activity_sozdateli);
+    }
 
     public void onCCRights(View view) {
         Uri uri = Uri.parse("https://yadi.sk/i/Gd7vNnOuFIgfQw");
