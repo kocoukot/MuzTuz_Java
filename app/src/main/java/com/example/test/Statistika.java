@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.example.test.audio.MusicPlayerService;
 import com.example.test.commonFuncs.LevelsInfo;
 
 public class Statistika extends AppCompatActivity {
@@ -22,11 +23,14 @@ public class Statistika extends AppCompatActivity {
     private ImageView fastestImage;
     private ImageView lowestImage;
     private ScrollView statisticScroll;
+    private boolean musicOff = false;
 
     private SharedPreferences preferencesProgress;
     SharedPreferences preferencesPrizes;
 
     private final String PREFERENCESProgress = "Preferences.progress";
+    private final String PREFERENCESSounds = "Preferences.sounds";
+    private SharedPreferences preferencesSounds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,8 @@ public class Statistika extends AppCompatActivity {
         statisticScroll = findViewById(R.id.statisticScroll);
 
         preferencesProgress = getSharedPreferences(PREFERENCESProgress, MODE_PRIVATE);
+        preferencesSounds =  getSharedPreferences(PREFERENCESSounds, MODE_PRIVATE);
+
         long[] list = sumDuration();
         if (list[0] > 0) {
             sumDuration.setText(sumDuration.getText() + " " + secondsToHoursMinutesSeconds(list[0]));
@@ -105,6 +111,25 @@ public class Statistika extends AppCompatActivity {
     private String secondsToHoursMinutesSeconds(long seconds) {
         seconds = seconds / 1000;
         return ((seconds % 3600) / 60) + " мин. " + ((seconds % 3600) % 60) + " сек.";
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (!musicOff){
+            MusicPlayerService.pause();
+        }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!musicOff) {
+            if (preferencesSounds.getBoolean("musicPlay", true)) {
+                MusicPlayerService.resume(this);
+            }
+        }
+        musicOff = false;
     }
 
 }

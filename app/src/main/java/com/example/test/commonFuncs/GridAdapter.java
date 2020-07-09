@@ -59,7 +59,12 @@ public class GridAdapter extends BaseAdapter {
         image.setImageResource(images[position]);
         if (levelsSolvedList[position] == 1) {
             lvlSolved.setVisibility(View.VISIBLE);
+        } else {
+            lvlSolved.setVisibility(View.INVISIBLE);
         }
+        System.out.println(position);
+
+        System.out.println("test");
         return gridView;
     }
 

@@ -2,28 +2,26 @@ package com.example.test;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.media.MediaPlayer;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.VideoView;
+
+import com.example.test.audio.MusicPlayerService;
 
 public class StartScreen extends AppCompatActivity {
+    private boolean musicOff = false;
 
-    private VideoView videoView;
     private ImageView imageView;
+    private final String PREFERENCESSounds = "Preferences.sounds";
+    private SharedPreferences preferencesSounds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_screen);
+        preferencesSounds =  getSharedPreferences(PREFERENCESSounds, MODE_PRIVATE);
 
-        videoView = findViewById(R.id.videoView);
-        String pathToVideo = "android.resource://com.example.test/" + R.raw.intro_video;
-        videoView.setVideoPath(pathToVideo);
-
-        videoView.start();
         imageView = findViewById(R.id.imagePlayButton);
 
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -33,19 +31,25 @@ public class StartScreen extends AppCompatActivity {
             }
         });
 
-        videoView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                videoView.setVisibility(View.INVISIBLE);
-            }
-        });
+    }
 
-        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                videoView.setVisibility(View.INVISIBLE);
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (!musicOff){
+            MusicPlayerService.pause();
+        }
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!musicOff) {
+            if (preferencesSounds.getBoolean("musicPlay", true)) {
+                MusicPlayerService.resume(this);
             }
-        });
+        }
+        musicOff = false;
     }
 }

@@ -1,0 +1,8 @@
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false">
+    <item android:drawable="@drawable/bm_ogonki_1_animaciya" android:duration="130" />
+    <item android:drawable="@drawable/bm_ogonki_2_animaciya" android:duration="130" />
+    <item android:drawable="@drawable/bm_ogonki_3_animaciya" android:duration="130" />
+    <item android:drawable="@drawable/bm_ogonki_4_animaciya" android:duration="130" />
+
+</animation-list>

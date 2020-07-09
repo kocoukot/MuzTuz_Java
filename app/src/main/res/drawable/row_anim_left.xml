@@ -1,0 +1,6 @@
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false">
+    <item android:drawable="@drawable/strelka2_1_animaciya" android:duration="180" />
+    <item android:drawable="@drawable/strelka2_2_animaciya" android:duration="180" />
+
+</animation-list>

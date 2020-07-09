@@ -32,18 +32,25 @@
 
             <ImageView
                 android:id="@+id/tutorialMusic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="10dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="10dp"
                 android:layout_weight="1"
-                app:srcCompat="@mipmap/melodiy" />
+                android:adjustViewBounds="true"
+                android:onClick="onMelody"
+                android:src="@drawable/buton_music_on" />
 
             <ImageView
-                android:id="@+id/tutorialZvuk"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:id="@+id/tutorialSounds"
+                android:layout_width="10dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="10dp"
                 android:layout_weight="1"
-                android:contentDescription="TODO"
-                app:srcCompat="@mipmap/zvuk" />
+                android:adjustViewBounds="true"
+                android:onClick="onSounds"
+                app:srcCompat="@drawable/buton_sound_on" />
 
             <TextView
                 android:id="@+id/tutorialStars"
@@ -63,7 +70,7 @@
 
             <TextView
                 android:id="@+id/tutorialCoins"
-                android:layout_width="50dp"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
@@ -108,7 +115,7 @@
 
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/editTextTutorial"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -117,8 +124,8 @@
                 android:cursorVisible="false"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
-                android:fontFamily="@font/optima_bold"
                 android:freezesText="true"
+                android:fontFamily="@font/optima_bold"
                 android:gravity="start"
                 android:inputType="text"
                 android:hint="Введите ответ..."
@@ -135,7 +142,8 @@
                 android:background="@drawable/buton_vvod_galka"
                 android:enabled="false"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayoutHelps"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                android:onClick="onCheckAnswer"/>
         </LinearLayout>
 
 
@@ -188,7 +196,8 @@
                 android:layout_weight="1"
 
                 android:background="@drawable/buton_help_answer"
-                android:enabled="false" />
+                android:enabled="false"
+                android:onClick="onShowAnswer"/>
 
 
         </LinearLayout>
@@ -223,20 +232,19 @@
 
         <ImageView
             android:id="@+id/imageBlueRow7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="100dp"
             android:layout_gravity="bottom"
             android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.914"
-            app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@mipmap/strelka1_1_animaciya" />
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <ImageView
             android:id="@+id/imageBlueRow6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="100dp"
             android:layout_gravity="bottom"
             android:layout_marginStart="65dp"
             android:layout_weight="1"
@@ -245,27 +253,24 @@
             app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.052"
-            app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@mipmap/strelka1_1_animaciya" />
+            app:layout_constraintStart_toStartOf="parent" />
 
 
         <ImageView
             android:id="@+id/imageBlueRow1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="100dp"
             android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@+id/linearLayoutHelps"
-            app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@mipmap/strelka2_1_animaciya" />
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <ImageView
             android:id="@+id/imageBlueRow2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="100dp"
             android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@+id/linearLayoutHelps"
-            app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@mipmap/strelka1_1_animaciya" />
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

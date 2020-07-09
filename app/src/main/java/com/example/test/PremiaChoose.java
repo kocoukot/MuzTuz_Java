@@ -6,15 +6,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.test.audio.SoundsPlayerService;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
@@ -23,23 +26,28 @@ import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import com.example.test.commonFuncs.LevelsInfo;
+import com.example.test.audio.MusicPlayerService;
+
 
 
 public class PremiaChoose extends AppCompatActivity {
 
 
     private TextView textViewCoins, textViewStars;
+    ImageView musicButton,soundsButton;
     private Integer width;
     private static final int CODEFORTUTORIAL = 1;
     private static final int CODEFORPREMIA = 2;
     private boolean gotMoneyForTutorial;
     //  private final int requaredAmount = 20;
+    private boolean musicOff = false;
 
-    private SharedPreferences preferencesProgress;
-    private SharedPreferences preferencesPrizes;
+    private SharedPreferences preferencesProgress,preferencesPrizes,preferencesSounds;
 
     private final String PREFERENCESProgress = "Preferences.progress";
     private final String PREFERENCESPrizes = "Preferences.prizes";
+    private final String PREFERENCESSounds = "Preferences.sounds";
+
 
     private LinearLayout premiaSelectView;
 
@@ -62,9 +70,13 @@ public class PremiaChoose extends AppCompatActivity {
 
         preferencesProgress = getSharedPreferences(PREFERENCESProgress, MODE_PRIVATE);
         preferencesPrizes = getSharedPreferences(PREFERENCESPrizes, MODE_PRIVATE);
+        preferencesSounds =  getSharedPreferences(PREFERENCESSounds, MODE_PRIVATE);
+
 
         textViewCoins = findViewById(R.id.premiaSelectCoins);
         textViewStars = findViewById(R.id.premiaSelectStars);
+        musicButton = findViewById(R.id.premiaMusic);
+        soundsButton = findViewById(R.id.premiaSounds);
 
         premiaCreate();
         coinsStarsUpDate();
@@ -74,7 +86,7 @@ public class PremiaChoose extends AppCompatActivity {
             SharedPreferences.Editor editor = preferencesPrizes.edit();
             editor.putBoolean("firstMesInPremiaChoose", true);
             editor.apply();
-            showInfo();
+            showInfo(R.string.tutorialRecomendation);
         }
 
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
@@ -130,12 +142,21 @@ public class PremiaChoose extends AppCompatActivity {
                     });
                 } else {
                     premiaView.setImageResource(new LevelsInfo().premiaDisksListClosed[i]);
+                    premiaView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showInfo(R.string.requrementsForNextPremia);
+                        }
+                    });
+
                 }
             }
 
             premiaSelectView.addView(premiaView, layout);
         }
     }
+
+
 
 
     private Integer levelsSolvedAmount(Integer premia) {
@@ -215,9 +236,22 @@ public class PremiaChoose extends AppCompatActivity {
     private void coinsStarsUpDate() {
         textViewCoins.setText(String.valueOf(preferencesPrizes.getInt("coins", 0)));
         textViewStars.setText(String.valueOf(preferencesPrizes.getInt("stars", 0)));
+
+        if (preferencesSounds.getBoolean("musicPlay", true)){
+            musicButton.setImageResource(R.drawable.buton_music_on);
+        } else {
+            musicButton.setImageResource(R.drawable.buton_music_off);
+        }
+
+        if (preferencesSounds.getBoolean("soundsPlay", true)) {
+            soundsButton.setImageResource(R.drawable.buton_sound_on);
+        } else {
+            soundsButton.setImageResource(R.drawable.buton_sound_off);
+        }
+
     }
 
-    private void showInfo() {
+    private void showInfo(int message) {
 
         final Dialog builder = new Dialog(this);
         builder.setCanceledOnTouchOutside(false);
@@ -225,7 +259,7 @@ public class PremiaChoose extends AppCompatActivity {
 
         TextView text = builder.findViewById(R.id.textInform);
         final Button button = builder.findViewById(R.id.buttonInformOK);
-        text.setText("Похоже это твой первый визит в игру МузТус! Рекомендуем сперва пройти небольшое обучение, чтобы разобраться что к чему. К тому же, если пройдешь обучение, получишь небольшой приятный стартовый бонус.");
+        text.setText(message);
 
         LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 0.67f);
         layout.setMargins(50, 50, 50, 50);
@@ -241,4 +275,67 @@ public class PremiaChoose extends AppCompatActivity {
     }
 
 
+    public void onMelody(View view) {
+        SharedPreferences.Editor editor = preferencesSounds.edit();
+
+        if (preferencesSounds.getBoolean("musicPlay", true)){
+
+            musicButton.setImageResource(R.drawable.buton_music_off);
+            MusicPlayerService.pause();
+            editor.putBoolean("musicPlay", false);
+
+        } else {
+            musicButton.setImageResource(R.drawable.buton_music_on);
+            MusicPlayerService.resume(this);
+            editor.putBoolean("musicPlay", true);
+        }
+        editor.apply();
+    }
+
+    public void onSounds(View view) {
+        SharedPreferences.Editor editor = preferencesSounds.edit();
+
+        if (preferencesSounds.getBoolean("soundsPlay", true)){
+            SoundsPlayerService.start(this, SoundsPlayerService.SOUND_OFF_MUSIC,true);
+
+            soundsButton.setImageResource(R.drawable.buton_sound_off);
+            // MusicPlayerService.pause();
+            editor.putBoolean("soundsPlay", false);
+
+        } else {
+            SoundsPlayerService.start(this, SoundsPlayerService.SOUND_ON_MUSIC,true);
+
+            soundsButton.setImageResource(R.drawable.buton_sound_on);
+            //  MusicPlayerService.resume(this);
+            editor.putBoolean("soundsPlay", true);
+        }
+        editor.apply();
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (!musicOff){
+            MusicPlayerService.pause();
+        }
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        System.out.println("destroyed");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!musicOff) {
+            if (preferencesSounds.getBoolean("musicPlay", true)) {
+                MusicPlayerService.resume(this);
+            }
+        }
+        musicOff = false;
+    }
 }

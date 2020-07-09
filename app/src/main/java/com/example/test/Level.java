@@ -16,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.test.audio.MusicPlayerService;
+import com.example.test.audio.SoundsPlayerService;
 import com.example.test.commonFuncs.LevelsInfo;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.MobileAds;
@@ -54,13 +56,16 @@ public class Level extends AppCompatActivity implements RewardedVideoAdListener 
 
     private SharedPreferences preferencesProgress;
     private SharedPreferences preferencesPrizes;
-
+    private SharedPreferences preferencesSounds;
+    private final String PREFERENCESSounds = "Preferences.sounds";
     private final String PREFERENCESProgress = "Preferences.progress";
     private final String PREFERENCESPrizes = "Preferences.prizes";
 
     private Toast toast1;
     private Button[] buttonsList;
     private RewardedVideoAd mRewardedVideoAd;
+    private ImageView musicButton, soundsButton;
+    private boolean musicOff = false;
 
 
    //String freeID = "ca-app-pub-8364051315582457/5955782184";
@@ -75,6 +80,7 @@ public class Level extends AppCompatActivity implements RewardedVideoAdListener 
 
         preferencesProgress = getSharedPreferences(PREFERENCESProgress, MODE_PRIVATE);
         preferencesPrizes = getSharedPreferences(PREFERENCESPrizes, MODE_PRIVATE);
+        preferencesSounds =  getSharedPreferences(PREFERENCESSounds, MODE_PRIVATE);
 
         if (preferencesPrizes.getInt("freeCoinsCounter", 0) >= 5) {
             SharedPreferences.Editor prizesEditor = preferencesPrizes.edit();
@@ -124,16 +130,28 @@ public class Level extends AppCompatActivity implements RewardedVideoAdListener 
 
     }
 
+
+
+
     @Override
     public void onResume() {
         mRewardedVideoAd.resume(this);
         super.onResume();
+        if (!musicOff) {
+            if (preferencesSounds.getBoolean("musicPlay", true)) {
+                MusicPlayerService.resume(this);
+            }
+        }
+        musicOff = false;
     }
 
     @Override
     public void onPause() {
         mRewardedVideoAd.pause(this);
         super.onPause();
+        if (!musicOff){
+            MusicPlayerService.pause();
+        }
     }
 
     @Override
@@ -153,6 +171,8 @@ public class Level extends AppCompatActivity implements RewardedVideoAdListener 
                 long finish = System.currentTimeMillis();            //останавливаем счетчик
                 lvlDuration = finish - start;
                 lvlPast = 1;
+                SoundsPlayerService.start(this, SoundsPlayerService.SOUND_WIN,preferencesSounds.getBoolean("soundsPlay", true));
+
                 //если правильный ответ угадан
                 final Dialog builder = new Dialog(this);
                 builder.setCanceledOnTouchOutside(false);
@@ -194,7 +214,10 @@ public class Level extends AppCompatActivity implements RewardedVideoAdListener 
                 SharedPreferences.Editor prizesEditor = preferencesPrizes.edit();
                 prizesEditor.putInt("coins", coins + coinsWinAmount * mult);
                 prizesEditor.putInt("stars", stars + starsAmount);
-                prizesEditor.putInt("freeCoinsCounter", preferencesPrizes.getInt("freeCoinsCounter", 0) + 1);
+                if (preferencesPrizes.getInt("freeCoinsCounter", 0) > 0 ){
+                    prizesEditor.putInt("freeCoinsCounter", preferencesPrizes.getInt("freeCoinsCounter", 0) + 1);
+
+                }
                 prizesEditor.apply();
 
                 buttonOk.setOnClickListener(new View.OnClickListener() {                //заканчиваем уровень после нажатия ОК
@@ -210,10 +233,15 @@ public class Level extends AppCompatActivity implements RewardedVideoAdListener 
             }
         }
         if (answer.isEmpty()) {
+            SoundsPlayerService.start(this, SoundsPlayerService.SOUND_WRONG_ANSWER,preferencesSounds.getBoolean("soundsPlay", true));
+
             toast1 = Toast.makeText(this, "Для начала нужно ввести хоть какой-то ответ!", Toast.LENGTH_SHORT);
             toast1.setGravity(Gravity.CENTER, 0, 50);
             toast1.show();
-        } else if (lvlPast != 1) {                                                        //если ответ неправильный, то сообщаем об этом
+        } else if (lvlPast != 1) {
+            SoundsPlayerService.start(this, SoundsPlayerService.SOUND_WRONG_ANSWER,preferencesSounds.getBoolean("soundsPlay", true));
+
+            //если ответ неправильный, то сообщаем об этом
             toast1 = Toast.makeText(this, "Неправильный ответ!", Toast.LENGTH_SHORT);
             toast1.setGravity(Gravity.CENTER, 0, 50);
             toast1.show();
@@ -231,6 +259,8 @@ public class Level extends AppCompatActivity implements RewardedVideoAdListener 
     }
 
     public void onHelpUse(View view) {
+        SoundsPlayerService.start(this, SoundsPlayerService.SOUND_APPEAR_VIEW,preferencesSounds.getBoolean("soundsPlay", true));
+
         int message = 0;
         Button button = null;
         if (coinsCalc(helpPrice(view.getId()))) {
@@ -318,11 +348,14 @@ public class Level extends AppCompatActivity implements RewardedVideoAdListener 
             textViewAmountLetters.setVisibility(View.VISIBLE);
             CoinsChange();
             saveHelpUsed(0);
+            SoundsPlayerService.start(this, SoundsPlayerService.SOUND_SPEND_MONEY,preferencesSounds.getBoolean("soundsPlay", true));
+
         }
 
         //подсказка вторая
         else if (buttonPressed.equals(buttonShowOneLetter)) {
             chooseOneLetter();
+
         }
 
         //подсказка третья
@@ -331,6 +364,8 @@ public class Level extends AppCompatActivity implements RewardedVideoAdListener 
             textSongName.setVisibility(View.VISIBLE);
             saveHelpUsed(2);
             CoinsChange();
+            SoundsPlayerService.start(this, SoundsPlayerService.SOUND_SPEND_MONEY,preferencesSounds.getBoolean("soundsPlay", true));
+
         }
 
         //подсказка четвертая
@@ -347,6 +382,8 @@ public class Level extends AppCompatActivity implements RewardedVideoAdListener 
             toDoIfLvlPast();
             saveHelpUsed(3);
             CoinsChange();
+            SoundsPlayerService.start(this, SoundsPlayerService.SOUND_GAMEOVER,preferencesSounds.getBoolean("soundsPlay", true));
+
         }
     }
 
@@ -402,6 +439,8 @@ public class Level extends AppCompatActivity implements RewardedVideoAdListener 
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        SoundsPlayerService.start(Level.this, SoundsPlayerService.SOUND_SPEND_MONEY,preferencesSounds.getBoolean("soundsPlay", true));
+
                         buttonShowOneLetter.setEnabled(false);
                         buttonShowAmountLetters.setEnabled(false);
                         builder.cancel();
@@ -409,6 +448,7 @@ public class Level extends AppCompatActivity implements RewardedVideoAdListener 
                         saveHelpUsed(1);
                         setTextViewAmountLetters(v.getId());
                         textViewAmountLetters.setVisibility(View.VISIBLE);
+
                     }
                 });
             } else {
@@ -464,6 +504,8 @@ public class Level extends AppCompatActivity implements RewardedVideoAdListener 
         if (coins - helpPrice >= 0) {
             return true;
         } else {
+            SoundsPlayerService.start(this, SoundsPlayerService.SOUND_WARNING_VIEW,preferencesSounds.getBoolean("soundsPlay", true));
+
             toast1 = Toast.makeText(Level.this, "К сожалению у Вас недостаточно монет. Для подсказки необходимо " + helpPrice + " монет.", Toast.LENGTH_SHORT);
             toast1.setGravity(Gravity.CENTER, 0, 350);
             toast1.show();
@@ -489,6 +531,8 @@ public class Level extends AppCompatActivity implements RewardedVideoAdListener 
         buttonSayAnswer = findViewById(R.id.buttonSayAnswer);
         textSongName = findViewById(R.id.textSongName);
         freeCoinsImage = findViewById(R.id.freeCoins);
+        musicButton = findViewById(R.id.levelMusic);
+        soundsButton = findViewById(R.id.levelSounds);
 
         buttonsList = new Button[]{buttonShowAmountLetters, buttonShowOneLetter, buttonSongName, buttonHelpAnswer, buttonSayAnswer};
 
@@ -561,7 +605,53 @@ public class Level extends AppCompatActivity implements RewardedVideoAdListener 
         stars = preferencesPrizes.getInt("stars", 0);
         textViewCoins.setText(String.valueOf(preferencesPrizes.getInt("coins", 0)));
         textViewStars.setText(String.valueOf(preferencesPrizes.getInt("stars", 0)));
+        if (preferencesSounds.getBoolean("musicPlay", true)){
+            musicButton.setImageResource(R.drawable.buton_music_on);
+        } else {
+            musicButton.setImageResource(R.drawable.buton_music_off);
+        }
+
+        if (preferencesSounds.getBoolean("soundsPlay", true)) {
+            soundsButton.setImageResource(R.drawable.buton_sound_on);
+        } else {
+            soundsButton.setImageResource(R.drawable.buton_sound_off);
+        }
     }
+
+    public void onMelody(View view) {
+        SharedPreferences.Editor editor = preferencesSounds.edit();
+
+        if (preferencesSounds.getBoolean("musicPlay", true)){
+
+            musicButton.setImageResource(R.drawable.buton_music_off);
+            MusicPlayerService.pause();
+            editor.putBoolean("musicPlay", false);
+
+        } else {
+            musicButton.setImageResource(R.drawable.buton_music_on);
+            MusicPlayerService.resume(this);
+            editor.putBoolean("musicPlay", true);
+        }
+        editor.apply();
+    }
+
+    public void onSounds(View view) {
+        SharedPreferences.Editor editor = preferencesSounds.edit();
+
+        if (preferencesSounds.getBoolean("soundsPlay", true)){
+            SoundsPlayerService.start(this, SoundsPlayerService.SOUND_OFF_MUSIC,true);
+
+            soundsButton.setImageResource(R.drawable.buton_sound_off);
+            editor.putBoolean("soundsPlay", false);
+
+        } else {
+            soundsButton.setImageResource(R.drawable.buton_sound_on);
+            SoundsPlayerService.start(this, SoundsPlayerService.SOUND_ON_MUSIC,true);
+            editor.putBoolean("soundsPlay", true);
+        }
+        editor.apply();
+    }
+
 
     public void onGetFreeCoins(View view) {
         if (mRewardedVideoAd.isLoaded()) {
@@ -582,7 +672,10 @@ public class Level extends AppCompatActivity implements RewardedVideoAdListener 
         prizesEditor.apply();
         coinsStarsUpDate();
         freeCoinsImage.setVisibility(View.INVISIBLE);
+        SoundsPlayerService.start(this, SoundsPlayerService.SOUND_GOT_COINS,preferencesSounds.getBoolean("soundsPlay", true));
+
     }
+
 
     @Override
     public void onRewardedVideoAdLeftApplication() {

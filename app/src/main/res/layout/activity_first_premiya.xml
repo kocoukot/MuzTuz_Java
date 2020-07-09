@@ -18,18 +18,26 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/premiaMusic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/levelsMusic"
+            android:layout_width="10dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
             android:layout_weight="1"
-            app:srcCompat="@mipmap/melodiy" />
+            android:adjustViewBounds="true"
+            android:onClick="onMelody"
+            android:src="@drawable/buton_music_on" />
 
         <ImageView
-            android:id="@+id/premiaZvuk"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:id="@+id/levelsSounds"
+            android:layout_width="10dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
             android:layout_weight="1"
-            app:srcCompat="@mipmap/zvuk" />
+            android:adjustViewBounds="true"
+            android:onClick="onSounds"
+            app:srcCompat="@drawable/buton_sound_on" />
 
         <TextView
             android:id="@+id/premiaStars"
@@ -49,7 +57,7 @@
 
         <TextView
             android:id="@+id/premiaCoins"
-            android:layout_width="50dp"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="right"

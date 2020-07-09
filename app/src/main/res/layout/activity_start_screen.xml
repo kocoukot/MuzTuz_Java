@@ -8,13 +8,6 @@
     tools:context=".StartScreen">
 
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:srcCompat="@mipmap/background" />
-
-
     <FrameLayout
 
         android:layout_width="match_parent"
@@ -50,21 +43,14 @@
             android:layout_width="match_parent"
             android:layout_height="214dp"
             android:layout_gravity="bottom"
-            android:layout_marginBottom="-40dp"
+            android:adjustViewBounds="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/fire"
              />
 
     </FrameLayout>
-
-    <VideoView
-        android:id="@+id/videoView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
-
 
 
 </FrameLayout>

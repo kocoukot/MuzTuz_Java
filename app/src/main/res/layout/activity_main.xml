@@ -17,19 +17,28 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/menuMusic"
+            android:layout_width="10dp"
+            android:layout_height="30dp"
+
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
             android:layout_weight="1"
-            app:srcCompat="@mipmap/melodiy" />
+            android:adjustViewBounds="true"
+
+            android:onClick="onMelody"
+            android:src="@drawable/buton_music_on" />
 
         <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:id="@+id/menuSound"
+            android:layout_width="10dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
             android:layout_weight="1"
-            android:contentDescription="TODO"
-            app:srcCompat="@mipmap/zvuk" />
+            android:adjustViewBounds="true"
+            android:onClick="onSounds"
+            app:srcCompat="@drawable/buton_sound_on" />
 
         <TextView
             android:id="@+id/menuStars"
@@ -50,7 +59,7 @@
 
         <TextView
             android:id="@+id/menuCoins"
-            android:layout_width="50dp"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="right"
@@ -146,7 +155,7 @@
                 android:layout_gravity="bottom"
                 android:layout_marginStart="120dp"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/button_vk"
+                android:background="@drawable/button_vkontakt"
                 android:onClick="onClickVK"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView7"
                 app:layout_constraintStart_toStartOf="@+id/imageView7" />
@@ -158,7 +167,7 @@
                 android:layout_gravity="bottom"
                 android:layout_marginEnd="60dp"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/button_inst"
+                android:background="@drawable/button_instagram"
                 android:onClick="onClickInst"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView7"
                 app:layout_constraintEnd_toEndOf="@+id/imageView7" />

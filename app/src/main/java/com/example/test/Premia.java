@@ -11,9 +11,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.test.audio.MusicPlayerService;
+import com.example.test.audio.SoundsPlayerService;
 import com.example.test.commonFuncs.GridAdapter;
 import com.example.test.commonFuncs.LevelsInfo;
 
@@ -27,6 +30,8 @@ public class Premia extends AppCompatActivity {
     private SharedPreferences preferencesProgress;
     private SharedPreferences preferencesPrizes;
 
+    private SharedPreferences preferencesSounds;
+    private final String PREFERENCESSounds = "Preferences.sounds";
     private final String PREFERENCESProgress = "Preferences.progress";
     private final String PREFERENCESPrizes = "Preferences.prizes";
 
@@ -36,6 +41,8 @@ public class Premia extends AppCompatActivity {
     private int premiaID;
     private GridView gridView;
     private GridAdapter adapter;
+    private ImageView musicButton, soundsButton;
+    private boolean musicOff = false;
 
 
     @Override
@@ -47,9 +54,13 @@ public class Premia extends AppCompatActivity {
 
         preferencesProgress = getSharedPreferences(PREFERENCESProgress, MODE_PRIVATE);
         preferencesPrizes = getSharedPreferences(PREFERENCESPrizes, MODE_PRIVATE);
+        preferencesSounds =  getSharedPreferences(PREFERENCESSounds, MODE_PRIVATE);
+
 
         textViewCoins = findViewById(R.id.premiaCoins);
         textViewStars = findViewById(R.id.premiaStars);
+        musicButton = findViewById(R.id.levelsMusic);
+        soundsButton = findViewById(R.id.levelsSounds);
 
 
         premiaID = premiaIntent.getIntExtra("premiaIDChoosed", 0);
@@ -63,7 +74,19 @@ public class Premia extends AppCompatActivity {
 
         adapter = new GridAdapter(Premia.this, levelsList, levelsSolvedList);
 
+        setGrid();
+//        gridView.setAdapter(adapter);
+//        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                startLvl(position);
+//            }
+//        });
+        coinsStarsUpDate();
+        nextPremiaIsOpened = hasOpenedNextPremia();
+    }
 
+    private void setGrid(){
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -71,8 +94,6 @@ public class Premia extends AppCompatActivity {
                 startLvl(position);
             }
         });
-        coinsStarsUpDate();
-        nextPremiaIsOpened = hasOpenedNextPremia();
     }
 
 
@@ -87,6 +108,18 @@ public class Premia extends AppCompatActivity {
     private void coinsStarsUpDate() {
         textViewCoins.setText(String.valueOf(preferencesPrizes.getInt("coins", 0)));
         textViewStars.setText(String.valueOf(preferencesPrizes.getInt("stars", 0)));
+
+        if (preferencesSounds.getBoolean("musicPlay", true)){
+            musicButton.setImageResource(R.drawable.buton_music_on);
+        } else {
+            musicButton.setImageResource(R.drawable.buton_music_off);
+        }
+
+        if (preferencesSounds.getBoolean("soundsPlay", true)) {
+            soundsButton.setImageResource(R.drawable.buton_sound_on);
+        } else {
+            soundsButton.setImageResource(R.drawable.buton_sound_off);
+        }
     }
 
     @Override
@@ -101,16 +134,6 @@ public class Premia extends AppCompatActivity {
                 nextPremiaIsOpened = hasOpenedNextPremia();
                 showInfo();
             }
-//            if (resultCode == RESULT_OK) {
-//               // data.getIntExtra("lvlID", 0);
-//                levelsSolvedList[selectedLvl] = preferencesProgress.getInt("solved" + premiaID + selectedLvl, 0);
-//                adapter.notifyDataSetChanged();
-//            }
-//            else if (resultCode == RESULT_CANCELED){
-//                //data.getIntExtra("lvlID", 0);
-//             //   levelsSolvedList[data.getIntExtra("lvlID", 0)] = preferencesProgress.getInt("solved" + premiaID + data.getIntExtra("lvlID", 0), 0);
-//               // adapter.notifyDataSetChanged();
-//            }
         }
     }
 
@@ -138,6 +161,7 @@ public class Premia extends AppCompatActivity {
         final Button button = builder.findViewById(R.id.buttonInformOK);
         text.setText("Поздравляем с открытием следующей премии!");
 
+        SoundsPlayerService.start(Premia.this, SoundsPlayerService.SOUND_OPEN_PREMIA,preferencesSounds.getBoolean("soundsPlay", true));
 
         LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 0.67f);
         layout.setMargins(50, 50, 50, 50);
@@ -150,6 +174,64 @@ public class Premia extends AppCompatActivity {
             }
         });
         builder.show();
+
     }
 
+
+    public void onMelody(View view) {
+        SharedPreferences.Editor editor = preferencesSounds.edit();
+
+        if (preferencesSounds.getBoolean("musicPlay", true)){
+
+            musicButton.setImageResource(R.drawable.buton_music_off);
+            MusicPlayerService.pause();
+            editor.putBoolean("musicPlay", false);
+
+        } else {
+            musicButton.setImageResource(R.drawable.buton_music_on);
+            MusicPlayerService.resume(this);
+            editor.putBoolean("musicPlay", true);
+        }
+        editor.apply();
+    }
+
+    public void onSounds(View view) {
+        SharedPreferences.Editor editor = preferencesSounds.edit();
+
+        if (preferencesSounds.getBoolean("soundsPlay", true)){
+            SoundsPlayerService.start(this, SoundsPlayerService.SOUND_OFF_MUSIC,true);
+
+            soundsButton.setImageResource(R.drawable.buton_sound_off);
+            // MusicPlayerService.pause();
+            editor.putBoolean("soundsPlay", false);
+
+        } else {
+            SoundsPlayerService.start(this, SoundsPlayerService.SOUND_ON_MUSIC,true);
+
+            soundsButton.setImageResource(R.drawable.buton_sound_on);
+            //  MusicPlayerService.resume(this);
+            editor.putBoolean("soundsPlay", true);
+        }
+        editor.apply();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (!musicOff){
+            MusicPlayerService.pause();
+        }
+
+    }
+
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        if (!musicOff) {
+//            if (preferencesSounds.getBoolean("musicPlay", true)) {
+//                MusicPlayerService.resume(this);
+//            }
+//        }
+//        musicOff = false;
+//    }
 }

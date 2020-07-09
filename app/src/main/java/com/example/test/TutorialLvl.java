@@ -7,24 +7,32 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 
 import android.os.Handler;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.test.audio.MusicPlayerService;
+import com.example.test.audio.SoundsPlayerService;
+import com.example.test.commonFuncs.LevelsInfo;
 
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class TutorialLvl extends AppCompatActivity {
 
     private Handler handler;
-    private Button buttonShowAmountLetters;
-    private Button buttonShowOneLetter;
-    private Button buttonSongName;
+    private Button buttonShowAmountLetters, buttonShowOneLetter, buttonSongName, buttonAnswerHelp;
+    private Button buttonSayAnswer;
+private EditText editText;
 
     private int delay = 450;
     private int width;
@@ -41,10 +49,17 @@ public class TutorialLvl extends AppCompatActivity {
 
     private SharedPreferences preferencesProgress;
     private SharedPreferences preferencesPrizes;
-
+    private SharedPreferences preferencesSounds;
+    private final String PREFERENCESSounds = "Preferences.sounds";
     private final String PREFERENCESPrizes = "Preferences.prizes";
     private final String PREFERENCESProgress = "Preferences.progress";
+    private boolean musicOff = false;
 
+    private ImageView musicButton, soundsButton;
+    private Toast toast1;
+    private String correctAnswer;
+    private String[] artistName;
+    private Integer lvlPast = 0;
 
 
     private LinkedBlockingQueue<Dialog> dialogsToShow = new LinkedBlockingQueue<>();
@@ -56,8 +71,13 @@ public class TutorialLvl extends AppCompatActivity {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         width = displayMetrics.widthPixels;
+
+        artistName = new LevelsInfo().correctAnswersList[0][0];
+        correctAnswer = artistName[0];
+
         preferencesProgress = getSharedPreferences(PREFERENCESProgress, MODE_PRIVATE);
         preferencesPrizes = getSharedPreferences(PREFERENCESPrizes, MODE_PRIVATE);
+        preferencesSounds = getSharedPreferences(PREFERENCESSounds, MODE_PRIVATE);
 
         blueRow1 = findViewById(R.id.imageBlueRow1);
         blueRow2 = findViewById(R.id.imageBlueRow2);
@@ -65,13 +85,19 @@ public class TutorialLvl extends AppCompatActivity {
         blueRow7 = findViewById(R.id.imageBlueRow7);
         textViewCoins = findViewById(R.id.tutorialCoins);
         textViewStars = findViewById(R.id.tutorialStars);
+        editText = findViewById(R.id.editTextTutorial);
 
         buttonShowAmountLetters = findViewById(R.id.buttonShowAmountLetters);
         buttonShowOneLetter = findViewById(R.id.buttonShowOneLetter);
         buttonSongName = findViewById(R.id.buttonSongName);
+        buttonAnswerHelp = findViewById(R.id.buttonHelpAnswer);
+        buttonSayAnswer = findViewById(R.id.buttonSayAnswer);
 
         amoutnLettes = findViewById(R.id.amoutnLettes);
         textSongName = findViewById(R.id.textSongName);
+
+        musicButton = findViewById(R.id.tutorialMusic);
+        soundsButton = findViewById(R.id.tutorialSounds);
 
         buttonShowAmountLetters.getWidth();
         blueRow1.setX(width / 4 - 170);
@@ -79,7 +105,26 @@ public class TutorialLvl extends AppCompatActivity {
         // blueRow1.getLocationInWindow(test1);
 
 
-        //  LinkedBlockingQueue<Dialog> dialogsToShow = new LinkedBlockingQueue<>();
+        blueRow1.setBackgroundResource(R.drawable.row_anim_left);
+        blueRow2.setBackgroundResource(R.drawable.row_anim_right);
+        blueRow6.setBackgroundResource(R.drawable.row_anim_right);
+        blueRow7.setBackgroundResource(R.drawable.row_anim_right);
+
+        AnimationDrawable animationLeft =  (AnimationDrawable) blueRow1.getBackground();
+        AnimationDrawable animationRight =  (AnimationDrawable) blueRow2.getBackground();
+        AnimationDrawable animationSix =  (AnimationDrawable) blueRow6.getBackground();
+        AnimationDrawable animationSeven =  (AnimationDrawable) blueRow7.getBackground();
+
+        animationLeft.start();
+        animationRight.start();
+        animationSix.start();
+        animationSeven.start();
+
+
+
+
+
+       //   LinkedBlockingQueue<Dialog> dialogsToShow = new LinkedBlockingQueue<>();
         coinsStarsUpDate();
         showInfo(R.string.helloFriend, 0);
         showInfo(R.string.firstHelp, 0);
@@ -141,12 +186,26 @@ public class TutorialLvl extends AppCompatActivity {
                     blueRow2.setVisibility(View.VISIBLE);
                     blueRow2.setX(width / 2 + 200);
                     showInfo(R.string.answerHelp, 5);
+                    buttonAnswerHelp.setEnabled(true);
+//                    SharedPreferences.Editor editor = preferencesProgress.edit();
+//                    editor.putInt("solved" + 0 + 0, 1);
+//                    editor.apply();
+                } else if (number == 5) {
+                    blueRow2.setVisibility(View.INVISIBLE);
+                    buttonSayAnswer.setEnabled(true);
+                    editText.setClickable(true);
+                    editText.setFocusableInTouchMode(true);
+                    editText.setFocusable(true);
+                    editText.setFreezesText(false);
+                    editText.setCursorVisible(true);
+                    editText.setContextClickable(true);
+                } else if  (number == 6){
+                    showInfo(R.string.lastText, 7);
                     SharedPreferences.Editor editor = preferencesProgress.edit();
                     editor.putInt("solved" + 0 + 0, 1);
                     editor.apply();
-                } else if (number == 5) {
-                    showInfo(R.string.lastText, 6);
-                } else if (number == 6) {
+                }
+                 else if (number == 7) {
                     finishTutorial();
                 }
             }
@@ -155,7 +214,9 @@ public class TutorialLvl extends AppCompatActivity {
     }
 
     private void finishTutorial() {
-
+        SharedPreferences.Editor editor = preferencesProgress.edit();
+        editor.putInt("solved" + 0 + 0, 1);
+        editor.apply();
         Intent intent_finish = new Intent();
         intent_finish.putExtra("key", 100);
         setResult(RESULT_OK, intent_finish);
@@ -172,6 +233,10 @@ public class TutorialLvl extends AppCompatActivity {
 
     public void onShowSongName(View view) {
         useHelp(R.string.showSongName, buttonSongName);
+    }
+
+    public void onShowAnswer(View view) {
+        useHelp(R.string.showAnswerHelp, buttonAnswerHelp);
     }
 
 
@@ -217,7 +282,6 @@ public class TutorialLvl extends AppCompatActivity {
                     builder.cancel();
                     buttonPressed.setEnabled(false);
                     blueRow2.setVisibility(View.INVISIBLE);
-                    // blueRow3.setVisibility(View.INVISIBLE);
                     textSongName.setVisibility(View.VISIBLE);
 
                     handler.postDelayed(new Runnable() {
@@ -229,9 +293,47 @@ public class TutorialLvl extends AppCompatActivity {
                         }
                     }, delay);
                 }
+                else if (buttonPressed.equals(buttonAnswerHelp)){
+                    amoutnLettes.setText("М У М И Й  Т Р О Л Л Ь");
+                    showInfo(R.string.lastText, 7);
+
+                    builder.cancel();
+
+                }
             }
         });
         builder.show();
+    }
+
+    public void onCheckAnswer(View view) {
+        String answer = editText.getText().toString().trim().toLowerCase();        //берем ответ, переводим в строку, обрезаем пробелы и приводим к нижнему регистру
+        for (String s : artistName) {                //перебор всех ответов
+            if (answer.equals(s)) {
+                lvlPast = 1;
+                SoundsPlayerService.start(this, SoundsPlayerService.SOUND_WIN,preferencesSounds.getBoolean("soundsPlay", true));
+                //если правильный ответ угадан
+                amoutnLettes.setText("М У М И Й  Т Р О Л Л Ь");
+
+                SharedPreferences.Editor progressEditor = preferencesProgress.edit();
+                progressEditor.putInt("solved" + 0 + 0, 1);
+                progressEditor.apply();
+                showInfo(R.string.lastText, 7);
+                break;
+            }
+        }
+        if (answer.isEmpty()) {
+            SoundsPlayerService.start(this, SoundsPlayerService.SOUND_WRONG_ANSWER,preferencesSounds.getBoolean("soundsPlay", true));
+            toast1 = Toast.makeText(this, "Для начала нужно ввести хоть какой-то ответ!", Toast.LENGTH_SHORT);
+            toast1.setGravity(Gravity.CENTER, 0, 50);
+            toast1.show();
+        } else if (lvlPast != 1) {
+            SoundsPlayerService.start(this, SoundsPlayerService.SOUND_WRONG_ANSWER,preferencesSounds.getBoolean("soundsPlay", true));
+
+            //если ответ неправильный, то сообщаем об этом
+            toast1 = Toast.makeText(this, "Неправильный ответ!", Toast.LENGTH_SHORT);
+            toast1.setGravity(Gravity.CENTER, 0, 50);
+            toast1.show();
+        }
     }
 
 
@@ -302,6 +404,73 @@ public class TutorialLvl extends AppCompatActivity {
     private void coinsStarsUpDate() {
         textViewCoins.setText(String.valueOf(preferencesPrizes.getInt("coins", 0)));
         textViewStars.setText(String.valueOf(preferencesPrizes.getInt("stars", 0)));
+        if (preferencesSounds.getBoolean("musicPlay", true)) {
+            musicButton.setImageResource(R.drawable.buton_music_on);
+        } else {
+            musicButton.setImageResource(R.drawable.buton_music_off);
+        }
+
+        if (preferencesSounds.getBoolean("soundsPlay", true)) {
+            soundsButton.setImageResource(R.drawable.buton_sound_on);
+        } else {
+            soundsButton.setImageResource(R.drawable.buton_sound_off);
+        }
+    }
+
+    public void onMelody(View view) {
+        SharedPreferences.Editor editor = preferencesSounds.edit();
+
+        if (preferencesSounds.getBoolean("musicPlay", true)) {
+
+            musicButton.setImageResource(R.drawable.buton_music_off);
+            MusicPlayerService.pause();
+            editor.putBoolean("musicPlay", false);
+
+        } else {
+            musicButton.setImageResource(R.drawable.buton_music_on);
+            MusicPlayerService.resume(this);
+            editor.putBoolean("musicPlay", true);
+        }
+        editor.apply();
+    }
+
+    public void onSounds(View view) {
+        SharedPreferences.Editor editor = preferencesSounds.edit();
+
+        if (preferencesSounds.getBoolean("soundsPlay", true)) {
+            SoundsPlayerService.start(this, SoundsPlayerService.SOUND_OFF_MUSIC, true);
+
+            soundsButton.setImageResource(R.drawable.buton_sound_off);
+            // MusicPlayerService.pause();
+            editor.putBoolean("soundsPlay", false);
+
+        } else {
+            SoundsPlayerService.start(this, SoundsPlayerService.SOUND_ON_MUSIC, true);
+            soundsButton.setImageResource(R.drawable.buton_sound_on);
+            //  MusicPlayerService.resume(this);
+            editor.putBoolean("soundsPlay", true);
+        }
+        editor.apply();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (!musicOff) {
+            MusicPlayerService.pause();
+        }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!musicOff) {
+            if (preferencesSounds.getBoolean("musicPlay", true)) {
+                MusicPlayerService.resume(this);
+            }
+        }
+        musicOff = false;
     }
 }
 

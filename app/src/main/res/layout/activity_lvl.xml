@@ -19,18 +19,25 @@
 
         <ImageView
             android:id="@+id/levelMusic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="10dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
             android:layout_weight="1"
-            app:srcCompat="@mipmap/melodiy" />
+            android:adjustViewBounds="true"
+            android:onClick="onMelody"
+            android:src="@drawable/buton_music_on" />
 
         <ImageView
-            android:id="@+id/levelZvuk"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:id="@+id/levelSounds"
+            android:layout_width="10dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
             android:layout_weight="1"
-            android:contentDescription="TODO"
-            app:srcCompat="@mipmap/zvuk" />
+            android:adjustViewBounds="true"
+            android:onClick="onSounds"
+            app:srcCompat="@drawable/buton_sound_on" />
 
         <TextView
             android:id="@+id/levelStars"
@@ -50,7 +57,7 @@
 
         <TextView
             android:id="@+id/levelCoins"
-            android:layout_width="50dp"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="right"
