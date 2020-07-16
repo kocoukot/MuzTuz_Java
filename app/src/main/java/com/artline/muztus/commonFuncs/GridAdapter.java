@@ -1,4 +1,4 @@
-package com.example.test.commonFuncs;
+package com.artline.muztus.commonFuncs;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-import com.example.test.R;
+import com.artline.muztus.R;
 
 public class GridAdapter extends BaseAdapter {
 

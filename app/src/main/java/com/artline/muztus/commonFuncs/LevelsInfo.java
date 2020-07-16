@@ -1,8 +1,8 @@
-package com.example.test.commonFuncs;
+package com.artline.muztus.commonFuncs;
 
-import com.example.test.R;
+import com.artline.muztus.R;
 public class LevelsInfo {
-    public final int requaredAmount = 5;
+    public final int requaredAmount = 75;
 
     public Integer[][] premiaImagesList = {{R.drawable.artist_0_1_mumitrol},  {R.drawable.artist_1_1_pugacheva, R.drawable.artist_1_5_leps, R.drawable.artist_1_4_mihaylov, R.drawable.artist_1_2_timati, R.drawable.artist_1_6_elka, R.drawable.artist_1_7_bilan, R.drawable.artist_1_8_shnur, R.drawable.artist_1_9_gradskiy},  {R.drawable.artist_2_1_pelagya, R.drawable.artist_2_2_chayvdvoem, R.drawable.artist_2_3_nyusha, R.drawable.artist_2_4_shufutinskij, R.drawable.artist_2_5_mashinavremeni, R.drawable.artist_2_6_kirkorov, R.drawable.artist_2_7_maksim, R.drawable.artist_2_8_kasta, R.drawable.artist_2_9_glukoza, R.drawable.artist_2_10_zakirova, R.drawable.artist_2_11_taty, R.drawable.artist_2_12_kino, R.drawable.artist_2_13_baskov, R.drawable.artist_2_14_agutin, R.drawable.artist_2_15_guf, R.drawable.artist_2_16_nikolaev, R.drawable.artist_2_17_boiarskij, R.drawable.artist_2_18_vaenga},
              {R.drawable.artist_3_1_vysockij, R.drawable.artist_3_2_meladze, R.drawable.artist_3_3_splin, R.drawable.artist_3_4_rozenbaum, R.drawable.artist_3_5_basta, R.drawable.artist_3_6_korolishut, R.drawable.artist_3_7_lazarev, R.drawable.artist_3_8_decl, R.drawable.artist_3_9_potapinastia, R.drawable.artist_3_10_rukivverh, R.drawable.artist_3_11_uma2rman, R.drawable.artist_3_12_viagra, R.drawable.artist_3_13_ariya, R.drawable.artist_3_14_lolita, R.drawable.artist_3_15_antonov, R.drawable.artist_3_16_sergey, R.drawable.artist_3_17_gazmanov, R.drawable.artist_3_18_bg},  {R.drawable.artist_4_1_ivanushki, R.drawable.artist_4_2_ddt, R.drawable.artist_4_3_agatakristi, R.drawable.artist_4_4_vitas, R.drawable.artist_4_5_zverev, R.drawable.artist_4_6_gurcheno, R.drawable.artist_4_7_discotekaavariya, R.drawable.artist_4_8_fadeev, R.drawable.artist_4_9_moiseev, R.drawable.artist_4_10_friske, R.drawable.artist_4_11_kobzon, R.drawable.artist_4_12_peha, R.drawable.artist_4_13_lube, R.drawable.artist_4_14_zemfira, R.drawable.artist_4_15_trofim, R.drawable.artist_4_16_sukachev, R.drawable.artist_4_17_penkin, R.drawable.artist_4_18_naiv},

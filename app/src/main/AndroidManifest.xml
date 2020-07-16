@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.test">
+    package="com.artline.muztus">
 
     <application
         android:allowBackup="true"
@@ -10,27 +10,27 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Shop" />
-        <activity android:name=".Sozdateli" />
-        <activity android:name=".Level" />
-        <activity android:name=".Premia" />
+
+        <activity android:name="com.artline.muztus.Sozdateli" />
+        <activity android:name="com.artline.muztus.Level" />
+        <activity android:name="com.artline.muztus.Premia" />
         <activity
-            android:name=".Statistika"
+            android:name="com.artline.muztus.Statistika"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".TutorialLvl"
+            android:name="com.artline.muztus.TutorialLvl"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".PremiaChoose"
+            android:name="com.artline.muztus.PremiaChoose"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".StartScreen"
+            android:name="com.artline.muztus.StartScreen"
             android:screenOrientation="portrait" >
 
         </activity>
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.artline.muztus.MainActivity"
             android:screenOrientation="portrait">
 
             <intent-filter>

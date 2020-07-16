@@ -20,7 +20,7 @@
         android:text="CТАТИСТИКА"
         android:textAlignment="center"
         android:textColor="@color/backgroundInfo"
-        android:textSize="18dp">
+        android:textSize="18sp">
 
     </TextView>
 
@@ -47,7 +47,7 @@
             android:text="Общее время игры:"
             android:textAlignment="textStart"
             android:textColor="@color/buttonInfoNOTPressed"
-            android:textSize="18dp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/levelSolved"
@@ -58,7 +58,7 @@
             android:text="Уровней пройдено:"
             android:textAlignment="textStart"
             android:textColor="@color/buttonInfoNOTPressed"
-            android:textSize="18dp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/helpsUsed"
@@ -69,7 +69,7 @@
             android:text="Использованно подсказок:"
             android:textAlignment="textStart"
             android:textColor="@color/buttonInfoNOTPressed"
-            android:textSize="18dp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/fastestText"
@@ -80,7 +80,7 @@
             android:text="Самый быстрый ответ:"
             android:textAlignment="textStart"
             android:textColor="@color/buttonInfoNOTPressed"
-            android:textSize="18dp" />
+            android:textSize="18sp" />
 
         <ImageView
             android:id="@+id/fastestImage"
@@ -100,7 +100,7 @@
             android:text="Самый долгий ответ:"
             android:textAlignment="textStart"
             android:textColor="@color/buttonInfoNOTPressed"
-            android:textSize="18dp" />
+            android:textSize="18sp" />
 
         <ImageView
             android:id="@+id/lowestImage"

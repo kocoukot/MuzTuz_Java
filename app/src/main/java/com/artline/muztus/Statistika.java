@@ -1,16 +1,18 @@
-package com.example.test;
+package com.artline.muztus;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.example.test.audio.MusicPlayerService;
-import com.example.test.commonFuncs.LevelsInfo;
+import com.artline.muztus.audio.MusicPlayerService;
+import com.artline.muztus.commonFuncs.LevelsInfo;
 
 public class Statistika extends AppCompatActivity {
 
@@ -35,6 +37,10 @@ public class Statistika extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        musicOff = intent.getBooleanExtra("musicOff", false);
+
+
         setContentView(R.layout.activity_statistika);
         sumDuration = findViewById(R.id.sumDuration);
         levelSolved = findViewById(R.id.levelSolved);
@@ -113,18 +119,36 @@ public class Statistika extends AppCompatActivity {
         return ((seconds % 3600) / 60) + " мин. " + ((seconds % 3600) % 60) + " сек.";
     }
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        musicOff = true;
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
-        if (!musicOff){
+        if(!musicOff){
             MusicPlayerService.pause();
         }
+    }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_MENU:
+                musicOff = false;
+                return false;
+            case KeyEvent.KEYCODE_HOME:
+                musicOff = false;
+                return false;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (!musicOff) {
+        if (!musicOff){
             if (preferencesSounds.getBoolean("musicPlay", true)) {
                 MusicPlayerService.resume(this);
             }

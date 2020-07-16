@@ -12,7 +12,7 @@
         android:text="Всё верно!"
         android:layout_gravity="center_horizontal"
         android:textStyle="bold"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:textColor="@color/buttonInfoNOTPressed"
         android:fontFamily="@font/optima_bold"/>
 
@@ -74,7 +74,7 @@
             android:layout_gravity="center_horizontal"
             android:text=" 300"
             android:textColor="@color/buttonInfoNOTPressed"
-            android:textSize="30dp"
+            android:textSize="30sp"
             android:fontFamily="@font/univers_condensed"/>
     </LinearLayout>
     <Button

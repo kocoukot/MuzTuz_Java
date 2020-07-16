@@ -1,14 +1,12 @@
-package com.example.test.audio;
+package com.artline.muztus.audio;
 
 import android.content.Context;
 import android.media.MediaPlayer;
-import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
-import com.example.test.R;
-
-import java.util.Collection;
-import java.util.HashMap;
+import com.artline.muztus.Premia;
+import com.artline.muztus.R;
 
 public class MusicPlayerService {
     private static final String TAG = "MusicManager";
@@ -33,6 +31,13 @@ public class MusicPlayerService {
         return mp != null && mp.isPlaying();
     }
 
+    public static void setPosition(Context context){
+        soundPosition = mp.getCurrentPosition();
+        Toast.makeText(context, soundPosition,Toast.LENGTH_LONG).show();
+    }
+
+
+
     public static void pause() {
         if (mp != null) {
             soundPosition = mp.getCurrentPosition();
@@ -42,9 +47,13 @@ public class MusicPlayerService {
 
     public static void resume(Context context) {
         if (mp != null) {
+            System.out.println("not null" + soundPosition);
+
             mp.seekTo(soundPosition);
             mp.start();
         } else {
+            System.out.println(" null**");
+
             mp = MediaPlayer.create(context, R.raw.background_music);
             mp.start();
         }

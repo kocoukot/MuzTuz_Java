@@ -1,4 +1,4 @@
-package com.example.test;
+package com.artline.muztus;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.example.test.audio.MusicPlayerService;
+import com.artline.muztus.audio.MusicPlayerService;
 
 public class StartScreen extends AppCompatActivity {
     private boolean musicOff = false;
@@ -31,25 +31,13 @@ public class StartScreen extends AppCompatActivity {
             }
         });
 
+        soundsStatusSet();
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (!musicOff){
-            MusicPlayerService.pause();
+    private void soundsStatusSet() {
+        if (preferencesSounds.getBoolean("musicPlay", true)) {
+            MusicPlayerService.start(this, MusicPlayerService.MUSIC_MENU);
         }
-
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (!musicOff) {
-            if (preferencesSounds.getBoolean("musicPlay", true)) {
-                MusicPlayerService.resume(this);
-            }
-        }
-        musicOff = false;
-    }
 }

@@ -75,106 +75,140 @@
             app:srcCompat="@mipmap/moneta" />
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/buttonPlay"
-        android:layout_width="303dp"
-        android:layout_height="57dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="35dp"
-        android:background="@drawable/buton_igra"
-        android:onClick="onStartPlay"
-
-        />
-
-    <Button
-        android:id="@+id/buttonStatistic"
-        android:layout_width="240dp"
-        android:layout_height="49dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/buton_statistika"
-        android:onClick="onStatistic" />
-
-    <Button
-        android:id="@+id/buttonShop"
-        android:layout_width="240dp"
-        android:layout_height="49dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/buton_magazin"
-        android:onClick="onTest" />
-
-    <Button
-        android:id="@+id/buttonReset"
-        android:layout_width="240dp"
-        android:layout_height="49dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/buton_reset"
-        android:onClick="onReset" />
-
-    <Button
-        android:id="@+id/buttonSozdateli"
-        android:layout_width="240dp"
-        android:layout_height="49dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/buton_cozdateli"
-        android:onClick="onSozdateli" />
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="bottom"
-        android:gravity="bottom"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
+        <Button
+            android:id="@+id/buttonPlay"
+            android:layout_width="303dp"
+            android:layout_height="57dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="35dp"
+            android:background="@drawable/buton_igra"
+            android:onClick="onStartPlay" />
 
+
+        <Button
+            android:id="@+id/buttonStatistic"
+            android:layout_width="240dp"
+            android:layout_height="49dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/buton_statistika"
+            android:onClick="onStatistic" />
+
+
+
+        <Button
+            android:id="@+id/buttonReset"
+            android:layout_width="240dp"
+            android:layout_height="49dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/buton_reset"
+            android:onClick="onReset" />
+
+        <Button
+            android:id="@+id/buttonSozdateli"
+            android:layout_width="240dp"
+            android:layout_height="49dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/buton_cozdateli"
+            android:onClick="onSozdateli" />
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="bottom">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_gravity="center_horizontal">
 
             <ImageView
-                android:id="@+id/imageView7"
-                android:layout_width="366dp"
-                android:layout_height="166dp"
-                android:layout_gravity="bottom"
-                android:layout_marginBottom="10dp"
+                android:id="@+id/imageView3"
+                android:layout_width="312dp"
+                android:layout_height="80dp"
                 android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:src="@drawable/chelovechek_ochen_rady"
-                app:layout_constraintBottom_toBottomOf="parent"
+
+                android:onClick="onGetFreeCoinsShop"
+                android:src="@drawable/buton_coins_free"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/socialVK"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_gravity="bottom"
-                android:layout_marginStart="120dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/button_vkontakt"
-                android:onClick="onClickVK"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView7"
-                app:layout_constraintStart_toStartOf="@+id/imageView7" />
-
-
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_gravity="bottom"
-                android:layout_marginEnd="60dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/button_instagram"
-                android:onClick="onClickInst"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView7"
-                app:layout_constraintEnd_toEndOf="@+id/imageView7" />
+                android:id="@+id/lightsView"
+                android:layout_width="match_parent"
+                android:layout_height="11dp"
+                android:layout_marginHorizontal="50dp"
+                android:adjustViewBounds="true"
+                app:layout_constraintEnd_toEndOf="@+id/imageView3"
+                app:layout_constraintStart_toStartOf="@+id/imageView3"
+                app:layout_constraintTop_toTopOf="@+id/imageView3" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="30dp"
+            android:gravity="bottom"
+            android:orientation="vertical">
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom">
+
+                <ImageView
+                    android:id="@+id/imageView7"
+                    android:layout_width="366dp"
+                    android:layout_height="166dp"
+                    android:layout_gravity="bottom"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/chelovechek_ochen_rady"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/socialVK"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginStart="120dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/button_vkontakt"
+                    android:onClick="onClickVK"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+                    app:layout_constraintStart_toStartOf="@+id/imageView7" />
+
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginEnd="60dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/button_instagram"
+                    android:onClick="onClickInst"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+                    app:layout_constraintEnd_toEndOf="@+id/imageView7" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
     </LinearLayout>
+</ScrollView>
+
+
+
+
+
 
 </LinearLayout>

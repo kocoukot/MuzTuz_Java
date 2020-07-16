@@ -1,4 +1,4 @@
-package com.example.test;
+package com.artline.muztus;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,9 +22,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.test.audio.MusicPlayerService;
-import com.example.test.audio.SoundsPlayerService;
-import com.example.test.commonFuncs.LevelsInfo;
+import com.artline.muztus.audio.MusicPlayerService;
+import com.artline.muztus.audio.SoundsPlayerService;
+import com.artline.muztus.commonFuncs.LevelsInfo;
 
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -71,6 +72,8 @@ private EditText editText;
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         width = displayMetrics.widthPixels;
+        Intent intent = getIntent();
+        musicOff = intent.getBooleanExtra("musicOff", false);
 
         artistName = new LevelsInfo().correctAnswersList[0][0];
         correctAnswer = artistName[0];
@@ -214,6 +217,7 @@ private EditText editText;
     }
 
     private void finishTutorial() {
+        musicOff = true;
         SharedPreferences.Editor editor = preferencesProgress.edit();
         editor.putInt("solved" + 0 + 0, 1);
         editor.apply();
@@ -454,18 +458,36 @@ private EditText editText;
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        musicOff = true;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_MENU:
+                musicOff = false;
+                return false;
+            case KeyEvent.KEYCODE_HOME:
+                musicOff = false;
+                return false;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
-        if (!musicOff) {
+        if(!musicOff){
             MusicPlayerService.pause();
         }
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (!musicOff) {
+        if (!musicOff){
             if (preferencesSounds.getBoolean("musicPlay", true)) {
                 MusicPlayerService.resume(this);
             }

@@ -1,12 +1,10 @@
-package com.example.test.audio;
+package com.artline.muztus.audio;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.media.MediaPlayer;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.example.test.R;
+import com.artline.muztus.R;
 
 public class SoundsPlayerService {
     private static final String TAG = "MusicManager";

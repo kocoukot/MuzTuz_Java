@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/buttonInfoNOTPressed"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:text="Идея:\n     Жегулов Александр" />
 
         <TextView
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:textColor="@color/buttonInfoNOTPressed"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:text="Тексты и подбор номинантов:\n     Струк Игорь " />
 
         <TextView
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:textColor="@color/buttonInfoNOTPressed"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:text="Художник:\n     Малинин Александр" />
 
         <TextView
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:textColor="@color/buttonInfoNOTPressed"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:text="Программная часть:\n     Кудрявцев Антон aka Kocou Kot" />
 
         <TextView
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:textColor="@color/buttonInfoNOTPressed"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:text="Помощь с идеями и текстами:\n     Кудрявцева Екатерина" />
 
         <TextView
@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:textColor="@color/buttonInfoNOTPressed"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:text="Особая благодарность всем, кто помогал и тестировал! ❤️" />
 
     </LinearLayout>

@@ -1,4 +1,4 @@
-package com.example.test;
+package com.artline.muztus;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,6 +7,8 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -14,11 +16,12 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.test.audio.MusicPlayerService;
-import com.example.test.audio.SoundsPlayerService;
-import com.example.test.commonFuncs.GridAdapter;
-import com.example.test.commonFuncs.LevelsInfo;
+import com.artline.muztus.audio.MusicPlayerService;
+import com.artline.muztus.audio.SoundsPlayerService;
+import com.artline.muztus.commonFuncs.GridAdapter;
+import com.artline.muztus.commonFuncs.LevelsInfo;
 
 public class Premia extends AppCompatActivity {
 
@@ -42,7 +45,7 @@ public class Premia extends AppCompatActivity {
     private GridView gridView;
     private GridAdapter adapter;
     private ImageView musicButton, soundsButton;
-    private boolean musicOff = false;
+    private boolean musicOff = true;
 
 
     @Override
@@ -51,10 +54,9 @@ public class Premia extends AppCompatActivity {
         setContentView(R.layout.activity_first_premiya);
         Intent premiaIntent = getIntent();
 
-
         preferencesProgress = getSharedPreferences(PREFERENCESProgress, MODE_PRIVATE);
         preferencesPrizes = getSharedPreferences(PREFERENCESPrizes, MODE_PRIVATE);
-        preferencesSounds =  getSharedPreferences(PREFERENCESSounds, MODE_PRIVATE);
+        preferencesSounds = getSharedPreferences(PREFERENCESSounds, MODE_PRIVATE);
 
 
         textViewCoins = findViewById(R.id.premiaCoins);
@@ -62,8 +64,9 @@ public class Premia extends AppCompatActivity {
         musicButton = findViewById(R.id.levelsMusic);
         soundsButton = findViewById(R.id.levelsSounds);
 
-
         premiaID = premiaIntent.getIntExtra("premiaIDChoosed", 0);
+        // musicOff = premiaIntent.getBooleanExtra("musicOff", false);
+
         Integer[] levelsList = new LevelsInfo().premiaImagesList[premiaIntent.getIntExtra("premiaIDChoosed", 0)];
         levelsSolvedList = new Integer[levelsList.length];
         for (int i = 0; i < levelsList.length; i++) {
@@ -86,11 +89,12 @@ public class Premia extends AppCompatActivity {
         nextPremiaIsOpened = hasOpenedNextPremia();
     }
 
-    private void setGrid(){
+    private void setGrid() {
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                musicOff = true;
                 startLvl(position);
             }
         });
@@ -102,6 +106,7 @@ public class Premia extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), Level.class);
         intent.putExtra("position", position);
         intent.putExtra("premiaIDtoLVL", premiaID);
+        intent.putExtra("musicOff", true);
         startActivityForResult(intent, CODEFORLVL);
     }
 
@@ -109,7 +114,7 @@ public class Premia extends AppCompatActivity {
         textViewCoins.setText(String.valueOf(preferencesPrizes.getInt("coins", 0)));
         textViewStars.setText(String.valueOf(preferencesPrizes.getInt("stars", 0)));
 
-        if (preferencesSounds.getBoolean("musicPlay", true)){
+        if (preferencesSounds.getBoolean("musicPlay", true)) {
             musicButton.setImageResource(R.drawable.buton_music_on);
         } else {
             musicButton.setImageResource(R.drawable.buton_music_off);
@@ -127,6 +132,13 @@ public class Premia extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == CODEFORLVL) {
+            if (resultCode == RESULT_OK) {
+                musicOff = true;
+            } else if (resultCode == RESULT_CANCELED) {
+                musicOff = true;
+
+            }
+
             coinsStarsUpDate();
             levelsSolvedList[selectedLvl] = preferencesProgress.getInt("solved" + premiaID + selectedLvl, 0);
             adapter.notifyDataSetChanged();
@@ -135,6 +147,7 @@ public class Premia extends AppCompatActivity {
                 showInfo();
             }
         }
+
     }
 
     private boolean hasOpenedNextPremia() {
@@ -161,7 +174,7 @@ public class Premia extends AppCompatActivity {
         final Button button = builder.findViewById(R.id.buttonInformOK);
         text.setText("Поздравляем с открытием следующей премии!");
 
-        SoundsPlayerService.start(Premia.this, SoundsPlayerService.SOUND_OPEN_PREMIA,preferencesSounds.getBoolean("soundsPlay", true));
+        SoundsPlayerService.start(Premia.this, SoundsPlayerService.SOUND_OPEN_PREMIA, preferencesSounds.getBoolean("soundsPlay", true));
 
         LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 0.67f);
         layout.setMargins(50, 50, 50, 50);
@@ -173,6 +186,8 @@ public class Premia extends AppCompatActivity {
                 builder.cancel();
             }
         });
+        musicOff = true;
+
         builder.show();
 
     }
@@ -181,7 +196,7 @@ public class Premia extends AppCompatActivity {
     public void onMelody(View view) {
         SharedPreferences.Editor editor = preferencesSounds.edit();
 
-        if (preferencesSounds.getBoolean("musicPlay", true)){
+        if (preferencesSounds.getBoolean("musicPlay", true)) {
 
             musicButton.setImageResource(R.drawable.buton_music_off);
             MusicPlayerService.pause();
@@ -198,40 +213,56 @@ public class Premia extends AppCompatActivity {
     public void onSounds(View view) {
         SharedPreferences.Editor editor = preferencesSounds.edit();
 
-        if (preferencesSounds.getBoolean("soundsPlay", true)){
-            SoundsPlayerService.start(this, SoundsPlayerService.SOUND_OFF_MUSIC,true);
-
+        if (preferencesSounds.getBoolean("soundsPlay", true)) {
+            SoundsPlayerService.start(this, SoundsPlayerService.SOUND_OFF_MUSIC, true);
             soundsButton.setImageResource(R.drawable.buton_sound_off);
-            // MusicPlayerService.pause();
             editor.putBoolean("soundsPlay", false);
 
         } else {
-            SoundsPlayerService.start(this, SoundsPlayerService.SOUND_ON_MUSIC,true);
+            SoundsPlayerService.start(this, SoundsPlayerService.SOUND_ON_MUSIC, true);
 
             soundsButton.setImageResource(R.drawable.buton_sound_on);
-            //  MusicPlayerService.resume(this);
             editor.putBoolean("soundsPlay", true);
         }
         editor.apply();
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        if (!musicOff){
-            MusicPlayerService.pause();
-        }
-
+    public void onBackPressed() {
+        super.onBackPressed();
+        musicOff = true;
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        if (!musicOff) {
-//            if (preferencesSounds.getBoolean("musicPlay", true)) {
-//                MusicPlayerService.resume(this);
-//            }
-//        }
-//        musicOff = false;
-//    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (!musicOff) {
+            MusicPlayerService.pause();
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_MENU:
+                musicOff = false;
+                return false;
+            case KeyEvent.KEYCODE_HOME:
+                musicOff = false;
+                return false;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (!musicOff) {
+            if (preferencesSounds.getBoolean("musicPlay", true)) {
+                MusicPlayerService.resume(this);
+            }
+        }
+        musicOff = false;
+    }
 }

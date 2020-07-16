@@ -1,12 +1,14 @@
-package com.example.test;
+package com.artline.muztus;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityManager;
 import android.app.Dialog;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -17,7 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.test.audio.SoundsPlayerService;
+import com.artline.muztus.audio.SoundsPlayerService;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
@@ -25,9 +27,11 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
-import com.example.test.commonFuncs.LevelsInfo;
-import com.example.test.audio.MusicPlayerService;
+import com.artline.muztus.commonFuncs.LevelsInfo;
+import com.artline.muztus.audio.MusicPlayerService;
 
+import static android.view.KeyEvent.ACTION_UP;
+import static com.google.android.gms.ads.MobileAds.initialize;
 
 
 public class PremiaChoose extends AppCompatActivity {
@@ -40,7 +44,7 @@ public class PremiaChoose extends AppCompatActivity {
     private static final int CODEFORPREMIA = 2;
     private boolean gotMoneyForTutorial;
     //  private final int requaredAmount = 20;
-    private boolean musicOff = false;
+    private boolean musicOff = true;
 
     private SharedPreferences preferencesProgress,preferencesPrizes,preferencesSounds;
 
@@ -49,18 +53,20 @@ public class PremiaChoose extends AppCompatActivity {
     private final String PREFERENCESSounds = "Preferences.sounds";
 
 
+
     private LinearLayout premiaSelectView;
 
     private InterstitialAd mInterstitialAd;
 //test
-    String AdID = "ca-app-pub-3940256099942544/1033173712";
+ //   String AdID = "ca-app-pub-3940256099942544/1033173712";
 //norm
-//    String AdID = "ca-app-pub-8364051315582457/2833852870";
+   String AdID = "ca-app-pub-8364051315582457/2833852870";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_premia_choose);
+
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -71,7 +77,8 @@ public class PremiaChoose extends AppCompatActivity {
         preferencesProgress = getSharedPreferences(PREFERENCESProgress, MODE_PRIVATE);
         preferencesPrizes = getSharedPreferences(PREFERENCESPrizes, MODE_PRIVATE);
         preferencesSounds =  getSharedPreferences(PREFERENCESSounds, MODE_PRIVATE);
-
+        Intent intent = getIntent();
+        musicOff = intent.getBooleanExtra("musicOff", false);
 
         textViewCoins = findViewById(R.id.premiaSelectCoins);
         textViewStars = findViewById(R.id.premiaSelectStars);
@@ -89,11 +96,7 @@ public class PremiaChoose extends AppCompatActivity {
             showInfo(R.string.tutorialRecomendation);
         }
 
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
-        });
+        MobileAds.initialize(this, "ca-app-pub-8364051315582457~3265789330");
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(AdID);
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
@@ -128,6 +131,7 @@ public class PremiaChoose extends AppCompatActivity {
                 premiaView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        musicOff = true;
                         onShowPremia(premiaView.getId());
                     }
                 });
@@ -137,6 +141,7 @@ public class PremiaChoose extends AppCompatActivity {
                     premiaView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            musicOff = true;
                             onShowPremia(premiaView.getId());
                         }
                     });
@@ -226,9 +231,11 @@ public class PremiaChoose extends AppCompatActivity {
         if (premiaID > 0) {
             intent = new Intent(this, Premia.class);
             intent.putExtra("premiaIDChoosed", premiaID);
+            intent.putExtra("musicOff", true);
             startActivityForResult(intent, CODEFORPREMIA);
         } else {
             intent = new Intent(this, TutorialLvl.class);
+            intent.putExtra("musicOff", true);
             startActivityForResult(intent, CODEFORTUTORIAL);
         }
     }
@@ -297,41 +304,48 @@ public class PremiaChoose extends AppCompatActivity {
 
         if (preferencesSounds.getBoolean("soundsPlay", true)){
             SoundsPlayerService.start(this, SoundsPlayerService.SOUND_OFF_MUSIC,true);
-
             soundsButton.setImageResource(R.drawable.buton_sound_off);
-            // MusicPlayerService.pause();
             editor.putBoolean("soundsPlay", false);
 
         } else {
             SoundsPlayerService.start(this, SoundsPlayerService.SOUND_ON_MUSIC,true);
-
             soundsButton.setImageResource(R.drawable.buton_sound_on);
-            //  MusicPlayerService.resume(this);
             editor.putBoolean("soundsPlay", true);
         }
         editor.apply();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        musicOff = true;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_MENU:
+                musicOff = false;
+                return false;
+            case KeyEvent.KEYCODE_HOME:
+                musicOff = false;
+                return false;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (!musicOff){
+        if(!musicOff){
             MusicPlayerService.pause();
         }
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        System.out.println("destroyed");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (!musicOff) {
+        if (!musicOff){
             if (preferencesSounds.getBoolean("musicPlay", true)) {
                 MusicPlayerService.resume(this);
             }
