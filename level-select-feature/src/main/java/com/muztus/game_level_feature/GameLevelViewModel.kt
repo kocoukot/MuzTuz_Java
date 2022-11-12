@@ -25,7 +25,8 @@ class GameLevelViewModel(
             correctAnswers = correctAnswersList[selectedPremium][selectedLevel],
             levelHints = LevelHints(),
             levelImage = premiaImagesList[selectedPremium][selectedLevel],
-            songName = albumsList[selectedPremium][selectedLevel]
+            songName = albumsList[selectedPremium][selectedLevel],
+            isSolved = false
         )
         updateInfo {
             copy(data = currentLevel)
@@ -38,11 +39,20 @@ class GameLevelViewModel(
     }
 
     override fun onHint(selectedHint: HintModel) {
-        if (selectedHint.canUseHint(50)) {
-
+        if (selectedHint.canUseHint(3000)) {
+            updateInfo { copy(showHintAlert = selectedHint) }
         } else {
             updateInfo { copy(coinToast = selectedHint.hintCost()) }
         }
+    }
+
+    override fun onAlertDecision(isTrue: Boolean) {
+        if (isTrue) {
+            getState().showHintAlert?.let { hint ->
+                getState().data.onHintUse(hint)
+            }
+        }
+        updateInfo { copy(showHintAlert = null) }
     }
 
     override fun useLettersAmountHint() {

@@ -16,8 +16,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.muztus.core.compose.AlertDialogComp
 import com.muztus.core.theme.MTTheme
 import com.muztus.game_level_feature.content.BottomBarContent
+import com.muztus.game_level_feature.data.HintModel
+import com.muztus.game_level_feature.model.GameLevelAction
 import com.muztus.level_select_feature.R
 
 @Composable
@@ -35,6 +38,17 @@ fun GameLevelScreenContent(viewModel: GameLevelViewModel) {
         ).show()
     }
 
+    state.showHintAlert?.let { hint ->
+        AlertDialogComp(
+            dialogText = stringResource(
+                id = R.string.user_hint_alert_text,
+                stringResource(id = hint.hintName()),
+                hint.hintCost()
+            ),
+            onOptionSelected = { viewModel.setInputActions(GameLevelAction.OnHintAlertDecision(it)) }
+        )
+    }
+
     Surface(
         color = MTTheme.colors.background,
         modifier = Modifier
@@ -49,12 +63,15 @@ fun GameLevelScreenContent(viewModel: GameLevelViewModel) {
                 .background(MTTheme.colors.background)
         ) {
 
-            Text(
-                color = MTTheme.colors.white,
-                fontSize = 12.sp,
-                text = state.data.getLevelSongHint(),
-                modifier = Modifier.align(Alignment.TopStart)
-            )
+            if (state.data.hintsRow().filterIsInstance<HintModel.SongHint>().first().isUsed) {
+                Text(
+                    color = MTTheme.colors.white,
+                    fontSize = 12.sp,
+                    text = state.data.getLevelSongHint(),
+                    modifier = Modifier.align(Alignment.TopStart)
+                )
+            }
+
 
             Box(
                 modifier = Modifier
@@ -87,6 +104,20 @@ fun GameLevelScreenContent(viewModel: GameLevelViewModel) {
                         painterResource(id = state.data.getLevelImage()),
                         modifier = Modifier,
                         contentDescription = null,
+                    )
+                }
+
+                if (state.data.hintsRow().filterIsInstance<HintModel.LetterAmountHint>()
+                        .first().isUsed
+                ) Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        color = MTTheme.colors.buttonPressed,
+                        fontSize = 16.sp,
+                        text = state.data.getLettersAmount(),
+                        modifier = Modifier
                     )
                 }
                 BottomBarContent(state.data, viewModel::setInputActions)

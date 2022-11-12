@@ -8,15 +8,18 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.muztus.core.ext.Keyboard
@@ -33,7 +36,6 @@ fun BottomBarContent(
     bottomBarActions: (GameLevelAction) -> Unit
 ) {
     val isKeyboardOpen by keyboardAsState()
-    val levelImageScale by animateFloatAsState(targetValue = if (isKeyboardOpen == Keyboard.Opened) 0.8f else 1f)
     val hintPadding by animateDpAsState(targetValue = if (isKeyboardOpen == Keyboard.Opened) 0.dp else 8.dp)
 
     LevelInput(modifier = Modifier) { bottomBarActions.invoke(GameLevelAction.CheckUSerInput(it)) }
@@ -46,11 +48,25 @@ fun BottomBarContent(
         verticalAlignment = Alignment.Bottom
     ) {
         for (hint in data.hintsRow()) {
+            val interactionSource = remember { MutableInteractionSource() }
+            val isPressed by interactionSource.collectIsPressedAsState()
+            val levelImageScale by animateFloatAsState(
+                targetValue =
+
+                if (isKeyboardOpen == Keyboard.Opened && isPressed) 0.6f
+                else if (isKeyboardOpen == Keyboard.Opened || isPressed) 0.8f
+                else 1f
+            )
+
             Image(
                 modifier = Modifier
                     .scale(levelImageScale)
                     .weight(1f)
-                    .clickable {
+                    .clip(CircleShape)
+                    .clickable(
+                        interactionSource = interactionSource,
+                        indication = null
+                    ) {
                         bottomBarActions.invoke(GameLevelAction.OnUserTapHint(hint))
                     },
                 painter = painterResource(id = hint.hintImage()), contentDescription = null
@@ -94,13 +110,14 @@ fun LevelInput(
             colors = TextFieldDefaults.textFieldColors(
                 textColor = MTTheme.colors.black,
                 backgroundColor = Color.Transparent,
-                cursorColor = MTTheme.colors.background,
+                cursorColor = MTTheme.colors.buttonNotPressed,
                 focusedIndicatorColor = MTTheme.colors.buttonNotPressed,
                 unfocusedIndicatorColor = MTTheme.colors.alertBackground,
             ),
             value = input,
             singleLine = true,
             keyboardOptions = KeyboardOptions(
+                capitalization = KeyboardCapitalization.Sentences,
                 keyboardType = KeyboardType.Text
             ),
             onValueChange = {

@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="not_enough_coins_toast">К сожалению у Вас недостаточно монет. Для подсказки необходимо %d монет.</string>
+    <string name="wrong_answer">Неправильный ответ!</string>
+
+    <string name="user_hint_alert_text">Вы уверены, что хотите использовать подсказку %s (%d монет)?</string>
+
+
+    <string name="hint_name_letters_amount">Количество букв</string>
+    <string name="hint_name_one_letter">Открыть букву</string>
+    <string name="hint_name_song_name">Название песни и альбома</string>
+    <string name="hint_name_show_answer">Показать ответ</string>
 
     <string name="input_hint">Введите ответ…</string>
 </resources>

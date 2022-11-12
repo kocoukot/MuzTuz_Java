@@ -4,16 +4,24 @@ import com.muztus.level_select_feature.R
 
 interface HintModel {
 
+    var isUsed: Boolean
 
     fun canUseHint(totalAmount: Int): Boolean
+
+    fun getId(id: HintModel): Boolean
 
     fun useHint()
 
     fun hintImage(): Int
 
     fun hintCost(): Int
+
+    fun hintName(): Int
+
     abstract class Abstract(
+        private val hintId: Int,
         private val hintCost: Int,
+        private val hintName: Int,
         private val hintImage: Int,
     ) : HintModel {
 
@@ -23,52 +31,52 @@ interface HintModel {
 
         override fun hintCost(): Int = hintCost
 
+        override fun hintName(): Int = hintName
+
+        override fun getId(id: HintModel): Boolean = hintId == (id as Abstract).hintId
+
+        override fun useHint() {
+            isUsed = true
+        }
     }
 
     data class LetterAmountHint(
-        private val hintName: String = "Letters amount hint",
-        private val isUsed: Boolean = false,
-        private val hintImage: Int = R.drawable.podskazka_kolichestvo_bukv,
-    ) : Abstract(100, hintImage) {
-        override fun useHint() {
-
-        }
-
-    }
-
+        override var isUsed: Boolean = false
+    ) : Abstract(
+        hintId = 1,
+        hintCost = 100,
+        hintName = R.string.hint_name_letters_amount,
+        hintImage = R.drawable.podskazka_kolichestvo_bukv
+    )
 
     data class OneLetterHint(
-        private val hintName: String = "One letter hint",
-        private val isUsed: Boolean = false,
-        private val hintImage: Int = R.drawable.podskazka_lubay_bukva,
+        override var isUsed: Boolean = false,
         private val selectedLetters: Set<Int> = setOf()
-    ) : Abstract(200, hintImage) {
-
-        override fun useHint() {
-
-        }
-    }
+    ) : Abstract(
+        hintId = 2,
+        hintCost = 200,
+        hintName = R.string.hint_name_one_letter,
+        hintImage = R.drawable.podskazka_lubay_bukva
+    )
 
     data class SongHint(
-        private val hintName: String = "One letter hint",
-        private val isUsed: Boolean = false,
-        private val hintImage: Int = R.drawable.podskazka_albom_pesny,
-    ) : Abstract(300, hintImage) {
-
-        override fun useHint() {
-
-        }
-    }
+        override var isUsed: Boolean = false,
+    ) : Abstract(
+        hintId = 3,
+        hintCost = 400,
+        hintName = R.string.hint_name_song_name,
+        hintImage = R.drawable.podskazka_albom_pesny
+    )
 
     data class CorrectAnswer(
-        private val hintName: String = "One letter hint",
-        private val isUsed: Boolean = false,
-        private val hintImage: Int = R.drawable.podskazka_podskazok,
-    ) : Abstract(500, hintImage) {
-        override fun useHint() {
+        override var isUsed: Boolean = false,
+    ) : Abstract(
+        hintId = 4,
+        hintCost = 500,
+        hintName = R.string.hint_name_show_answer,
+        hintImage = R.drawable.podskazka_podskazok
+    )
 
-        }
-    }
 }
 
 

@@ -13,6 +13,11 @@ sealed class GameLevelAction {
         override fun handle(action: LevelAction) = action.onHint(selectedHint)
     }
 
+    data class OnHintAlertDecision(private val isTrue: Boolean) : GameLevelAction() {
+        override fun handle(action: LevelAction) = action.onAlertDecision(isTrue)
+    }
+
+
     object UseOneLetterHint : GameLevelAction() {
         override fun handle(action: LevelAction) = action.useOneLetterHint()
     }
@@ -37,6 +42,9 @@ sealed class GameLevelAction {
 interface LevelAction {
 
     fun onHint(selectedHint: HintModel)
+    fun onAlertDecision(isTrue: Boolean)
+    fun onCheckInput(userInput: String)
+
 
     fun useLettersAmountHint()
     fun useOneLetterHint()
@@ -44,6 +52,5 @@ interface LevelAction {
     fun useAnswerHint()
     fun onFreeCoinsClick()
 
-    fun onCheckInput(userInput: String)
 
 }
