@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.onEach
 
 interface BaseFragment<VM : BaseViewModel> {
     val viewModel: VM
-    val screenContent: @Composable ((VM) -> Unit)
+    var screenContent: (@Composable ((VM) -> Unit))?
 
     fun observeData(composeRoute: ((ComposeFragmentRoute) -> Unit)? = null)
 
@@ -29,6 +29,11 @@ interface BaseFragment<VM : BaseViewModel> {
                     else -> composeRoute?.invoke(route)
                 }
             }.launchIn(viewLifecycleOwner.lifecycleScope)
+        }
+
+        override fun onDestroy() {
+            super.onDestroy()
+            screenContent = null
         }
 
         private fun navigateScreen(screen: ComposeRouteNavigation) {
@@ -59,7 +64,7 @@ interface BaseFragment<VM : BaseViewModel> {
                     ViewCompositionStrategy.DisposeOnLifecycleDestroyed(viewLifecycleOwner)
                 )
                 setContent {
-                    screenContent.invoke(viewModel)
+                    screenContent?.invoke(viewModel)
                 }
             }
         }

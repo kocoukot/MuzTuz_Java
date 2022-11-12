@@ -2,8 +2,8 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-        <item android:drawable="@drawable/besplatnye_150monet_tap" android:state_pressed="true" />
-        <item android:drawable="@drawable/besplatnye_150monet"/>
+    <item android:drawable="@drawable/img_free_coin_chest_tap" android:state_pressed="true" />
+    <item android:drawable="@drawable/img_free_coin_chest" />
 
 
-    </selector>
+</selector>

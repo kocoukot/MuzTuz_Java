@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.artline.muztus">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
+        android:name=".ui.MuztusApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -11,27 +11,30 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name="com.artline.muztus.Sozdateli" />
-        <activity android:name="com.artline.muztus.Level" />
-        <activity android:name="com.artline.muztus.Premia" />
+        <activity android:name="com.artline.muztus.old.Sozdateli" />
+        <activity android:name="com.artline.muztus.old.Level" />
+        <activity android:name="com.artline.muztus.old.Premia" />
         <activity
-            android:name="com.artline.muztus.Statistika"
+            android:name="com.artline.muztus.old.Statistika"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.artline.muztus.TutorialLvl"
+            android:name="com.artline.muztus.old.TutorialLvl"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.artline.muztus.PremiaChoose"
+            android:name="com.artline.muztus.old.PremiaChoose"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.artline.muztus.StartScreen"
+            android:name="com.artline.muztus.old.StartScreen"
             android:screenOrientation="portrait" >
 
         </activity>
 
         <activity
-            android:name="com.artline.muztus.MainActivity"
-            android:screenOrientation="portrait">
+            android:name="com.artline.muztus.ui.MainActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+
+            android:windowSoftInputMode="adjustResize">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

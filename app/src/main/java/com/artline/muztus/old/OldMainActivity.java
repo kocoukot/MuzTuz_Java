@@ -56,10 +56,10 @@ public class OldMainActivity extends AppCompatActivity implements RewardedVideoA
         preferencesProgress = getSharedPreferences(PREFERENCESProgress, MODE_PRIVATE);
         preferencesPrizes = getSharedPreferences(PREFERENCESPrizes, MODE_PRIVATE);
         preferencesSounds = getSharedPreferences(PREFERENCESSounds, MODE_PRIVATE);
-        textViewCoins = findViewById(R.id.menuCoins);
-        textViewStars = findViewById(R.id.menuStars);
-        musicButton = findViewById(R.id.menuMusic);
-        soundsButton = findViewById(R.id.menuSound);
+        textViewCoins = findViewById(R.id.menu_coins);
+        textViewStars = findViewById(R.id.menu_stars);
+        musicButton = findViewById(R.id.menu_music);
+        soundsButton = findViewById(R.id.menu_sound);
 
         lightsView = findViewById(R.id.lightsView);
 

@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".PremiaChoose">
+    tools:context=".old.PremiaChoose">
 
     <LinearLayout
         android:id="@+id/linearLayout5"

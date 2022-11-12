@@ -3,6 +3,7 @@ package com.muztus.game_level_feature.content
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
@@ -45,12 +46,15 @@ fun BottomBarContent(
         verticalAlignment = Alignment.Bottom
     ) {
         for (hint in data.hintsRow()) {
-            hint.HintImage(modifier = Modifier
-                .scale(levelImageScale)
-                .weight(1f)
-                .clickable {
-
-                })
+            Image(
+                modifier = Modifier
+                    .scale(levelImageScale)
+                    .weight(1f)
+                    .clickable {
+                        bottomBarActions.invoke(GameLevelAction.OnUserTapHint(hint))
+                    },
+                painter = painterResource(id = hint.hintImage()), contentDescription = null
+            )
         }
     }
 }

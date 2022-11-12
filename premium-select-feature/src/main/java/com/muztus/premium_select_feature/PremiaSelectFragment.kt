@@ -8,6 +8,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class PremiaSelectFragment : BaseFragment.BaseF<PremiaSelectViewModel>(), SupportInfoBar {
     override val viewModel: PremiaSelectViewModel by viewModel()
 
-    override val screenContent: @Composable (PremiaSelectViewModel) -> Unit =
+    override var screenContent: (@Composable (PremiaSelectViewModel) -> Unit)? =
         { PremiaSelectContent(viewModel) }
 }

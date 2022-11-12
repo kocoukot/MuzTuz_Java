@@ -22,4 +22,10 @@
     <string name="tutorialRecomendation">Похоже это твой первый визит в игру МузТус! Рекомендуем сперва пройти небольшое обучение, чтобы разобраться что к чему. К тому же, если пройдешь обучение, получишь небольшой приятный стартовый бонус.</string>
     <string name="requrementsForNextPremia">К сожалению на данный момент премия закрыта. Для ее открытия необходимо пройти предыдущую премию как минимум на 80%.</string>
 
+    <string name="menu_button_game">ИГРА</string>
+    <string name="menu_button_statistic">СТАТИСТИКА</string>
+    <string name="menu_button_reset">СБРОС</string>
+    <string name="menu_button_creators">СОЗДАТЕЛИ</string>
+
+
 </resources>

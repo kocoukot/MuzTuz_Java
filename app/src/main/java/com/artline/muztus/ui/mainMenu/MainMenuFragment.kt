@@ -9,7 +9,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MainMenuFragment : BaseFragment.BaseF<MainMenuViewModel>(), SupportInfoBar {
     override val viewModel: MainMenuViewModel by viewModel()
 
-    override val screenContent: @Composable (MainMenuViewModel) -> Unit =
+    override var screenContent: (@Composable (MainMenuViewModel) -> Unit)? =
         { MainMenuScreenContent(viewModel) }
 
     override fun onResume() {

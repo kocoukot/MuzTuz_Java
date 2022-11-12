@@ -2,7 +2,6 @@ package com.muztus.game_level_feature
 
 import androidx.compose.runtime.Composable
 import com.muztus.core.ext.SupportInfoBar
-import com.muztus.core.ext.requireArg
 import com.muztus.core_mvi.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -14,10 +13,10 @@ class GameLevelFragment : BaseFragment.BaseF<GameLevelViewModel>(), SupportInfoB
             selectedLevel
         )
     }
-    private val selectedPremium by requireArg<Int>(ARG_PREMIUM_INDEX)
-    private val selectedLevel by requireArg<Int>(ARG_LEVEL_INDEX)
+    private val selectedPremium = 2// by requireArg<Int>(ARG_PREMIUM_INDEX)
+    private val selectedLevel = 5// by requireArg<Int>(ARG_LEVEL_INDEX)
 
-    override val screenContent: @Composable (GameLevelViewModel) -> Unit =
+    override var screenContent: (@Composable (GameLevelViewModel) -> Unit)? =
         { GameLevelScreenContent(viewModel) }
 
 

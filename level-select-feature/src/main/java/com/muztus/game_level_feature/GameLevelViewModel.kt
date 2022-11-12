@@ -2,6 +2,7 @@ package com.muztus.game_level_feature
 
 import com.muztus.core_mvi.BaseViewModel
 import com.muztus.game_level_feature.data.GameLevelModel
+import com.muztus.game_level_feature.data.HintModel
 import com.muztus.game_level_feature.data.LevelHints
 import com.muztus.game_level_feature.model.GameLevelAction
 import com.muztus.game_level_feature.model.GameLevelState
@@ -36,6 +37,14 @@ class GameLevelViewModel(
         action.handle(this)
     }
 
+    override fun onHint(selectedHint: HintModel) {
+        if (selectedHint.canUseHint(50)) {
+
+        } else {
+            updateInfo { copy(coinToast = selectedHint.hintCost()) }
+        }
+    }
+
     override fun useLettersAmountHint() {
 
     }
@@ -61,7 +70,7 @@ class GameLevelViewModel(
         if (getState().data.checkUserInput(userInput)) {
 
         } else {
-            x
+
         }
     }
 }

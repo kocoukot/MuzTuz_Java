@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="not_enough_coins_toast">К сожалению у Вас недостаточно монет. Для подсказки необходимо %d монет.</string>
+
     <string name="input_hint">Введите ответ…</string>
 </resources>

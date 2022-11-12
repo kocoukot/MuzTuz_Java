@@ -44,10 +44,6 @@ class MainActivity : AppCompatActivity() {
                 .root
         )
 
-        with(binding) {
-
-        }
-
         navHost?.apply {
             childFragmentManager.addOnBackStackChangedListener(onBackStackChangedListener)
         }

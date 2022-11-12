@@ -5,7 +5,6 @@ import android.media.MediaPlayer;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.artline.muztus.Premia;
 import com.artline.muztus.R;
 
 public class MusicPlayerService {
@@ -16,11 +15,11 @@ public class MusicPlayerService {
     private static int soundPosition = 0;
 
 
-    public static void start(Context context, int music) {
-        startM(context, music);
+    public static void start(Context context) {
+        startM(context);
     }
 
-    private static void startM(Context context, int music) {
+    private static void startM(Context context) {
         mp = MediaPlayer.create(context, R.raw.background_music);
         if (!mp.isPlaying()) {
             mp.start();

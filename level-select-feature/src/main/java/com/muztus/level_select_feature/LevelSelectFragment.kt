@@ -13,7 +13,7 @@ class LevelSelectFragment : BaseFragment.BaseF<LevelSelectViewModel>(), SupportI
     }
     private val selectedPremium by requireArg<Int>(ARG_PREMIUM_INDEX)
 
-    override val screenContent: @Composable (LevelSelectViewModel) -> Unit =
+    override var screenContent: (@Composable (LevelSelectViewModel) -> Unit)? =
         { LevelSelectContent(viewModel) }
 
 

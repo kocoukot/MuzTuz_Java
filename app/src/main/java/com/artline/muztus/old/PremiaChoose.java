@@ -65,11 +65,11 @@ public class PremiaChoose extends AppCompatActivity {
         preferencesSounds = getSharedPreferences(PREFERENCESSounds, MODE_PRIVATE);
         Intent intent = getIntent();
         musicOff = intent.getBooleanExtra("musicOff", false);
-
-        textViewCoins = findViewById(R.id.game_coins);
-        textViewStars = findViewById(R.id.game_stars);
-        musicButton = findViewById(R.id.gameMusic);
-        soundsButton = findViewById(R.id.game_sounds);
+//
+//        textViewCoins = findViewById(R.id.game_coins);
+//        textViewStars = findViewById(R.id.);
+//        musicButton = findViewById(R.id.menu_music);
+//        soundsButton = findViewById(R.id.game_sounds);
 
         premiaCreate();
         coinsStarsUpDate();

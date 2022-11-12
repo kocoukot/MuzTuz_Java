@@ -30,7 +30,7 @@
             android:src="@drawable/buton_music_on" />
 
         <ImageView
-            android:id="@+id/menuSound"
+            android:id="@+id/menu_sound"
             android:layout_width="10dp"
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
@@ -41,7 +41,7 @@
             app:srcCompat="@drawable/buton_sound_on" />
 
         <TextView
-            android:id="@+id/menuStars"
+            android:id="@+id/menu_stars"
             android:layout_width="30dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -58,7 +58,7 @@
             app:srcCompat="@drawable/ic_start" />
 
         <TextView
-            android:id="@+id/menuCoins"
+            android:id="@+id/menu_coins"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

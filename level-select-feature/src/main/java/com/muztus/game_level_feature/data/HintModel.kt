@@ -1,9 +1,5 @@
 package com.muztus.game_level_feature.data
 
-import androidx.compose.foundation.Image
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import com.muztus.level_select_feature.R
 
 interface HintModel {
@@ -13,23 +9,20 @@ interface HintModel {
 
     fun useHint()
 
-    @Composable
-    fun HintImage(modifier: Modifier)
+    fun hintImage(): Int
 
+    fun hintCost(): Int
     abstract class Abstract(
         private val hintCost: Int,
         private val hintImage: Int,
     ) : HintModel {
 
-        @Composable
-        override fun HintImage(modifier: Modifier) {
-            Image(
-                modifier = modifier,
-                painter = painterResource(id = hintImage), contentDescription = null
-            )
-        }
+        override fun hintImage(): Int = hintImage
 
         override fun canUseHint(totalAmount: Int): Boolean = totalAmount >= hintCost
+
+        override fun hintCost(): Int = hintCost
+
     }
 
     data class LetterAmountHint(
