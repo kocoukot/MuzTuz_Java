@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="deep_link_level_fragment">muztus://levelSelectFragment</string>
+    <string name="deep_link_game_level_fragment">muztus://gameLevelFragment</string>
+</resources>

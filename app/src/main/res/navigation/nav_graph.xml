@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/premiaSelectFragment">
+
+    <fragment
+        android:id="@+id/splashScreenFragment"
+        android:name="com.artline.muztus.ui.start.StartScreenFragment"
+        android:label="SplashScreenFragment">
+        <action
+            android:id="@+id/action_splashScreenFragment_to_mainMenuFragment"
+            app:destination="@id/mainMenuFragment"
+            app:popUpTo="@id/splashScreenFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainMenuFragment"
+        android:name="com.artline.muztus.ui.mainMenu.MainMenuFragment"
+        android:label="MainMenuFragment" />
+
+    <fragment
+        android:id="@+id/creatorsFragment"
+        android:name="com.muztus.creators_feature.CreatorsFragment"
+        android:label="CreatorsFragment" />
+
+    <fragment
+        android:id="@+id/statisticScreenFragment"
+        android:name="com.muztus.statistic.StatisticScreen"
+        android:label="StatisticScreen" />
+    <fragment
+        android:id="@+id/premiaSelectFragment"
+        android:name="com.muztus.premium_select_feature.PremiaSelectFragment"
+        android:label="PremiaSelectFragment" />
+
+    <fragment
+        android:id="@+id/levelSelectFragment"
+        android:name="com.muztus.level_select_feature.LevelSelectFragment"
+        android:label="LevelSelectFragment">
+        <deepLink app:uri="muztus://levelSelectFragment/{premium_index}" />
+        <argument
+            android:name="premium_index"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/gameLevelFragment"
+        android:name="com.muztus.game_level_feature.GameLevelFragment"
+        android:label="GameLevelFragment">
+        <deepLink app:uri="muztus://gameLevelFragment/{premium_index}/{level_index}" />
+        <argument
+            android:name="premium_index"
+            app:argType="integer" />
+        <argument
+            android:name="level_index"
+            app:argType="integer" />
+    </fragment>
+
+</navigation>

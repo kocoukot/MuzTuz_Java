@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    tools:context=".old.OldMainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/menuMusic"
+            android:layout_width="10dp"
+            android:layout_height="30dp"
+
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+
+            android:onClick="onMelody"
+            android:src="@drawable/buton_music_on" />
+
+        <ImageView
+            android:id="@+id/menuSound"
+            android:layout_width="10dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:onClick="onSounds"
+            app:srcCompat="@drawable/buton_sound_on" />
+
+        <TextView
+            android:id="@+id/menuStars"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:lines="01"
+            android:text="0"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_start" />
+
+        <TextView
+            android:id="@+id/menuCoins"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:lines="01"
+            android:text="0"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_coin" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/buttonPlay"
+                android:layout_width="303dp"
+                android:layout_height="57dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="35dp"
+                android:background="@drawable/buton_igra"
+                android:onClick="onStartPlay" />
+
+
+            <Button
+                android:id="@+id/buttonStatistic"
+                android:layout_width="240dp"
+                android:layout_height="49dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/buton_statistika"
+                android:onClick="onStatistic" />
+
+
+            <Button
+                android:id="@+id/buttonReset"
+                android:layout_width="240dp"
+                android:layout_height="49dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/buton_reset"
+                android:onClick="onReset" />
+
+            <Button
+                android:id="@+id/buttonSozdateli"
+                android:layout_width="240dp"
+                android:layout_height="49dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/buton_cozdateli"
+                android:onClick="onSozdateli" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp">
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="312dp"
+                    android:layout_height="80dp"
+                    android:adjustViewBounds="true"
+
+                    android:onClick="onGetFreeCoinsShop"
+                    android:src="@drawable/buton_coins_free"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/lightsView"
+                    android:layout_width="match_parent"
+                    android:layout_height="11dp"
+                    android:layout_marginHorizontal="50dp"
+                    android:adjustViewBounds="true"
+                    app:layout_constraintEnd_toEndOf="@+id/imageView3"
+                    app:layout_constraintStart_toStartOf="@+id/imageView3"
+                    app:layout_constraintTop_toTopOf="@+id/imageView3" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:layout_marginTop="30dp"
+                android:gravity="bottom"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom">
+
+                    <ImageView
+                        android:id="@+id/imageView7"
+                        android:layout_width="366dp"
+                        android:layout_height="166dp"
+                        android:layout_gravity="bottom"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/chelovechek_ochen_rady"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/socialVK"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="bottom"
+                        android:layout_marginStart="120dp"
+                        android:layout_marginBottom="20dp"
+                        android:background="@drawable/button_vkontakt"
+                        android:onClick="onClickVK"
+                        app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+                        app:layout_constraintStart_toStartOf="@+id/imageView7" />
+
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="bottom"
+                        android:layout_marginEnd="60dp"
+                        android:layout_marginBottom="20dp"
+                        android:background="@drawable/button_instagram"
+                        android:onClick="onClickInst"
+                        app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+                        app:layout_constraintEnd_toEndOf="@+id/imageView7" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>
