@@ -1,9 +1,10 @@
 package com.muztus.game_level_feature
 
 import com.muztus.core_mvi.BaseViewModel
+import com.muztus.domain_layer.model.HintModel
+import com.muztus.domain_layer.model.HintUse
+import com.muztus.domain_layer.model.LevelHints
 import com.muztus.game_level_feature.data.GameLevelModel
-import com.muztus.game_level_feature.data.HintModel
-import com.muztus.game_level_feature.data.LevelHints
 import com.muztus.game_level_feature.model.GameLevelAction
 import com.muztus.game_level_feature.model.GameLevelState
 import com.muztus.game_level_feature.model.LevelAction
@@ -13,15 +14,16 @@ import com.muztus.level_select_feature.data.premiaImagesList
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class GameLevelViewModel(
-    selectedPremium: Int,
-    selectedLevel: Int
+    private val selectedPremium: Int,
+    private val selectedLevel: Int,
 ) : BaseViewModel.Base<GameLevelState, GameLevelAction>(
     mState = MutableStateFlow(GameLevelState())
-), LevelAction {
+), LevelAction, HintUse {
 
     init {
         val currentLevel = GameLevelModel.Base(
             index = selectedLevel,
+            premiumIndex = selectedPremium,
             correctAnswers = correctAnswersList[selectedPremium][selectedLevel],
             levelHints = LevelHints(),
             levelImage = premiaImagesList[selectedPremium][selectedLevel],
@@ -31,7 +33,6 @@ class GameLevelViewModel(
         updateInfo {
             copy(data = currentLevel)
         }
-
     }
 
     override fun setInputActions(action: GameLevelAction) {
@@ -48,39 +49,42 @@ class GameLevelViewModel(
 
     override fun onAlertDecision(isTrue: Boolean) {
         if (isTrue) {
-            getState().showHintAlert?.let { hint ->
-                getState().data.onHintUse(hint)
-            }
+            getState().showHintAlert?.useHintTest(this)
         }
         updateInfo { copy(showHintAlert = null) }
     }
 
-    override fun useLettersAmountHint() {
-
-    }
-
-    override fun useOneLetterHint() {
-
-    }
-
-    override fun useSongHint() {
-
-    }
-
-    override fun useAnswerHint() {
-
-    }
-
-    override fun onFreeCoinsClick() {
-
-    }
-
     override fun onCheckInput(userInput: String) {
-        println(getState().data.checkUserInput(userInput))
-        if (getState().data.checkUserInput(userInput)) {
+//        println(getState().data.checkUserInput(userInput))
+//        if (getState().data.checkUserInput(userInput)) {
+//
+//        } else {
+//
+//        }
+    }
 
-        } else {
+    override fun lettersAmount() {
+        updateInfo { copy(data = getState().data.lettersAmountHintUse()) }
 
+    }
+
+    override fun useOneLetterHint(letterIndex: Int) {
+        updateInfo {
+            copy(
+                showLetterAlert = "",
+                data = getState().data.onOneLetterHintUse(letterIndex)
+            )
         }
+    }
+
+    override fun showOnLetterSelect() {
+        updateInfo { copy(showLetterAlert = getState().data.getCorrectAnswer()) }
+    }
+
+    override fun songHint() {
+        updateInfo { copy(showLetterAlert = "", data = getState().data.songHintUse()) }
+    }
+
+    override fun answerHint() {
     }
 }

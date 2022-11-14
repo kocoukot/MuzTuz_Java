@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hint_name_letters_amount">Количество букв</string>
+    <string name="hint_name_one_letter">Открыть букву</string>
+    <string name="hint_name_song_name">Название песни и альбома</string>
+    <string name="hint_name_show_answer">Показать ответ</string>
+</resources>

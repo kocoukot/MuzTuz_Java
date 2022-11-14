@@ -2,6 +2,7 @@ package com.muztus.core.compose
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
@@ -11,7 +12,10 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -53,12 +57,10 @@ fun AlertDialogComp(
                             horizontalArrangement = Arrangement.Center
                         ) {
                             AlertButton(title = "НЕТ", onAction = {
-                                openDialog = false
                                 onOptionSelected(false)
                             })
                             Spacer(modifier = Modifier.width(16.dp))
                             AlertButton(title = "ДА", onAction = {
-                                openDialog = false
                                 onOptionSelected(true)
                             })
                         }
@@ -80,6 +82,7 @@ private fun AlertButton(
     val textColor by animateColorAsState(targetValue = if (isSelected) MTTheme.colors.background else MTTheme.colors.buttonPressed)
 
     Button(
+        modifier = Modifier,
         interactionSource = interactionSource,
         onClick = onAction,
         colors = ButtonDefaults.buttonColors(backgroundColor = buttonColor)
@@ -89,5 +92,81 @@ private fun AlertButton(
             color = textColor,
             fontWeight = FontWeight.W600
         )
+    }
+}
+
+
+@Composable
+fun LetterSelectAlertDialog(
+    correctAnswer: String,
+    onLetterSelected: (Int) -> Unit
+) {
+    MaterialTheme {
+        Column {
+            var openDialog by remember { mutableStateOf(true) }
+            if (openDialog) {
+                Dialog(
+                    properties = DialogProperties(
+                        dismissOnBackPress = false,
+                        dismissOnClickOutside = false
+                    ), onDismissRequest = {
+                        openDialog = false
+                    }) {
+
+                    Column(
+                        modifier = Modifier
+                            .background(MTTheme.colors.alertBackground, RoundedCornerShape(8.dp)),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+
+                        Row(
+                            modifier = Modifier.padding(horizontal = 8.dp),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            for ((index, letter) in correctAnswer.withIndex()) {
+                                if (letter.isLetter()) {
+                                    val interactionSource = remember { MutableInteractionSource() }
+                                    val isSelected by interactionSource.collectIsPressedAsState()
+                                    val buttonColor by animateColorAsState(targetValue = if (isSelected) MTTheme.colors.buttonPressed else MTTheme.colors.buttonNotPressed)
+                                    val textColor by animateColorAsState(targetValue = if (isSelected) MTTheme.colors.background else MTTheme.colors.buttonPressed)
+
+                                    Box(
+                                        modifier = Modifier
+                                            .padding(horizontal = 2.dp, vertical = 16.dp)
+                                            .background(buttonColor)
+                                            .width(16.dp)
+                                            .drawBehind {
+                                                val strokeWidth = 2 * density
+                                                val y = size.height + 5 * density
+                                                drawLine(
+                                                    buttonColor,
+                                                    Offset(0f, y),
+                                                    Offset(size.width, y),
+                                                    strokeWidth
+                                                )
+                                            }
+                                            .clickable(
+                                                interactionSource = interactionSource,
+                                                indication = null
+                                            ) {
+                                                onLetterSelected.invoke(index)
+                                            },
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Text(
+                                            modifier = Modifier
+                                                .align(Alignment.Center),
+                                            fontSize = 24.sp, text = "?",
+                                            color = textColor
+                                        )
+                                    }
+                                } else Spacer(modifier = Modifier.width(16.dp))
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

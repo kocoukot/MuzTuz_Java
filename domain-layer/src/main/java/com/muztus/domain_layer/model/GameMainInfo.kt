@@ -1,4 +1,4 @@
-package com.artline.muztus.domain.model
+package com.muztus.domain_layer.model
 
 data class GameMainInfo(
     val coinsAmount: Int,

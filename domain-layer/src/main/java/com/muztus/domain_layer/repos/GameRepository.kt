@@ -1,6 +1,7 @@
-package com.artline.muztus.domain.repos
+package com.muztus.domain_layer.repos
 
-import com.artline.muztus.domain.model.GameMainInfo
+import com.muztus.domain_layer.model.GameMainInfo
+
 
 interface GameRepository {
 

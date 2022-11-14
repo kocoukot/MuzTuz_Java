@@ -1,7 +1,7 @@
 package com.artline.muztus.di
 
 import com.artline.muztus.data.repo.GameRepositoryImpl
-import com.artline.muztus.domain.repos.GameRepository
+import com.muztus.domain_layer.repos.GameRepository
 import org.koin.dsl.module
 
 val repositoryModule = module {

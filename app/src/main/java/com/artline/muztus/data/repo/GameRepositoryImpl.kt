@@ -1,8 +1,8 @@
 package com.artline.muztus.data.repo
 
 import com.artline.muztus.data.SharedPreferencesStorage
-import com.artline.muztus.domain.model.GameMainInfo
-import com.artline.muztus.domain.repos.GameRepository
+import com.muztus.domain_layer.model.GameMainInfo
+import com.muztus.domain_layer.repos.GameRepository
 
 class GameRepositoryImpl(
     private val sharedPref: SharedPreferencesStorage

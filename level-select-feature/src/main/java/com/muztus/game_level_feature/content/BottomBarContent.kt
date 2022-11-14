@@ -38,6 +38,7 @@ fun BottomBarContent(
     val isKeyboardOpen by keyboardAsState()
     val hintPadding by animateDpAsState(targetValue = if (isKeyboardOpen == Keyboard.Opened) 0.dp else 8.dp)
 
+   // println("model content $data")
     LevelInput(modifier = Modifier) { bottomBarActions.invoke(GameLevelAction.CheckUSerInput(it)) }
 
     Row(
@@ -64,6 +65,7 @@ fun BottomBarContent(
                     .weight(1f)
                     .clip(CircleShape)
                     .clickable(
+                        enabled = !(hint.isEnabled()),
                         interactionSource = interactionSource,
                         indication = null
                     ) {
