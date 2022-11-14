@@ -43,40 +43,39 @@ class GameLevelViewModel(
     override fun onHintSelect(selectedHint: HintModel) {
         if (selectedHint.canUseHint(450)) {
             updateInfo { copy(showHintAlert = selectedHint) }
-
         } else {
             updateInfo { copy(coinToast = selectedHint.hintCost()) }
         }
     }
 
     override fun onHintAlertDecision(isTrue: Boolean) {
-        if (isTrue) {
-            getState().showHintAlert?.useHintTest(this)
-        }
-
-        updateInfo { copy(showHintAlert = null) }
+        isTrue
+            .takeIf { it }
+            ?.let {
+                getState().showHintAlert?.useHintTest(this)
+            }.also { updateInfo { copy(showHintAlert = null) } }
     }
 
     override fun lettersAmount() {
         getState().data.lettersAmountHintUse()
-        //updateInfo { copy(data = getState().data.lettersAmountHintUse()) }
-    }
-
-    override fun useOneLetterHint(letterIndex: Int) {
-        updateInfo {
-            copy(
-                showLetterAlert = "",
-                data = getState().data.onOneLetterHintUse(letterIndex)
-            )
-        }
     }
 
     override fun showOnLetterSelect() {
         updateInfo { copy(showLetterAlert = getState().data.getCorrectAnswer()) }
     }
 
+    override fun useOneLetterHint(letterIndex: Int) {
+        getState().data.onOneLetterHintUse(letterIndex)
+        updateInfo { copy(showLetterAlert = "") }
+    }
+
+    override fun clearToastCoins() {
+        updateInfo { copy(coinToast = 0) }
+    }
+
+
     override fun songHint() {
-        updateInfo { copy(showLetterAlert = "", data = getState().data.songHintUse()) }
+        getState().data.songHintUse()
     }
 
     override fun answerHint() {

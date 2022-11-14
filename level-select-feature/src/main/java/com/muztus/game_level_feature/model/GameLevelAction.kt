@@ -20,6 +20,11 @@ sealed class GameLevelAction {
     data class UseOneLetterHint(private val letterIndex: Int) : GameLevelAction() {
         override fun handle(action: LevelAction) = action.useOneLetterHint(letterIndex)
     }
+
+    object ClearToastCoins : GameLevelAction() {
+        override fun handle(action: LevelAction) = action.clearToastCoins()
+
+    }
 }
 
 interface LevelAction {
@@ -28,5 +33,7 @@ interface LevelAction {
     fun onHintAlertDecision(isTrue: Boolean)
     fun onCheckInput(userInput: String)
     fun useOneLetterHint(letterIndex: Int)
+
+    fun clearToastCoins()
 
 }

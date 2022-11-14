@@ -37,6 +37,7 @@ fun GameLevelScreenContent(viewModel: GameLevelViewModel) {
             msg,
             Toast.LENGTH_SHORT
         ).show()
+        viewModel.setInputActions(GameLevelAction.ClearToastCoins)
     }
 
     state.showHintAlert?.let { hint ->
@@ -47,7 +48,7 @@ fun GameLevelScreenContent(viewModel: GameLevelViewModel) {
                 hint.hintCost()
             ),
             onOptionSelected = {
-                viewModel.setInputActions(GameLevelAction.OnHintAlertDecision(true))
+                viewModel.setInputActions(GameLevelAction.OnHintAlertDecision(it))
             }
         )
     }
