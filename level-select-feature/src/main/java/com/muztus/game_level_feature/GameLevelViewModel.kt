@@ -21,17 +21,18 @@ class GameLevelViewModel(
 ), LevelAction, HintUse {
 
     init {
-        val currentLevel = GameLevelModel.Base(
-            index = selectedLevel,
-            premiumIndex = selectedPremium,
-            correctAnswers = correctAnswersList[selectedPremium][selectedLevel],
-            levelHints = LevelHints(),
-            levelImage = premiaImagesList[selectedPremium][selectedLevel],
-            songName = albumsList[selectedPremium][selectedLevel],
-            isSolved = false
-        )
         updateInfo {
-            copy(data = currentLevel)
+            copy(
+                data = GameLevelModel.Base(
+                    index = selectedLevel,
+                    premiumIndex = selectedPremium,
+                    correctAnswers = correctAnswersList[selectedPremium][selectedLevel],
+                    levelHints = LevelHints(),
+                    levelImage = premiaImagesList[selectedPremium][selectedLevel],
+                    songName = albumsList[selectedPremium][selectedLevel],
+                    isSolved = false
+                )
+            )
         }
     }
 
@@ -39,33 +40,26 @@ class GameLevelViewModel(
         action.handle(this)
     }
 
-    override fun onHint(selectedHint: HintModel) {
-        if (selectedHint.canUseHint(3000)) {
+    override fun onHintSelect(selectedHint: HintModel) {
+        if (selectedHint.canUseHint(450)) {
             updateInfo { copy(showHintAlert = selectedHint) }
+
         } else {
             updateInfo { copy(coinToast = selectedHint.hintCost()) }
         }
     }
 
-    override fun onAlertDecision(isTrue: Boolean) {
+    override fun onHintAlertDecision(isTrue: Boolean) {
         if (isTrue) {
             getState().showHintAlert?.useHintTest(this)
         }
+
         updateInfo { copy(showHintAlert = null) }
     }
 
-    override fun onCheckInput(userInput: String) {
-//        println(getState().data.checkUserInput(userInput))
-//        if (getState().data.checkUserInput(userInput)) {
-//
-//        } else {
-//
-//        }
-    }
-
     override fun lettersAmount() {
-        updateInfo { copy(data = getState().data.lettersAmountHintUse()) }
-
+        getState().data.lettersAmountHintUse()
+        //updateInfo { copy(data = getState().data.lettersAmountHintUse()) }
     }
 
     override fun useOneLetterHint(letterIndex: Int) {
@@ -86,5 +80,14 @@ class GameLevelViewModel(
     }
 
     override fun answerHint() {
+    }
+
+    override fun onCheckInput(userInput: String) {
+//        println(getState().data.checkUserInput(userInput))
+//        if (getState().data.checkUserInput(userInput)) {
+//
+//        } else {
+//
+//        }
     }
 }

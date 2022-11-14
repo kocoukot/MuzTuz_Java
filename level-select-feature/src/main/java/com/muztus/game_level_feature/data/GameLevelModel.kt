@@ -56,7 +56,7 @@ interface GameLevelModel {
         override fun getCorrectAnswer(): String = correctAnswers.first()
 
         override fun lettersAmountHintUse(): GameLevelModel {
-            levelHints.letterAmountHint = levelHints.letterAmountHint.copy(isUsed = true)
+            levelHints.letterAmountHint.useHint()
             return this
         }
 

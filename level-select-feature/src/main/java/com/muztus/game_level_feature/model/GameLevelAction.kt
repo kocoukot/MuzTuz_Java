@@ -10,11 +10,11 @@ sealed class GameLevelAction {
     }
 
     data class OnUserTapHint(private val selectedHint: HintModel) : GameLevelAction() {
-        override fun handle(action: LevelAction) = action.onHint(selectedHint)
+        override fun handle(action: LevelAction) = action.onHintSelect(selectedHint)
     }
 
     data class OnHintAlertDecision(private val isTrue: Boolean) : GameLevelAction() {
-        override fun handle(action: LevelAction) = action.onAlertDecision(isTrue)
+        override fun handle(action: LevelAction) = action.onHintAlertDecision(isTrue)
     }
 
     data class UseOneLetterHint(private val letterIndex: Int) : GameLevelAction() {
@@ -24,8 +24,8 @@ sealed class GameLevelAction {
 
 interface LevelAction {
 
-    fun onHint(selectedHint: HintModel)
-    fun onAlertDecision(isTrue: Boolean)
+    fun onHintSelect(selectedHint: HintModel)
+    fun onHintAlertDecision(isTrue: Boolean)
     fun onCheckInput(userInput: String)
     fun useOneLetterHint(letterIndex: Int)
 

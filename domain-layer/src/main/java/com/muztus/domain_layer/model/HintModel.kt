@@ -111,9 +111,9 @@ interface HintUse {
 
 
 data class LevelHints(
-    var letterAmountHint: HintModel.LetterAmountHint = HintModel.LetterAmountHint(),
+    val letterAmountHint: HintModel.LetterAmountHint = HintModel.LetterAmountHint(),
     var oneLetterHint: HintModel.OneLetterHint = HintModel.OneLetterHint(),
-    var songHint: HintModel.Abstract = HintModel.SongHint(),
+    val songHint: HintModel.Abstract = HintModel.SongHint(),
     var correctAnswerHint: HintModel.Abstract = HintModel.CorrectAnswer(),
 ) {
     fun getHintsList() = listOf(letterAmountHint, oneLetterHint, songHint, correctAnswerHint)

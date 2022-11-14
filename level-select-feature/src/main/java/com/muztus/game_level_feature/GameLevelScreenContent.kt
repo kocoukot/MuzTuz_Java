@@ -46,7 +46,9 @@ fun GameLevelScreenContent(viewModel: GameLevelViewModel) {
                 stringResource(id = hint.hintName()),
                 hint.hintCost()
             ),
-            onOptionSelected = { viewModel.setInputActions(GameLevelAction.OnHintAlertDecision(it)) }
+            onOptionSelected = {
+                viewModel.setInputActions(GameLevelAction.OnHintAlertDecision(true))
+            }
         )
     }
 
