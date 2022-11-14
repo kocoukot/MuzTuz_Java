@@ -114,15 +114,6 @@
                 android:background="@drawable/buton_reset"
                 android:onClick="onReset" />
 
-            <Button
-                android:id="@+id/buttonSozdateli"
-                android:layout_width="240dp"
-                android:layout_height="49dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/buton_cozdateli"
-                android:onClick="onSozdateli" />
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

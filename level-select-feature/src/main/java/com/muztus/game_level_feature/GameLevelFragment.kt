@@ -23,7 +23,6 @@ class GameLevelFragment : BaseFragment.BaseF<GameLevelViewModel>(), SupportInfoB
     companion object {
         private const val ARG_PREMIUM_INDEX = "premium_index"
         private const val ARG_LEVEL_INDEX = "level_index"
-
     }
 
 }

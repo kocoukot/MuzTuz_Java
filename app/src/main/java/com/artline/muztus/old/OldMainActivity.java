@@ -58,13 +58,10 @@ public class OldMainActivity extends AppCompatActivity implements RewardedVideoA
         preferencesSounds = getSharedPreferences(PREFERENCESSounds, MODE_PRIVATE);
         textViewCoins = findViewById(R.id.menu_coins);
         textViewStars = findViewById(R.id.menu_stars);
-        musicButton = findViewById(R.id.menu_music);
+        musicButton = findViewById(R.id.menuMusic);
         soundsButton = findViewById(R.id.menu_sound);
 
         lightsView = findViewById(R.id.lightsView);
-
-        Intent intentSC = new Intent(this, StartScreen.class);
-        startActivity(intentSC);
 
         lightsView.setBackgroundResource(R.drawable.anim_lights);
         AnimationDrawable animationLeft = (AnimationDrawable) lightsView.getBackground();
@@ -112,16 +109,6 @@ public class OldMainActivity extends AppCompatActivity implements RewardedVideoA
 
     public void onReset(View view) {
         showDialogMasseg();
-    }
-
-    public void onSozdateli(View view) {
-        musicOff = true;
-
-        intent = new Intent(this, Sozdateli.class);
-        intent.putExtra("musicOff", true);
-
-        startActivityForResult(intent, 1);
-
     }
 
     private void soundsStatusSet() {
