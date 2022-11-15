@@ -13,5 +13,7 @@
 .cxx
 /.idea/
 /.idea
+.idea
+
 .idea.*
 /.idea/misc.xml
