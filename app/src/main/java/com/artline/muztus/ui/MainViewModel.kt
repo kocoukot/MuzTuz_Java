@@ -30,10 +30,7 @@ class MainViewModel(
 
     fun addCoins() {
         setCoinsAmountUseCase(100)
-//        mCoins.value?.let {
-        // mCoins.postValue(it+100)
-
-//        }
+        updateCoins()
     }
 
     fun updateCoins() {
