@@ -1,6 +1,7 @@
 package com.muztus.game_level_feature.data
 
 import com.muztus.domain_layer.model.HintModel
+import com.muztus.domain_layer.model.HintUse
 import com.muztus.domain_layer.model.LevelHints
 
 interface GameLevelModel {
@@ -16,9 +17,9 @@ interface GameLevelModel {
     fun getCorrectAnswer(): String = ""
 
 
-    fun lettersAmountHintUse(): GameLevelModel = this
-    fun onOneLetterHintUse(letterIndex: Int): GameLevelModel = this
-    fun songHintUse(): GameLevelModel = this
+    fun lettersAmountHintUse(hintUse: HintUse): GameLevelModel = this
+    fun onOneLetterHintUse(hintUse: HintUse, letterIndex: Int): GameLevelModel = this
+    fun songHintUse(hintUse: HintUse): GameLevelModel = this
 
 
     data class Base(
@@ -55,20 +56,20 @@ interface GameLevelModel {
 
         override fun getCorrectAnswer(): String = correctAnswers.first()
 
-        override fun lettersAmountHintUse(): GameLevelModel {
-            levelHints.letterAmountHint.useHint()
+        override fun lettersAmountHintUse(hintUse: HintUse): GameLevelModel {
+            levelHints.letterAmountHint.onHintUsed(hintUse)
             return this
         }
 
-        override fun onOneLetterHintUse(letterIndex: Int): GameLevelModel {
-            levelHints.letterAmountHint.useHint()
-            levelHints.oneLetterHint.useHint()
+        override fun onOneLetterHintUse(hintUse: HintUse, letterIndex: Int): GameLevelModel {
+            levelHints.letterAmountHint.onHintUsed()
+            levelHints.oneLetterHint.onHintUsed(hintUse)
             levelHints.oneLetterHint = levelHints.oneLetterHint.copy(selectedLetters = letterIndex)
             return this
         }
 
-        override fun songHintUse(): GameLevelModel {
-            levelHints.songHint.useHint()
+        override fun songHintUse(hintUse: HintUse): GameLevelModel {
+            levelHints.songHint.onHintUsed(hintUse)
             return this
         }
 

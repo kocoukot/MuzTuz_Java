@@ -11,7 +11,7 @@ interface HintModel {
 
     fun getId(id: HintModel): Boolean
 
-    fun useHint()
+    fun onHintUsed(hintUse: HintUse? = null)
 
     fun useHintTest(use: HintUse)
 
@@ -44,7 +44,8 @@ interface HintModel {
 
         override fun getId(id: HintModel): Boolean = hintId == (id as Abstract).hintId
 
-        override fun useHint() {
+        override fun onHintUsed(hintUse: HintUse?) {
+            hintUse?.changeCoinsAmount(hintCost)
             isUsed = true
         }
     }
@@ -107,6 +108,8 @@ interface HintUse {
     fun showLetterSelect()
     fun songHint()
     fun answerHint()
+    fun changeCoinsAmount(hintPrice: Int)
+
 }
 
 

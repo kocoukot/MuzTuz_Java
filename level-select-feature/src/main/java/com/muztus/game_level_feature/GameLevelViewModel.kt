@@ -47,7 +47,7 @@ class GameLevelViewModel(
 
     override fun onHintSelect(selectedHint: HintModel) {
 //        if (selectedHint.canUseHint(getGameCoinsUseCase.invoke())) {
-        updateInfo { copy(showHintAlert = selectedHint) }
+        updateInfo { copy(selectedHint = selectedHint, showHintAlert = true) }
 //        } else {
 //            updateInfo { copy(coinToast = selectedHint.hintCost()) }
 //        }
@@ -57,15 +57,9 @@ class GameLevelViewModel(
         isTrue
             .takeIf { it }
             ?.let {
-                getState().showHintAlert?.useHintTest(this).also {
-                    getState().showHintAlert?.hintCost()?.let {
-                        setCoinsAmountUseCase.invoke(-it)
-                        println("getGameCoinsUseCase cost $it")
-                        sendRoute(GameLevelRoute.UpdateCoins)
-                    }
-                }
+                getState().selectedHint?.useHintTest(this)
             }.also {
-                updateInfo { copy(showHintAlert = null) }
+                updateInfo { copy(showHintAlert = false) }
             }
     }
 
@@ -74,11 +68,11 @@ class GameLevelViewModel(
     }
 
     override fun lettersAmount() {
-        getState().data.lettersAmountHintUse()
+        getState().data.lettersAmountHintUse(this)
     }
 
     override fun useOneLetterHint(letterIndex: Int) {
-        getState().data.onOneLetterHintUse(letterIndex)
+        getState().data.onOneLetterHintUse(this, letterIndex)
         updateInfo { copy(showLetterAlert = "") }
     }
 
@@ -89,10 +83,15 @@ class GameLevelViewModel(
 
 
     override fun songHint() {
-        getState().data.songHintUse()
+        getState().data.songHintUse(this)
     }
 
     override fun answerHint() {
+    }
+
+    override fun changeCoinsAmount(hintPrice: Int) {
+        setCoinsAmountUseCase(-hintPrice)
+        sendRoute(GameLevelRoute.UpdateCoins)
     }
 
     override fun onCheckInput(userInput: String) {
