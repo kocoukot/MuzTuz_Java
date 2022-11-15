@@ -1,11 +1,17 @@
 package com.artline.muztus.di
 
+import com.artline.muztus.data.repo.GameRepositoryImpl
+import com.artline.muztus.ui.MainViewModel
 import com.artline.muztus.ui.mainMenu.MainMenuViewModel
+import com.muztus.domain_layer.repos.GameRepository
+import com.muztus.domain_layer.usecase.GetGameCoinsUseCase
+import com.muztus.domain_layer.usecase.SetCoinsAmountUseCase
 import com.muztus.game_level_feature.GameLevelViewModel
 import com.muztus.level_select_feature.LevelSelectViewModel
 import com.muztus.premium_select_feature.PremiaSelectViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+
 
 val authModule = module {
     viewModel { MainMenuViewModel() }
@@ -17,9 +23,25 @@ val authModule = module {
     viewModel { (selectedPremium: Int, selectedLevel: Int) ->
         GameLevelViewModel(
             selectedPremium,
-            selectedLevel
+            selectedLevel,
+            get(),
+            get()
         )
     }
 
+    viewModel { MainViewModel(get(), get()) }
+}
+
+
+val domainModule = module {
+    factory { GetGameCoinsUseCase(get()) }
+
+    factory { SetCoinsAmountUseCase(get()) }
+}
+
+
+val repositoryModule = module {
+
+    factory<GameRepository> { GameRepositoryImpl(get()) }
 
 }

@@ -18,5 +18,4 @@ include(":app")
 rootProject.name = "MuzTus"
 include(":creators-feature")
 include(":statistic-feature")
-include(":game-level-feature")
 include(":domain-layer")

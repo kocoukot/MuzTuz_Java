@@ -72,7 +72,7 @@ interface HintModel {
         hintImageUsed = R.drawable.podskazka_lubay_bukva_zakrita
     ) {
 
-        override fun useHintTest(use: HintUse) = use.showOnLetterSelect()
+        override fun useHintTest(use: HintUse) = use.showLetterSelect()
     }
 
     data class SongHint(
@@ -104,7 +104,7 @@ interface HintModel {
 
 interface HintUse {
     fun lettersAmount()
-    fun showOnLetterSelect()
+    fun showLetterSelect()
     fun songHint()
     fun answerHint()
 }

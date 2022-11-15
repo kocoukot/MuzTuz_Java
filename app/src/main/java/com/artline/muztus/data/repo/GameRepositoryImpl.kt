@@ -1,33 +1,37 @@
 package com.artline.muztus.data.repo
 
 import com.artline.muztus.data.SharedPreferencesStorage
-import com.muztus.domain_layer.model.GameMainInfo
 import com.muztus.domain_layer.repos.GameRepository
 
 class GameRepositoryImpl(
-    private val sharedPref: SharedPreferencesStorage
+    private val sharedPreferencesStorage: SharedPreferencesStorage
 ) : GameRepository {
+
+    override fun testCoins(): Int = sharedPreferencesStorage.get<Int>(ARG_COINS) ?: 0
+
     override fun setGameMusicState(isOn: Boolean) {
-        TODO("Not yet implemented")
+
     }
 
     override fun setGameSoundsState(isOn: Boolean) {
-        TODO("Not yet implemented")
+
     }
 
     override fun setGameStarsAmount(amount: Int) {
-        TODO("Not yet implemented")
+
     }
 
     override fun setGameCoinsAmount(amount: Int) {
-        TODO("Not yet implemented")
+        val coins = sharedPreferencesStorage.get<Int>(ARG_COINS) ?: 0
+        sharedPreferencesStorage[ARG_COINS] = coins + amount
     }
 
-    override fun getGameInfo(): GameMainInfo {
-        TODO("Not yet implemented")
-    }
 
     override fun setHelloMessageSeen() {
-        TODO("Not yet implemented")
+
+    }
+
+    companion object {
+        const val ARG_COINS = "game_coins"
     }
 }

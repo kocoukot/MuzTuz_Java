@@ -18,7 +18,6 @@
             <option value="$PROJECT_DIR$/core-mvi" />
             <option value="$PROJECT_DIR$/creators-feature" />
             <option value="$PROJECT_DIR$/domain-layer" />
-            <option value="$PROJECT_DIR$/game-level-feature" />
             <option value="$PROJECT_DIR$/level-select-feature" />
             <option value="$PROJECT_DIR$/premium-select-feature" />
             <option value="$PROJECT_DIR$/statistic-feature" />
