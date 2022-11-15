@@ -1,12 +1,12 @@
 package com.muztus.game_level_feature
 
 import com.muztus.core_mvi.BaseViewModel
+import com.muztus.domain_layer.model.GameLevelModel
 import com.muztus.domain_layer.model.HintModel
 import com.muztus.domain_layer.model.HintUse
 import com.muztus.domain_layer.model.LevelHints
 import com.muztus.domain_layer.usecase.GetGameCoinsUseCase
 import com.muztus.domain_layer.usecase.SetCoinsAmountUseCase
-import com.muztus.game_level_feature.data.GameLevelModel
 import com.muztus.game_level_feature.model.GameLevelAction
 import com.muztus.game_level_feature.model.GameLevelRoute
 import com.muztus.game_level_feature.model.GameLevelState
@@ -46,11 +46,11 @@ class GameLevelViewModel(
     }
 
     override fun onHintSelect(selectedHint: HintModel) {
-//        if (selectedHint.canUseHint(getGameCoinsUseCase.invoke())) {
-        updateInfo { copy(selectedHint = selectedHint, showHintAlert = true) }
-//        } else {
-//            updateInfo { copy(coinToast = selectedHint.hintCost()) }
-//        }
+        if (selectedHint.canUseHint(getGameCoinsUseCase.invoke())) {
+            updateInfo { copy(selectedHint = selectedHint, showHintAlert = true) }
+        } else {
+            updateInfo { copy(coinToast = selectedHint.hintCost()) }
+        }
     }
 
     override fun onHintAlertDecision(isTrue: Boolean) {
@@ -90,6 +90,7 @@ class GameLevelViewModel(
     }
 
     override fun changeCoinsAmount(hintPrice: Int) {
+        updateInfo { copy(selectedHint = null) }
         setCoinsAmountUseCase(-hintPrice)
         sendRoute(GameLevelRoute.UpdateCoins)
     }

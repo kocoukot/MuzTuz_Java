@@ -26,7 +26,7 @@ import com.muztus.core.ext.Keyboard
 import com.muztus.core.ext.keyboardAsState
 import com.muztus.core.ext.letters
 import com.muztus.core.theme.MTTheme
-import com.muztus.game_level_feature.data.GameLevelModel
+import com.muztus.domain_layer.model.GameLevelModel
 import com.muztus.game_level_feature.model.GameLevelAction
 import com.muztus.level_select_feature.R
 
@@ -38,7 +38,6 @@ fun BottomBarContent(
     val isKeyboardOpen by keyboardAsState()
     val hintPadding by animateDpAsState(targetValue = if (isKeyboardOpen == Keyboard.Opened) 0.dp else 8.dp)
 
-   // println("model content $data")
     LevelInput(modifier = Modifier) { bottomBarActions.invoke(GameLevelAction.CheckUSerInput(it)) }
 
     Row(

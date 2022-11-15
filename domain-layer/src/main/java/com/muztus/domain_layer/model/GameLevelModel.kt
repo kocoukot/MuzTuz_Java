@@ -1,8 +1,4 @@
-package com.muztus.game_level_feature.data
-
-import com.muztus.domain_layer.model.HintModel
-import com.muztus.domain_layer.model.HintUse
-import com.muztus.domain_layer.model.LevelHints
+package com.muztus.domain_layer.model
 
 interface GameLevelModel {
 
@@ -17,16 +13,16 @@ interface GameLevelModel {
     fun getCorrectAnswer(): String = ""
 
 
-    fun lettersAmountHintUse(hintUse: HintUse): GameLevelModel = this
-    fun onOneLetterHintUse(hintUse: HintUse, letterIndex: Int): GameLevelModel = this
-    fun songHintUse(hintUse: HintUse): GameLevelModel = this
+    fun lettersAmountHintUse(hintUse: HintUse) = Unit
+    fun onOneLetterHintUse(hintUse: HintUse, letterIndex: Int) = Unit
+    fun songHintUse(hintUse: HintUse) = Unit
 
 
     data class Base(
         private val index: Int,
         private val premiumIndex: Int,
         private val correctAnswers: List<String>,
-        private var levelHints: LevelHints,
+        private val levelHints: LevelHints,
         private val levelImage: Int,
         private val songName: String,
         private val isSolved: Boolean,
@@ -56,21 +52,18 @@ interface GameLevelModel {
 
         override fun getCorrectAnswer(): String = correctAnswers.first()
 
-        override fun lettersAmountHintUse(hintUse: HintUse): GameLevelModel {
+        override fun lettersAmountHintUse(hintUse: HintUse) {
             levelHints.letterAmountHint.onHintUsed(hintUse)
-            return this
         }
 
-        override fun onOneLetterHintUse(hintUse: HintUse, letterIndex: Int): GameLevelModel {
+        override fun onOneLetterHintUse(hintUse: HintUse, letterIndex: Int) {
             levelHints.letterAmountHint.onHintUsed()
             levelHints.oneLetterHint.onHintUsed(hintUse)
             levelHints.oneLetterHint = levelHints.oneLetterHint.copy(selectedLetters = letterIndex)
-            return this
         }
 
-        override fun songHintUse(hintUse: HintUse): GameLevelModel {
+        override fun songHintUse(hintUse: HintUse) {
             levelHints.songHint.onHintUsed(hintUse)
-            return this
         }
 
 

@@ -1,7 +1,7 @@
 package com.muztus.game_level_feature.model
 
+import com.muztus.domain_layer.model.GameLevelModel
 import com.muztus.domain_layer.model.HintModel
-import com.muztus.game_level_feature.data.GameLevelModel
 
 data class GameLevelState(
     val error: String = "",
