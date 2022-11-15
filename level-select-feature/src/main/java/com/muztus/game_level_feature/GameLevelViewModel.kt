@@ -1,24 +1,21 @@
 package com.muztus.game_level_feature
 
 import com.muztus.core_mvi.BaseViewModel
-import com.muztus.domain_layer.model.GameLevelModel
 import com.muztus.domain_layer.model.HintModel
 import com.muztus.domain_layer.model.HintUse
-import com.muztus.domain_layer.model.LevelHints
 import com.muztus.domain_layer.usecase.GetGameCoinsUseCase
+import com.muztus.domain_layer.usecase.GetLevelInfoUseCase
 import com.muztus.domain_layer.usecase.SetCoinsAmountUseCase
 import com.muztus.game_level_feature.model.GameLevelAction
 import com.muztus.game_level_feature.model.GameLevelRoute
 import com.muztus.game_level_feature.model.GameLevelState
 import com.muztus.game_level_feature.model.LevelAction
-import com.muztus.level_select_feature.data.albumsList
-import com.muztus.level_select_feature.data.correctAnswersList
-import com.muztus.level_select_feature.data.premiaImagesList
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class GameLevelViewModel(
-    private val selectedPremium: Int,
-    private val selectedLevel: Int,
+    selectedPremium: Int,
+    selectedLevel: Int,
+    private val getLevelInfoUseCase: GetLevelInfoUseCase,
     private val setCoinsAmountUseCase: SetCoinsAmountUseCase,
     private val getGameCoinsUseCase: GetGameCoinsUseCase
 ) : BaseViewModel.Base<GameLevelState, GameLevelAction>(
@@ -26,16 +23,12 @@ class GameLevelViewModel(
 ), LevelAction, HintUse {
 
     init {
+
         updateInfo {
             copy(
-                data = GameLevelModel.Base(
-                    index = selectedLevel,
+                data = getLevelInfoUseCase(
                     premiumIndex = selectedPremium,
-                    correctAnswers = correctAnswersList[selectedPremium][selectedLevel],
-                    levelHints = LevelHints(),
-                    levelImage = premiaImagesList[selectedPremium][selectedLevel],
-                    songName = albumsList[selectedPremium][selectedLevel],
-                    isSolved = false
+                    levelIndex = selectedLevel,
                 )
             )
         }

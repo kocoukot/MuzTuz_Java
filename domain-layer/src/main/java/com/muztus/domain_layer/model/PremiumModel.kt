@@ -1,4 +1,4 @@
-package com.muztus.premium_select_feature.model
+package com.muztus.domain_layer.model
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 interface PremiumModel {
 
     @Composable
-    fun SetPremiaImage(modifier: Modifier, onSelect: (PremiaSelectActions) -> Unit)
+    fun SetPremiaImage(modifier: Modifier, onSelect: (PremiumModel) -> Unit)
 
     fun premiumNumber(): Int
     data class Base(
@@ -25,16 +25,14 @@ interface PremiumModel {
     ) : PremiumModel {
 
         @Composable
-        override fun SetPremiaImage(modifier: Modifier, onSelect: (PremiaSelectActions) -> Unit) {
+        override fun SetPremiaImage(modifier: Modifier, onSelect: (PremiumModel) -> Unit) {
             Image(
                 modifier = modifier
                     .size(200.dp)
                     .shadow(8.dp, shape = CircleShape)
                     .clip(CircleShape)
                     .clickable {
-                        onSelect.invoke(
-                            PremiaSelectActions.SelectedPremia(this)
-                        )
+                        onSelect.invoke(this)
                     },
                 painter = painterResource(id = premiumImage),
                 contentDescription = null

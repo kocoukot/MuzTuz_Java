@@ -1,8 +1,12 @@
 package com.muztus.premium_select_feature
 
 import com.muztus.core_mvi.BaseViewModel
+import com.muztus.domain_layer.model.PremiumModel
 import com.muztus.premium_select_feature.data.premiaDisksList
-import com.muztus.premium_select_feature.model.*
+import com.muztus.premium_select_feature.model.PremiaSelectActions
+import com.muztus.premium_select_feature.model.PremiaSelectState
+import com.muztus.premium_select_feature.model.PremiumAction
+import com.muztus.premium_select_feature.model.PremiumSelectRoute
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class PremiaSelectViewModel : BaseViewModel.Base<PremiaSelectState, PremiaSelectActions>(

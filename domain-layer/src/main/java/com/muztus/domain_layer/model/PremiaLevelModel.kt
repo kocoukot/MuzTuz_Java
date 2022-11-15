@@ -1,4 +1,4 @@
-package com.muztus.data
+package com.muztus.domain_layer.model
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -14,12 +14,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.muztus.level_select_feature.R
-import com.muztus.level_select_feature.model.LevelSelectActions
+import com.muztus.domain_layer.R
 
 interface PremiaLevelModel {
     @Composable
-    fun LevelImage(modifier: Modifier, onSelect: (LevelSelectActions) -> Unit)
+    fun LevelImage(modifier: Modifier, onSelect: (Int) -> Unit)
 
     fun levelIndex(): Int
 
@@ -33,7 +32,7 @@ interface PremiaLevelModel {
     ) : PremiaLevelModel {
 
         @Composable
-        override fun LevelImage(modifier: Modifier, onSelect: (LevelSelectActions) -> Unit) {
+        override fun LevelImage(modifier: Modifier, onSelect: (Int) -> Unit) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -42,7 +41,7 @@ interface PremiaLevelModel {
                         interactionSource = remember { MutableInteractionSource() },
                         indication = null
                     ) {
-                        onSelect.invoke(LevelSelectActions.SelectLevel(levelIndex))
+                        onSelect.invoke(levelIndex)
                     },
                 contentAlignment = Alignment.Center
             ) {

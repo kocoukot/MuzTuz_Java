@@ -1,5 +1,8 @@
 package com.muztus.domain_layer.repos
 
+import com.muztus.domain_layer.model.GameLevelModel
+import com.muztus.domain_layer.model.PremiaLevelModel
+
 
 interface GameRepository {
 
@@ -16,5 +19,9 @@ interface GameRepository {
 //    fun getGameInfo(): GameMainInfo
 
     fun setHelloMessageSeen()
+
+    fun getLevelInfo(premiumIndex: Int, levelIndex: Int): GameLevelModel
+
+    fun getSelectedPremiumData(selectedPremiumIndex: Int): List<PremiaLevelModel>
 
 }

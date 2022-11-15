@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.muztus.core.theme.MTTheme
+import com.muztus.level_select_feature.model.LevelSelectActions
 
 @Composable
 fun LevelSelectContent(viewModel: LevelSelectViewModel) {
@@ -70,7 +71,11 @@ fun LevelSelectContent(viewModel: LevelSelectViewModel) {
 //                        )
 //                }
 
-                it.LevelImage(modifier = Modifier, onSelect = viewModel::setInputActions)
+                it.LevelImage(
+                    modifier = Modifier,
+                    onSelect = { index ->
+                        viewModel.setInputActions(LevelSelectActions.SelectLevel(index))
+                    })
             }
         }
     }
