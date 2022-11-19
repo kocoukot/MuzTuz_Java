@@ -50,7 +50,7 @@ class GameRepositoryImpl(
         premiaImagesList[selectedPremiumIndex].mapIndexed { index, img ->
             PremiaLevelModel.Base(
                 levelIndex = index,
-                isLevelPassed = true,
+                isLevelPassed = false,
                 levelImage = img,
             )
 
