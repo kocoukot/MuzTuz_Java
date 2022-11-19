@@ -4,10 +4,7 @@ import com.artline.muztus.data.repo.GameRepositoryImpl
 import com.artline.muztus.ui.MainViewModel
 import com.artline.muztus.ui.mainMenu.MainMenuViewModel
 import com.muztus.domain_layer.repos.GameRepository
-import com.muztus.domain_layer.usecase.GetGameCoinsUseCase
-import com.muztus.domain_layer.usecase.GetLevelInfoUseCase
-import com.muztus.domain_layer.usecase.GetPremiumDataUseCase
-import com.muztus.domain_layer.usecase.SetCoinsAmountUseCase
+import com.muztus.domain_layer.usecase.*
 import com.muztus.game_level_feature.GameLevelViewModel
 import com.muztus.level_select_feature.LevelSelectViewModel
 import com.muztus.premium_select_feature.PremiaSelectViewModel
@@ -16,7 +13,7 @@ import org.koin.dsl.module
 
 
 val authModule = module {
-    viewModel { MainMenuViewModel() }
+    viewModel { MainMenuViewModel(get()) }
 
     viewModel { PremiaSelectViewModel() }
 
@@ -44,6 +41,9 @@ val domainModule = module {
     factory { GetLevelInfoUseCase(get()) }
 
     factory { GetPremiumDataUseCase(get()) }
+
+    factory { ResetStatisticUseCase(get()) }
+
 
 }
 

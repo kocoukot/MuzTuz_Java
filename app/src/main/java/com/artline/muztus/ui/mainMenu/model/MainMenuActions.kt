@@ -4,7 +4,9 @@ package com.artline.muztus.ui.mainMenu.model
 interface MainMenuActions {
     fun goMainGame()
     fun showStatistic()
-    fun resetStatistic()
+    fun showResetAlert()
+
+    fun resetStatistic(isReset: Boolean)
     fun showCredits()
 
     sealed class MainMenuAction {
@@ -14,12 +16,16 @@ interface MainMenuActions {
             override fun handle(action: MainMenuActions) = action.goMainGame()
         }
 
-        object ClickOnShowStatistic : MainMenuAction() {
+        object ClickOnGoStatistic : MainMenuAction() {
             override fun handle(action: MainMenuActions) = action.showStatistic()
         }
 
         object ClickOnResetStatistic : MainMenuAction() {
-            override fun handle(action: MainMenuActions) = action.resetStatistic()
+            override fun handle(action: MainMenuActions) = action.showResetAlert()
+        }
+
+        data class OnResetStatisticDecision(private val isReset: Boolean) : MainMenuAction() {
+            override fun handle(action: MainMenuActions) = action.resetStatistic(isReset)
         }
 
         object ClickOnShowCreators : MainMenuAction() {

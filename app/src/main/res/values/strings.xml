@@ -26,6 +26,7 @@
     <string name="menu_button_statistic">СТАТИСТИКА</string>
     <string name="menu_button_reset">СБРОС</string>
     <string name="menu_button_creators">СОЗДАТЕЛИ</string>
+    <string name="menu_button_reset_alert_title">Вы уверены, что хотите сбросить прогресс игры?</string>
 
 
 </resources>

@@ -4,9 +4,12 @@ import com.artline.muztus.ui.mainMenu.model.MainMenuActions
 import com.artline.muztus.ui.mainMenu.model.MainMenuRoute
 import com.artline.muztus.ui.mainMenu.model.MainMenuState
 import com.muztus.core_mvi.BaseViewModel
+import com.muztus.domain_layer.usecase.ResetStatisticUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 
-class MainMenuViewModel : BaseViewModel.Base<MainMenuState, MainMenuActions.MainMenuAction>(
+class MainMenuViewModel(
+    private val resetStatisticUseCase: ResetStatisticUseCase
+) : BaseViewModel.Base<MainMenuState, MainMenuActions.MainMenuAction>(
     mState = MutableStateFlow(MainMenuState())
 ), MainMenuActions {
 
@@ -23,8 +26,14 @@ class MainMenuViewModel : BaseViewModel.Base<MainMenuState, MainMenuActions.Main
         sendRoute(MainMenuRoute.GoStatistic)
     }
 
-    override fun resetStatistic() {
+    override fun showResetAlert() {
+        updateInfo { copy(showResetAlert = true) }
+    }
 
+    override fun resetStatistic(isReset: Boolean) {
+        isReset.takeIf { it }
+            ?.let { resetStatisticUseCase() }
+            .also { updateInfo { copy(showResetAlert = false) } }
     }
 
     override fun showCredits() {

@@ -4,19 +4,31 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.artline.muztus.R
 import com.artline.muztus.ui.mainMenu.model.MainMenuActions
+import com.muztus.core.compose.AlertDialogComp
 import com.muztus.core.compose.GameMainButton
 import com.muztus.core.theme.MTTheme
 import com.muztus.core.theme.bigSpace
 
 @Composable
 fun MainMenuScreenContent(viewModel: MainMenuViewModel) {
-    val state = viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsState()
+
+
+    if (state.showResetAlert) {
+        AlertDialogComp(
+            dialogText = stringResource(id = R.string.menu_button_reset_alert_title),
+            onOptionSelected = {
+                viewModel.setInputActions(MainMenuActions.MainMenuAction.OnResetStatisticDecision(it))
+            }
+        )
+    }
 
     Surface(
         modifier = Modifier
@@ -45,7 +57,7 @@ fun MainMenuScreenContent(viewModel: MainMenuViewModel) {
                     .bigSpace(),
                 buttonText = stringResource(id = R.string.menu_button_statistic),
                 onButtonClicked = {
-                    viewModel.setInputActions(MainMenuActions.MainMenuAction.ClickOnShowStatistic)
+                    viewModel.setInputActions(MainMenuActions.MainMenuAction.ClickOnGoStatistic)
                 }
             )
 

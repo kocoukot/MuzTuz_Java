@@ -16,16 +16,7 @@ class MainViewModel(
         get() = mCoins
 
     init {
-//        viewModelScope.launch {
-//            getGameCoinsUseCase().observe()
-//            kotlin.runCatching { getGameCoinsUseCase() }
-//                .onSuccess {
-//                    mCoins.postValue(it.value)
-//                }
-//                .onFailure {
-//                    println("getGameCoinsUseCase $it")
-//                }
-//        }
+
     }
 
     fun addCoins() {

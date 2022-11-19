@@ -56,6 +56,10 @@ class GameRepositoryImpl(
 
         }
 
+    override fun resetStatistic() {
+
+    }
+
 
     companion object {
         const val ARG_COINS = "game_coins"

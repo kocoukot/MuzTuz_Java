@@ -25,7 +25,6 @@
             android:layout_marginStart="10dp"
             android:layout_weight="1"
             android:adjustViewBounds="true"
-            android:onClick="onMelody"
             android:src="@drawable/buton_music_on" />
 
         <ImageView
@@ -36,7 +35,6 @@
             android:layout_marginStart="10dp"
             android:layout_weight="1"
             android:adjustViewBounds="true"
-            android:onClick="onSounds"
             app:srcCompat="@drawable/buton_sound_on" />
 
         <TextView

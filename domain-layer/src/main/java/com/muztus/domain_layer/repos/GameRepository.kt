@@ -24,4 +24,6 @@ interface GameRepository {
 
     fun getSelectedPremiumData(selectedPremiumIndex: Int): List<PremiaLevelModel>
 
+    fun resetStatistic()
+
 }
