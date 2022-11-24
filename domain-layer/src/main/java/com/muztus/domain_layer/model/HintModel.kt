@@ -11,7 +11,7 @@ interface HintModel {
 
     fun getId(id: HintModel): Boolean
 
-    fun useHint()
+    fun onHintUsed(hintUse: HintUse? = null)
 
     fun useHintTest(use: HintUse)
 
@@ -44,7 +44,8 @@ interface HintModel {
 
         override fun getId(id: HintModel): Boolean = hintId == (id as Abstract).hintId
 
-        override fun useHint() {
+        override fun onHintUsed(hintUse: HintUse?) {
+            hintUse?.changeCoinsAmount(hintCost)
             isUsed = true
         }
     }
@@ -72,7 +73,7 @@ interface HintModel {
         hintImageUsed = R.drawable.podskazka_lubay_bukva_zakrita
     ) {
 
-        override fun useHintTest(use: HintUse) = use.showOnLetterSelect()
+        override fun useHintTest(use: HintUse) = use.showLetterSelect()
     }
 
     data class SongHint(
@@ -104,9 +105,11 @@ interface HintModel {
 
 interface HintUse {
     fun lettersAmount()
-    fun showOnLetterSelect()
+    fun showLetterSelect()
     fun songHint()
     fun answerHint()
+    fun changeCoinsAmount(hintPrice: Int)
+
 }
 
 

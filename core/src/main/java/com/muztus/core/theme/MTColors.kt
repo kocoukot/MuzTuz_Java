@@ -11,7 +11,7 @@ data class MTColors internal constructor(
 
     val alertBackground: Color = Color(0xFFF5E6C9),
     val buttonPressed: Color = Color(0xFFFFFBDB),
-    val buttonNotPressed: Color = Color(0xFF2B0103),
+    val mainDarkBrown: Color = Color(0xFF2B0103),
     val buttonPressedText: Color = Color(0xFF4B8E6F),
 
     val buttonDisabled: Color = Color(0xFF4D4D4D),

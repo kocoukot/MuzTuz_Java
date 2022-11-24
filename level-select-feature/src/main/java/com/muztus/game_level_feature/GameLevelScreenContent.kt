@@ -40,12 +40,12 @@ fun GameLevelScreenContent(viewModel: GameLevelViewModel) {
         viewModel.setInputActions(GameLevelAction.ClearToastCoins)
     }
 
-    state.showHintAlert?.let { hint ->
+    if (state.showHintAlert && state.selectedHint != null) {
         AlertDialogComp(
             dialogText = stringResource(
                 id = R.string.user_hint_alert_text,
-                stringResource(id = hint.hintName()),
-                hint.hintCost()
+                stringResource(id = state.selectedHint!!.hintName()),
+                state.selectedHint!!.hintCost()
             ),
             onOptionSelected = {
                 viewModel.setInputActions(GameLevelAction.OnHintAlertDecision(it))

@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/gameLevelFragment">
+    app:startDestination="@id/mainMenuFragment">
 
     <fragment
         android:id="@+id/splashScreenFragment"
@@ -54,5 +54,9 @@
             android:name="level_index"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/shopFragment"
+        android:name="com.muztus.shop_feature.ShopFragment"
+        android:label="ShopFragment" />
 
 </navigation>

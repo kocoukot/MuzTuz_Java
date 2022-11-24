@@ -3,6 +3,7 @@ package com.artline.muztus.ui
 import android.app.Application
 import com.artline.muztus.BuildConfig
 import com.artline.muztus.di.authModule
+import com.artline.muztus.di.domainModule
 import com.artline.muztus.di.repositoryModule
 import com.artline.muztus.di.storageModule
 import org.koin.android.ext.koin.androidContext
@@ -18,7 +19,7 @@ class MuztusApplication : Application() {
         startKoin {
             androidLogger(if (BuildConfig.DEBUG) Level.ERROR else Level.NONE)
             androidContext(this@MuztusApplication)
-            modules(authModule + repositoryModule + storageModule)
+            modules(authModule + repositoryModule + storageModule + domainModule)
         }
     }
 }

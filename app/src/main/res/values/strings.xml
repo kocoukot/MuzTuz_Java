@@ -26,6 +26,12 @@
     <string name="menu_button_statistic">СТАТИСТИКА</string>
     <string name="menu_button_reset">СБРОС</string>
     <string name="menu_button_creators">СОЗДАТЕЛИ</string>
+    <string name="menu_button_shop">МАГАЗИН</string>
+
+    <string name="menu_button_reset_alert_title">Вы уверены, что хотите сбросить прогресс игры?</string>
+
+    <string name="menu_first_launch_alert_text">Вся информация, представленная в приложении, за исключением информации, имеющей ссылку на конкретный источник, является художественным вымыслом и не имеет отношения к реальным лицам и событиям. Автор не несет ответственности за случайным совпадения с реальными лицами и событиями.</string>
+    <string name="main_menu_receive_review_title">Будем рады принять любые замечания и предложения</string>
 
 
 </resources>

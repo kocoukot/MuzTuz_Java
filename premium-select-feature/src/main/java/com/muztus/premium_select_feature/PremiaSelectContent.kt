@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.muztus.core.theme.MTTheme
+import com.muztus.premium_select_feature.model.PremiaSelectActions
 
 @Composable
 fun PremiaSelectContent(viewModel: PremiaSelectViewModel) {
@@ -37,7 +38,11 @@ fun PremiaSelectContent(viewModel: PremiaSelectViewModel) {
                 }) { item ->
                 item.SetPremiaImage(
                     modifier = Modifier,
-                    onSelect = viewModel::setInputActions
+                    onSelect = { mocdel ->
+                        viewModel.setInputActions(
+                            PremiaSelectActions.SelectedPremia(mocdel)
+                        )
+                    }
                 )
             }
         }

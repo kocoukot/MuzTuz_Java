@@ -10,10 +10,13 @@ import com.artline.muztus.audio.MusicPlayerService
 import com.artline.muztus.databinding.ActivityMainBinding
 import com.muztus.core.ext.SupportInfoBar
 import com.muztus.core.ext.castSafe
+import com.muztus.core_mvi.UpdateCoins
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), UpdateCoins {
 
     private lateinit var binding: ActivityMainBinding
+    private val viewModel: MainViewModel by viewModel()
 
     private val navHost by lazy {
         supportFragmentManager.findFragmentById(binding.navHostView.id)
@@ -47,10 +50,27 @@ class MainActivity : AppCompatActivity() {
         navHost?.apply {
             childFragmentManager.addOnBackStackChangedListener(onBackStackChangedListener)
         }
+        observeLiveData()
+
+        //todo fix remove after test
+        binding.imageView5.setOnClickListener {
+            viewModel.addCoins()
+        }
     }
+
+    private fun observeLiveData() {
+        viewModel.coins.observe(this) {
+            binding.menuCoins.text = it.toString()
+        }
+    }
+
 
     fun infoBarVisibility(isVisible: Boolean) {
         binding.infoLayout.isVisible = isVisible
+    }
+
+    override fun updateCoins() {
+        viewModel.updateCoins()
     }
 }
 

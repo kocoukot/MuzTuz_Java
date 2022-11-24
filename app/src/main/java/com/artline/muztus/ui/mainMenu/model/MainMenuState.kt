@@ -3,6 +3,10 @@ package com.artline.muztus.ui.mainMenu.model
 import com.muztus.core_mvi.ComposeFragmentState
 
 data class MainMenuState(
-    private val error: String = "",
-    private val isLoading: Boolean = false
+    val error: String = "",
+    val isLoading: Boolean = false,
+    val showResetAlert: Boolean = false,
+    val showFirstLaunchAlert: Boolean = false
+
+
 ) : ComposeFragmentState

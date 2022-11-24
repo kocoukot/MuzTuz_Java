@@ -64,6 +64,7 @@ dependencies {
     implementation(Dependencies.AndroidX.fragment)
     implementation(Dependencies.AndroidX.activity)
     implementation(Dependencies.AndroidX.lifecycle)
+    implementation(Dependencies.AndroidX.security)
 
 
     implementation(Dependencies.Navigation.fragment)
@@ -96,7 +97,7 @@ dependencies {
     api(project(":creators-feature"))
     api(project(":level-select-feature"))
     api(project(":premium-select-feature"))
-    api(project(":game-level-feature"))
+    api(project(":shop-feature"))
 
     api(project(":core"))
     api(project(":core-mvi"))

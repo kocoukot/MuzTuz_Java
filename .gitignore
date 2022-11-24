@@ -6,10 +6,15 @@
 /.idea/modules.xml
 /.idea/workspace.xml
 /.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
 .DS_Store
 /build
 /captures
 .externalNativeBuild
 .cxx
 /.idea/
+/.idea
+.idea
+
+.idea.*
+/.idea/misc.xml
+/.idea/dictionaries/

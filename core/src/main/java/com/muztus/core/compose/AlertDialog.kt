@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -26,6 +27,7 @@ import com.muztus.core.theme.MTTheme
 @Composable
 fun AlertDialogComp(
     dialogText: String,
+    alertButtonsType: AlertButtons = AlertButtons.YesNoButtonsAlert(),
     onOptionSelected: (Boolean) -> Unit
 ) {
     MaterialTheme {
@@ -56,13 +58,19 @@ fun AlertDialogComp(
                                 .fillMaxWidth(),
                             horizontalArrangement = Arrangement.Center
                         ) {
-                            AlertButton(title = "НЕТ", onAction = {
-                                onOptionSelected(false)
-                            })
-                            Spacer(modifier = Modifier.width(16.dp))
-                            AlertButton(title = "ДА", onAction = {
-                                onOptionSelected(true)
-                            })
+                            if (alertButtonsType is AlertButtons.YesNoButtonsAlert) {
+                                AlertButton(
+                                    title = stringResource(alertButtonsType.negativeButtonTitle),
+                                    onAction = {
+                                        onOptionSelected(false)
+                                    })
+                                Spacer(modifier = Modifier.width(16.dp))
+                            }
+                            AlertButton(
+                                title = stringResource(id = alertButtonsType.positiveButtonTitle),
+                                onAction = {
+                                    onOptionSelected(true)
+                                })
                         }
                     }
                 }
@@ -78,7 +86,7 @@ private fun AlertButton(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isSelected by interactionSource.collectIsPressedAsState()
-    val buttonColor by animateColorAsState(targetValue = if (isSelected) MTTheme.colors.buttonPressed else MTTheme.colors.buttonNotPressed)
+    val buttonColor by animateColorAsState(targetValue = if (isSelected) MTTheme.colors.buttonPressed else MTTheme.colors.mainDarkBrown)
     val textColor by animateColorAsState(targetValue = if (isSelected) MTTheme.colors.background else MTTheme.colors.buttonPressed)
 
     Button(
@@ -127,7 +135,7 @@ fun LetterSelectAlertDialog(
                                 if (letter.isLetter()) {
                                     val interactionSource = remember { MutableInteractionSource() }
                                     val isSelected by interactionSource.collectIsPressedAsState()
-                                    val buttonColor by animateColorAsState(targetValue = if (isSelected) MTTheme.colors.buttonPressed else MTTheme.colors.buttonNotPressed)
+                                    val buttonColor by animateColorAsState(targetValue = if (isSelected) MTTheme.colors.buttonPressed else MTTheme.colors.mainDarkBrown)
                                     val textColor by animateColorAsState(targetValue = if (isSelected) MTTheme.colors.background else MTTheme.colors.buttonPressed)
 
                                     Box(
