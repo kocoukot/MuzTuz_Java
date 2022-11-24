@@ -156,8 +156,9 @@ fun MainMenuScreenContent(viewModel: MainMenuViewModel) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 12.dp),
-                        horizontalArrangement = Arrangement.SpaceAround
+                            .fillMaxHeight(),
+                        horizontalArrangement = Arrangement.SpaceAround,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         for (item in SocialMediaTypes.values()) {
                             val interactionSource = remember { MutableInteractionSource() }
