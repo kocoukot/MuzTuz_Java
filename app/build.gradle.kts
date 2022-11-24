@@ -97,6 +97,7 @@ dependencies {
     api(project(":creators-feature"))
     api(project(":level-select-feature"))
     api(project(":premium-select-feature"))
+    api(project(":shop-feature"))
 
     api(project(":core"))
     api(project(":core-mvi"))

@@ -26,4 +26,6 @@ interface GameRepository {
 
     fun resetStatistic()
 
+    val isFirstLaunch: Boolean
+
 }

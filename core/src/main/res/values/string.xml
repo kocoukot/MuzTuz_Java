@@ -2,4 +2,11 @@
 <resources>
     <string name="deep_link_level_fragment">muztus://levelSelectFragment</string>
     <string name="deep_link_game_level_fragment">muztus://gameLevelFragment</string>
+
+
+    <string name="ok">ОК</string>
+
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+
 </resources>

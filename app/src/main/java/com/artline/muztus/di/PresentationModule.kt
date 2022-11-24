@@ -13,7 +13,7 @@ import org.koin.dsl.module
 
 
 val authModule = module {
-    viewModel { MainMenuViewModel(get()) }
+    viewModel { MainMenuViewModel(get(), get()) }
 
     viewModel { PremiaSelectViewModel() }
 
@@ -44,6 +44,7 @@ val domainModule = module {
 
     factory { ResetStatisticUseCase(get()) }
 
+    factory { IsFirstLaunchUseCase(get()) }
 
 }
 

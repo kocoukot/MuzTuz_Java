@@ -19,8 +19,9 @@ class MainViewModel(
 
     }
 
+
     fun addCoins() {
-        setCoinsAmountUseCase(100)
+        setCoinsAmountUseCase(100) //todo remove after test
         updateCoins()
     }
 

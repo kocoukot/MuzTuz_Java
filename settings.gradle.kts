@@ -19,3 +19,4 @@ rootProject.name = "MuzTus"
 include(":creators-feature")
 include(":statistic-feature")
 include(":domain-layer")
+include(":shop-feature")

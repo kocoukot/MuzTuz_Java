@@ -1,5 +1,6 @@
 package com.muztus.core_mvi
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -26,6 +27,12 @@ interface BaseFragment<VM : BaseViewModel> {
             viewModel.observeSteps().onEach { route ->
                 when (route) {
                     is ComposeRouteNavigation -> navigateScreen(route)
+                    is ComposeRouteOpenWeb -> {
+                        val intent = Intent(Intent.ACTION_VIEW)
+                        intent.data = Uri.parse("https://${route.getWebUrl()}")
+                        startActivity(intent)
+
+                    }
                     else -> composeRoute?.invoke(route)
                 }
             }.launchIn(viewLifecycleOwner.lifecycleScope)

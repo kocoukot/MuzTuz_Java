@@ -86,7 +86,7 @@ fun LevelInput(
     val isPressed by interactionSource.collectIsPressedAsState()
 
     val buttonColor by animateColorAsState(
-        targetValue = if (isPressed) MTTheme.colors.buttonPressed else MTTheme.colors.buttonNotPressed
+        targetValue = if (isPressed) MTTheme.colors.buttonPressed else MTTheme.colors.mainDarkBrown
     )
 
     val checkMarkColor by animateColorAsState(
@@ -111,8 +111,8 @@ fun LevelInput(
             colors = TextFieldDefaults.textFieldColors(
                 textColor = MTTheme.colors.black,
                 backgroundColor = Color.Transparent,
-                cursorColor = MTTheme.colors.buttonNotPressed,
-                focusedIndicatorColor = MTTheme.colors.buttonNotPressed,
+                cursorColor = MTTheme.colors.mainDarkBrown,
+                focusedIndicatorColor = MTTheme.colors.mainDarkBrown,
                 unfocusedIndicatorColor = MTTheme.colors.alertBackground,
             ),
             value = input,

@@ -11,17 +11,12 @@ import com.artline.muztus.databinding.ActivityMainBinding
 import com.muztus.core.ext.SupportInfoBar
 import com.muztus.core.ext.castSafe
 import com.muztus.core_mvi.UpdateCoins
-import com.muztus.domain_layer.usecase.GetGameCoinsUseCase
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity(), UpdateCoins {
 
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainViewModel by viewModel()
-
-    private val getGameCoinsUseCase: GetGameCoinsUseCase by inject()
-
 
     private val navHost by lazy {
         supportFragmentManager.findFragmentById(binding.navHostView.id)
@@ -57,6 +52,7 @@ class MainActivity : AppCompatActivity(), UpdateCoins {
         }
         observeLiveData()
 
+        //todo fix remove after test
         binding.imageView5.setOnClickListener {
             viewModel.addCoins()
         }

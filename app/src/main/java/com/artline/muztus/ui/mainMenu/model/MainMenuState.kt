@@ -5,7 +5,8 @@ import com.muztus.core_mvi.ComposeFragmentState
 data class MainMenuState(
     val error: String = "",
     val isLoading: Boolean = false,
-    val showResetAlert: Boolean = false
+    val showResetAlert: Boolean = false,
+    val showFirstLaunchAlert: Boolean = false
 
 
 ) : ComposeFragmentState

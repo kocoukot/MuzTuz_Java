@@ -32,7 +32,7 @@ fun GameMainButton(
 
 // Use the state to change the background color
     val buttonColor by animateColorAsState(
-        targetValue = if (isPressed) MTTheme.colors.buttonPressed else MTTheme.colors.buttonNotPressed
+        targetValue = if (isPressed) MTTheme.colors.buttonPressed else MTTheme.colors.mainDarkBrown
     )
 
     val textColor by animateColorAsState(

@@ -13,6 +13,13 @@ class GameRepositoryImpl(
 
     override fun testCoins(): Int = sharedPreferencesStorage.get<Int>(ARG_COINS) ?: 0
 
+    override val isFirstLaunch: Boolean
+        get() {
+            val isFirst = (sharedPreferencesStorage.get<Boolean>(ARG_IS_FIRST_LAUNCH) ?: true)
+            if (isFirst) sharedPreferencesStorage[ARG_IS_FIRST_LAUNCH] = false
+            return isFirst
+        }
+
     override fun setGameMusicState(isOn: Boolean) {
 
     }
@@ -63,6 +70,8 @@ class GameRepositoryImpl(
 
     companion object {
         const val ARG_COINS = "game_coins"
+        const val ARG_IS_FIRST_LAUNCH = "is_first_launch"
+
         private val correctAnswersList = listOf(
             listOf(listOf("мумий тролль")),
             listOf(

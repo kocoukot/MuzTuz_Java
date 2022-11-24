@@ -143,59 +143,6 @@
                     app:layout_constraintTop_toTopOf="@+id/imageView3" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="bottom"
-                android:layout_marginTop="30dp"
-                android:gravity="bottom"
-                android:orientation="vertical">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom">
-
-                    <ImageView
-                        android:id="@+id/imageView7"
-                        android:layout_width="366dp"
-                        android:layout_height="166dp"
-                        android:layout_gravity="bottom"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/chelovechek_ochen_rady"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:id="@+id/socialVK"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_gravity="bottom"
-                        android:layout_marginStart="120dp"
-                        android:layout_marginBottom="20dp"
-                        android:background="@drawable/button_vkontakt"
-                        android:onClick="onClickVK"
-                        app:layout_constraintBottom_toBottomOf="@+id/imageView7"
-                        app:layout_constraintStart_toStartOf="@+id/imageView7" />
-
-
-                    <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_gravity="bottom"
-                        android:layout_marginEnd="60dp"
-                        android:layout_marginBottom="20dp"
-                        android:background="@drawable/button_instagram"
-                        android:onClick="onClickInst"
-                        app:layout_constraintBottom_toBottomOf="@+id/imageView7"
-                        app:layout_constraintEnd_toEndOf="@+id/imageView7" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
