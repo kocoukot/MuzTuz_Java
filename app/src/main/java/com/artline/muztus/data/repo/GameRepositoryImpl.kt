@@ -3,6 +3,7 @@ package com.artline.muztus.data.repo
 import com.artline.muztus.data.SharedPreferencesStorage
 import com.muztus.data.premiaImagesList
 import com.muztus.domain_layer.model.GameLevelModel
+import com.muztus.domain_layer.model.GameMainInfo
 import com.muztus.domain_layer.model.LevelHints
 import com.muztus.domain_layer.model.PremiaLevelModel
 import com.muztus.domain_layer.repos.GameRepository
@@ -11,14 +12,15 @@ class GameRepositoryImpl(
     private val sharedPreferencesStorage: SharedPreferencesStorage
 ) : GameRepository {
 
-    override fun testCoins(): Int = sharedPreferencesStorage.get<Int>(ARG_COINS) ?: 0
+    override fun getGameMainInfo(): GameMainInfo = GameMainInfo(
+        coinsAmount = sharedPreferencesStorage.getCoinsAmount(),
+        starsAmount = sharedPreferencesStorage.getStarsAmount(),
+    )
+
 
     override val isFirstLaunch: Boolean
-        get() {
-            val isFirst = (sharedPreferencesStorage.get<Boolean>(ARG_IS_FIRST_LAUNCH) ?: true)
-            if (isFirst) sharedPreferencesStorage[ARG_IS_FIRST_LAUNCH] = false
-            return isFirst
-        }
+        get() = sharedPreferencesStorage.checkFirstLaunch()
+
 
     override fun setGameMusicState(isOn: Boolean) {
 
@@ -33,8 +35,7 @@ class GameRepositoryImpl(
     }
 
     override fun setGameCoinsAmount(amount: Int) {
-        val coins = sharedPreferencesStorage.get<Int>(ARG_COINS) ?: 0
-        sharedPreferencesStorage[ARG_COINS] = coins + amount
+        sharedPreferencesStorage.addCoins(amount)
     }
 
 
@@ -69,8 +70,7 @@ class GameRepositoryImpl(
 
 
     companion object {
-        const val ARG_COINS = "game_coins"
-        const val ARG_IS_FIRST_LAUNCH = "is_first_launch"
+//        const val ARG_COINS = "game_coins"
 
         private val correctAnswersList = listOf(
             listOf(listOf("мумий тролль")),

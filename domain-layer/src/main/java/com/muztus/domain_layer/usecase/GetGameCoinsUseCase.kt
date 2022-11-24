@@ -5,5 +5,5 @@ import com.muztus.domain_layer.repos.GameRepository
 class GetGameCoinsUseCase(
     private val gameRepository: GameRepository
 ) {
-    operator fun invoke() = gameRepository.testCoins()
+    operator fun invoke() = gameRepository.getGameMainInfo()
 }

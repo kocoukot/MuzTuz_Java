@@ -59,8 +59,9 @@ class MainActivity : AppCompatActivity(), UpdateCoins {
     }
 
     private fun observeLiveData() {
-        viewModel.coins.observe(this) {
-            binding.menuCoins.text = it.toString()
+        viewModel.coins.observe(this) { mainInfo ->
+            binding.menuCoins.text = mainInfo.coinsAmount.toString()
+            binding.menuStars.text = mainInfo.starsAmount.toString()
         }
     }
 

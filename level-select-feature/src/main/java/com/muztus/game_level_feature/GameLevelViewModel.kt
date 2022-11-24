@@ -39,7 +39,7 @@ class GameLevelViewModel(
     }
 
     override fun onHintSelect(selectedHint: HintModel) {
-        if (selectedHint.canUseHint(getGameCoinsUseCase.invoke())) {
+        if (selectedHint.canUseHint(getGameCoinsUseCase.invoke().coinsAmount)) {
             updateInfo { copy(selectedHint = selectedHint, showHintAlert = true) }
         } else {
             updateInfo { copy(coinToast = selectedHint.hintCost()) }
