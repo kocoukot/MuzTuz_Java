@@ -114,7 +114,7 @@ class GameLevelViewModel(
                 priseCoins *= 2
             }
             updateInfo { copy(showCompleteLevelAlert = true, coinsAmountWin = coinsAmountWin) }
-            setCoinsAmountUseCase.invoke(priseCoins)
+            setCoinsAmountUseCase.invoke(priseCoins, getState().levelStarts)
             sendRoute(GameLevelRoute.UpdateCoins)
         } else {
             updateInfo {

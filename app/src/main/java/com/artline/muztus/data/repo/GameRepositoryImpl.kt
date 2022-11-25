@@ -30,17 +30,9 @@ class GameRepositoryImpl(
 
     }
 
-    override fun setGameStarsAmount(amount: Int) {
-
-    }
-
-    override fun setGameCoinsAmount(amount: Int) {
+    override fun setGameCoinsAmount(amount: Int, starsAmount: Int) {
         sharedPreferencesStorage.addCoins(amount)
-    }
-
-
-    override fun setHelloMessageSeen() {
-
+        sharedPreferencesStorage.addStars(starsAmount)
     }
 
     override fun getLevelInfo(premiumIndex: Int, levelIndex: Int): GameLevelModel =
@@ -71,8 +63,6 @@ class GameRepositoryImpl(
 
 
     companion object {
-//        const val ARG_COINS = "game_coins"
-
         private val correctAnswersList = listOf(
             listOf(listOf("мумий тролль")),
             listOf(

@@ -23,7 +23,11 @@ class SharedPreferencesStorage(private val sharedPreferences: SharedPreferences)
     fun getStarsAmount() = get<Int>(ARG_STARS) ?: 0
 
     fun addCoins(amount: Int) {
-        set(ARG_COINS, (get<Int>(ARG_COINS) ?: 0) + amount)
+        set(ARG_COINS, getCoinsAmount() + amount)
+    }
+
+    fun addStars(amount: Int) {
+        set(ARG_STARS, getStarsAmount() + if (amount < 0) 0 else amount)
     }
 
     fun checkFirstLaunch(): Boolean {
@@ -31,6 +35,7 @@ class SharedPreferencesStorage(private val sharedPreferences: SharedPreferences)
         if (isFirst) set(ARG_IS_FIRST_LAUNCH, false)
         return isFirst
     }
+
 
 
     companion object Keys {

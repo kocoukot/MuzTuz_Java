@@ -13,13 +13,7 @@ interface GameRepository {
 
     fun setGameSoundsState(isOn: Boolean)
 
-    fun setGameStarsAmount(amount: Int)
-
-    fun setGameCoinsAmount(amount: Int)
-
-//    fun getGameInfo(): GameMainInfo
-
-    fun setHelloMessageSeen()
+    fun setGameCoinsAmount(amount: Int, starsAmount: Int)
 
     fun getLevelInfo(premiumIndex: Int, levelIndex: Int): GameLevelModel
 
