@@ -120,4 +120,6 @@ data class LevelHints(
     var correctAnswerHint: HintModel.Abstract = HintModel.CorrectAnswer(),
 ) {
     fun getHintsList() = listOf(letterAmountHint, oneLetterHint, songHint, correctAnswerHint)
+
+    fun getUsedAmount() = getHintsList().filter { it.isUsed }.size
 }

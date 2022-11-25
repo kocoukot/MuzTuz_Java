@@ -80,7 +80,7 @@ fun AlertDialogComp(
 }
 
 @Composable
-private fun AlertButton(
+fun AlertButton(
     title: String,
     onAction: () -> Unit
 ) {

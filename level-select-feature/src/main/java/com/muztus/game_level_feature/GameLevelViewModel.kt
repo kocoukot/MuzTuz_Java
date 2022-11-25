@@ -9,7 +9,8 @@ import com.muztus.domain_layer.usecase.SetCoinsAmountUseCase
 import com.muztus.game_level_feature.model.GameLevelAction
 import com.muztus.game_level_feature.model.GameLevelRoute
 import com.muztus.game_level_feature.model.GameLevelState
-import com.muztus.game_level_feature.model.LevelAction
+import com.muztus.game_level_feature.model.GameToast
+import com.muztus.level_select_feature.R
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class GameLevelViewModel(
@@ -18,12 +19,14 @@ class GameLevelViewModel(
     private val getLevelInfoUseCase: GetLevelInfoUseCase,
     private val setCoinsAmountUseCase: SetCoinsAmountUseCase,
     private val getGameCoinsUseCase: GetGameCoinsUseCase
-) : BaseViewModel.Base<GameLevelState, GameLevelAction>(
+) : BaseViewModel.Base<GameLevelState, GameLevelAction.Base>(
     mState = MutableStateFlow(GameLevelState())
-), LevelAction, HintUse {
+), GameLevelAction, HintUse {
+
+    private var gameStartTime = System.currentTimeMillis()
+    private var priseCoins = PRISE_COINS
 
     init {
-
         updateInfo {
             copy(
                 data = getLevelInfoUseCase(
@@ -34,7 +37,7 @@ class GameLevelViewModel(
         }
     }
 
-    override fun setInputActions(action: GameLevelAction) {
+    override fun setInputActions(action: GameLevelAction.Base) {
         action.handle(this)
     }
 
@@ -42,7 +45,14 @@ class GameLevelViewModel(
         if (selectedHint.canUseHint(getGameCoinsUseCase.invoke().coinsAmount)) {
             updateInfo { copy(selectedHint = selectedHint, showHintAlert = true) }
         } else {
-            updateInfo { copy(coinToast = selectedHint.hintCost()) }
+            updateInfo {
+                copy(
+                    coinToast = GameToast.ToastWithArgs(
+                        toastText = R.string.not_enough_coins_toast,
+                        argument = selectedHint.hintCost()
+                    )
+                )
+            }
         }
     }
 
@@ -69,9 +79,13 @@ class GameLevelViewModel(
         updateInfo { copy(showLetterAlert = "") }
     }
 
+    override fun closeEndGameAlert() {
+        updateInfo { copy(showCompleteLevelAlert = false) }
+        sendRoute(GameLevelRoute.CloseGameLevel)
+    }
 
     override fun clearToastCoins() {
-        updateInfo { copy(coinToast = 0) }
+        updateInfo { copy(coinToast = GameToast.Empty) }
     }
 
 
@@ -80,20 +94,40 @@ class GameLevelViewModel(
     }
 
     override fun answerHint() {
+
     }
 
     override fun changeCoinsAmount(hintPrice: Int) {
-        updateInfo { copy(selectedHint = null) }
+        priseCoins -= HINT_USE_DECREASE
         setCoinsAmountUseCase(-hintPrice)
+        updateInfo { copy(levelStarts = levelStarts - 1, selectedHint = null) }
         sendRoute(GameLevelRoute.UpdateCoins)
     }
 
     override fun onCheckInput(userInput: String) {
-//        println(getState().data.checkUserInput(userInput))
-//        if (getState().data.checkUserInput(userInput)) {
-//
-//        } else {
-//
-//        }
+        println(getState().data.checkUserInput(userInput))
+        if (getState().data.checkUserInput(userInput)) {
+            var coinsAmountWin = "$priseCoins"
+            val gameEndTime = System.currentTimeMillis()
+            if ((gameEndTime - gameStartTime) < MAX_DURATION) {
+                coinsAmountWin += " x2"
+                priseCoins *= 2
+            }
+            updateInfo { copy(showCompleteLevelAlert = true, coinsAmountWin = coinsAmountWin) }
+            setCoinsAmountUseCase.invoke(priseCoins)
+            sendRoute(GameLevelRoute.UpdateCoins)
+        } else {
+            updateInfo {
+                copy(coinToast = GameToast.ToastInfo(toastText = R.string.wrong_answer))
+            }
+        }
+    }
+
+    private companion object {
+        private const val HINT_USE_DECREASE = 10
+        private const val PRISE_COINS = 50
+        private const val MAX_DURATION = 15000
+
+
     }
 }

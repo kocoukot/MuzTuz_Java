@@ -33,12 +33,12 @@ import com.muztus.level_select_feature.R
 @Composable
 fun BottomBarContent(
     data: GameLevelModel,
-    bottomBarActions: (GameLevelAction) -> Unit
+    bottomBarActions: (GameLevelAction.Base) -> Unit
 ) {
     val isKeyboardOpen by keyboardAsState()
     val hintPadding by animateDpAsState(targetValue = if (isKeyboardOpen == Keyboard.Opened) 0.dp else 8.dp)
 
-    LevelInput(modifier = Modifier) { bottomBarActions.invoke(GameLevelAction.CheckUSerInput(it)) }
+    LevelInput(modifier = Modifier) { bottomBarActions.invoke(GameLevelAction.Base.CheckUSerInput(it)) }
 
     Row(
         modifier = Modifier
@@ -68,7 +68,7 @@ fun BottomBarContent(
                         interactionSource = interactionSource,
                         indication = null
                     ) {
-                        bottomBarActions.invoke(GameLevelAction.OnUserTapHint(hint))
+                        bottomBarActions.invoke(GameLevelAction.Base.OnUserTapHint(hint))
                     },
                 painter = painterResource(id = hint.hintImage()), contentDescription = null
             )

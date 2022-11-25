@@ -51,7 +51,8 @@ class GameRepositoryImpl(
             levelHints = LevelHints(),
             levelImage = premiaImagesList[premiumIndex][levelIndex],
             songName = albumsList[premiumIndex][levelIndex],
-            isSolved = false
+            isSolved = false,
+            0
         )
 
     override fun getSelectedPremiumData(selectedPremiumIndex: Int): List<PremiaLevelModel> =

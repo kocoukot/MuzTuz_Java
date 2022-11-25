@@ -26,19 +26,13 @@ class GameLevelFragment : BaseFragment.BaseF<GameLevelViewModel>(), SupportInfoB
     override fun observeData(composeRoute: ((ComposeFragmentRoute) -> Unit)?) {
         super.observeData { route ->
             when (route) {
-                GameLevelRoute.UpdateCoins -> {
-                    (requireActivity() as UpdateCoins).updateCoins()
-                }
+                GameLevelRoute.UpdateCoins -> (requireActivity() as UpdateCoins).updateCoins()
             }
-
         }
-
-
     }
 
     companion object {
         private const val ARG_PREMIUM_INDEX = "premium_index"
         private const val ARG_LEVEL_INDEX = "level_index"
     }
-
 }

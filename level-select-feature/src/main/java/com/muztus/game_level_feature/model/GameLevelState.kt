@@ -7,8 +7,11 @@ data class GameLevelState(
     val error: String = "",
     val isLoading: Boolean = false,
     val data: GameLevelModel = GameLevelModel.Empty,
-    val coinToast: Int = 0,
+    val coinToast: GameToast = GameToast.Empty,
     val showHintAlert: Boolean = false,
     val selectedHint: HintModel? = null,
-    val showLetterAlert: String = ""
+    val showLetterAlert: String = "",
+    val showCompleteLevelAlert: Boolean = false,
+    val levelStarts: Int = 3,
+    val coinsAmountWin: String = ""
 )

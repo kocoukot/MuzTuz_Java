@@ -10,7 +10,7 @@ class LevelSelectFragment : BaseFragment.BaseF<LevelSelectViewModel>(), SupportI
     override val viewModel: LevelSelectViewModel by viewModel {
         parametersOf(selectedPremium)
     }
-    private val selectedPremium = 3// by requireArg<Int>(ARG_PREMIUM_INDEX)
+    private val selectedPremium = 3// by requireArg<Int>(ARG_PREMIUM_INDEX) //todo fix later
 
     override var screenContent: (@Composable (LevelSelectViewModel) -> Unit)? =
         { LevelSelectContent(viewModel) }

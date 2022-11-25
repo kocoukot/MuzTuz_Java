@@ -25,4 +25,14 @@ data class MTTypography internal constructor(
 //        letterSpacing = (-0.01).sp,
         color = Color(0xFF2B0103)
     ),
-)
+
+    val normalText: TextStyle = TextStyle(
+        fontSize = 20.sp,
+        lineHeight = 22.sp,
+        fontWeight = FontWeight.W500,
+//        letterSpacing = (-0.01).sp,
+        color = Color(0xFF2B0103)
+    ),
+
+
+    )

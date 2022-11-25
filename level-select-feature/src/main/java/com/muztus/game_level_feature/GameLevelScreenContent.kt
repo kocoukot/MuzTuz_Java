@@ -1,71 +1,70 @@
 package com.muztus.game_level_feature
 
-import android.widget.Toast
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.muztus.core.compose.AlertDialogComp
 import com.muztus.core.compose.LetterSelectAlertDialog
+import com.muztus.core.compose.endGameAlert.EndGameLevelDialog
 import com.muztus.core.theme.MTTheme
 import com.muztus.domain_layer.model.HintModel
 import com.muztus.game_level_feature.content.BottomBarContent
 import com.muztus.game_level_feature.model.GameLevelAction
+import com.muztus.game_level_feature.model.GameToast
 import com.muztus.level_select_feature.R
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun GameLevelScreenContent(viewModel: GameLevelViewModel) {
 
     val state by viewModel.state.collectAsState()
-    val context = LocalContext.current
+    val scaffoldState = rememberScaffoldState()
 
-    if (state.coinToast > 0) { //todo fix later mb
-        val msg = stringResource(id = R.string.not_enough_coins_toast, state.coinToast)
-        Toast.makeText(
-            context,
-            msg,
-            Toast.LENGTH_SHORT
-        ).show()
-        viewModel.setInputActions(GameLevelAction.ClearToastCoins)
-    }
 
     if (state.showHintAlert && state.selectedHint != null) {
-        AlertDialogComp(
-            dialogText = stringResource(
-                id = R.string.user_hint_alert_text,
-                stringResource(id = state.selectedHint!!.hintName()),
-                state.selectedHint!!.hintCost()
-            ),
-            onOptionSelected = {
-                viewModel.setInputActions(GameLevelAction.OnHintAlertDecision(it))
-            }
-        )
+        AlertDialogComp(dialogText = stringResource(
+            id = R.string.user_hint_alert_text,
+            stringResource(id = state.selectedHint!!.hintName()),
+            state.selectedHint!!.hintCost()
+        ), onOptionSelected = {
+            viewModel.setInputActions(GameLevelAction.Base.OnHintAlertDecision(it))
+        })
+    }
+
+    if (state.showCompleteLevelAlert) {
+        EndGameLevelDialog(coinsAmountText = state.coinsAmountWin,
+            starsAmount = if (state.levelStarts < 0) 0 else state.levelStarts,
+            onActionClick = {
+                viewModel.setInputActions(GameLevelAction.Base.CloseEndGameAlert)
+            })
     }
 
 
-    state.showLetterAlert
-        .takeIf { it.isNotEmpty() }
-        ?.let { answer ->
-            LetterSelectAlertDialog(answer) {
-                if (it >= 0) viewModel.setInputActions(GameLevelAction.UseOneLetterHint(it))
-            }
+    state.showLetterAlert.takeIf { it.isNotEmpty() }?.let { answer ->
+        LetterSelectAlertDialog(answer) {
+            if (it >= 0) viewModel.setInputActions(GameLevelAction.Base.UseOneLetterHint(it))
         }
+    }
 
 
-    Surface(
-        color = MTTheme.colors.background,
-        modifier = Modifier
+    Scaffold(
+        scaffoldState = scaffoldState, backgroundColor = MTTheme.colors.background,
+        snackbarHost = {
+            scaffoldState.snackbarHostState
+        }, modifier = Modifier
             .fillMaxSize()
             .padding(top = 8.dp)
     ) {
@@ -76,10 +75,8 @@ fun GameLevelScreenContent(viewModel: GameLevelViewModel) {
                 .background(MTTheme.colors.background)
         ) {
 
-            state.data.hintsRow().filterIsInstance<HintModel.SongHint>()
-                .first()
-                .takeIf { it.isEnabled() }
-                ?.let {
+            state.data.hintsRow().filterIsInstance<HintModel.SongHint>().first()
+                .takeIf { it.isEnabled() }?.let {
                     Text(
                         color = MTTheme.colors.white,
                         fontSize = 12.sp,
@@ -122,18 +119,58 @@ fun GameLevelScreenContent(viewModel: GameLevelViewModel) {
                     )
                 }
 
-                state.data.getLettersAmount()
-                    .takeIf { it.isNotEmpty() }
-                    ?.let { hintString ->
-                        Text(
-                            color = MTTheme.colors.buttonPressed,
-                            fontSize = 16.sp,
-                            text = hintString,
-                            modifier = Modifier
-                        )
-                    }
+                state.data.getLettersAmount().takeIf { it.isNotEmpty() }?.let { hintString ->
+                    Text(
+                        color = MTTheme.colors.buttonPressed,
+                        fontSize = 16.sp,
+                        text = hintString,
+                        modifier = Modifier
+                    )
+                }
                 BottomBarContent(state.data, viewModel::setInputActions)
             }
+
+            when (state.coinToast) {
+                GameToast.Empty -> {}
+                else -> {
+                    val msgText = state.coinToast.toastText()
+                    LaunchedEffect(key1 = Unit) {
+                        scaffoldState.snackbarHostState.showSnackbar(msgText)
+
+
+                        viewModel.setInputActions(GameLevelAction.Base.ClearToastCoins)
+                    }
+                }
+            }
+
+            MakeToast(
+                modifier = Modifier.align(Alignment.BottomCenter),
+                state = scaffoldState.snackbarHostState
+            )
         }
     }
+}
+
+@Composable
+fun MakeToast(modifier: Modifier = Modifier, state: SnackbarHostState) {
+
+    SnackbarHost(
+        modifier = modifier.padding(horizontal = 16.dp),
+        hostState = state,
+        snackbar = { data ->
+            Snackbar(
+                modifier = Modifier,
+                content = {
+                    Text(
+                        modifier = Modifier
+                            .padding(horizontal = 4.dp, vertical = 4.dp)
+                            .fillMaxWidth(),
+                        text = data.message,
+                        color = MTTheme.colors.white,
+                        textAlign = TextAlign.Center
+                    )
+                }
+            )
+        }
+    )
 }

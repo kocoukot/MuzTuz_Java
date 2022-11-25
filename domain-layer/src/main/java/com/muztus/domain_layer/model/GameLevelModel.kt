@@ -26,6 +26,7 @@ interface GameLevelModel {
         private val levelImage: Int,
         private val songName: String,
         private val isSolved: Boolean,
+        private val gameDuration: Long
     ) : GameLevelModel {
 
         override fun checkUserInput(userInput: String): Boolean =
@@ -52,6 +53,7 @@ interface GameLevelModel {
 
         override fun getCorrectAnswer(): String = correctAnswers.first()
 
+
         override fun lettersAmountHintUse(hintUse: HintUse) {
             levelHints.letterAmountHint.onHintUsed(hintUse)
         }
@@ -65,8 +67,6 @@ interface GameLevelModel {
         override fun songHintUse(hintUse: HintUse) {
             levelHints.songHint.onHintUsed(hintUse)
         }
-
-
     }
 
 
