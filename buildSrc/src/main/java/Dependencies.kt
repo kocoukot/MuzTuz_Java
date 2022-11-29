@@ -38,6 +38,7 @@ object Dependencies {
         const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
         const val livedata = "androidx.compose.runtime:runtime-livedata"
         const val animation = "androidx.compose.animation:animation:1.4.0-alpha01"
+        const val activity = "androidx.activity:activity-compose:1.4.0"
 
         // UI Tests
 //        androidTestImplementation("androidx.compose.ui:ui-test-junit4")

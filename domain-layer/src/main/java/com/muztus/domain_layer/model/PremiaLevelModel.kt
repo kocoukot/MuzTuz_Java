@@ -24,12 +24,15 @@ interface PremiaLevelModel {
 
     fun levelInfo(): Base
 
+    fun setPassed(): Base
 
-    class Base(
+
+    data class Base(
         val levelIndex: Int,
         val isLevelPassed: Boolean,
-        val levelImage: Int
-    ) : PremiaLevelModel {
+        val levelImage: Int,
+
+        ) : PremiaLevelModel {
 
         @Composable
         override fun LevelImage(modifier: Modifier, onSelect: (Int) -> Unit) {
@@ -69,6 +72,7 @@ interface PremiaLevelModel {
 
         override fun levelIndex(): Int = levelIndex
         override fun levelInfo(): Base = this
+        override fun setPassed(): Base = this.copy(isLevelPassed = true)
 
 
     }

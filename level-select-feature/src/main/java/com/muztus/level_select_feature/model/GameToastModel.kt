@@ -1,4 +1,4 @@
-package com.muztus.game_level_feature.model
+package com.muztus.level_select_feature.model
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource

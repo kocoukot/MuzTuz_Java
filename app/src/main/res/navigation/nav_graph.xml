@@ -42,18 +42,7 @@
             android:name="premium_index"
             app:argType="integer" />
     </fragment>
-    <fragment
-        android:id="@+id/gameLevelFragment"
-        android:name="com.muztus.game_level_feature.GameLevelFragment"
-        android:label="GameLevelFragment">
-        <deepLink app:uri="muztus://gameLevelFragment/{premium_index}/{level_index}" />
-        <argument
-            android:name="premium_index"
-            app:argType="integer" />
-        <argument
-            android:name="level_index"
-            app:argType="integer" />
-    </fragment>
+
     <fragment
         android:id="@+id/shopFragment"
         android:name="com.muztus.shop_feature.ShopFragment"

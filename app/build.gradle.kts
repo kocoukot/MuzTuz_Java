@@ -80,6 +80,7 @@ dependencies {
     implementation(Dependencies.Compose.viewModel)
     implementation(Dependencies.Compose.livedata)
     implementation(Dependencies.Compose.animation)
+    implementation(Dependencies.Compose.activity)
 
     implementation(Dependencies.GoogleAd.mobileAd)
 

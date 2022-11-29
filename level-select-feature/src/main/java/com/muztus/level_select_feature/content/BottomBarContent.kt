@@ -1,4 +1,4 @@
-package com.muztus.game_level_feature.content
+package com.muztus.level_select_feature.content
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
@@ -27,18 +27,24 @@ import com.muztus.core.ext.keyboardAsState
 import com.muztus.core.ext.letters
 import com.muztus.core.theme.MTTheme
 import com.muztus.domain_layer.model.GameLevelModel
-import com.muztus.game_level_feature.model.GameLevelAction
 import com.muztus.level_select_feature.R
+import com.muztus.level_select_feature.model.LevelSelectActions
 
 @Composable
 fun BottomBarContent(
     data: GameLevelModel,
-    bottomBarActions: (GameLevelAction.Base) -> Unit
+    bottomBarActions: (LevelSelectActions.Base) -> Unit
 ) {
     val isKeyboardOpen by keyboardAsState()
     val hintPadding by animateDpAsState(targetValue = if (isKeyboardOpen == Keyboard.Opened) 0.dp else 8.dp)
 
-    LevelInput(modifier = Modifier) { bottomBarActions.invoke(GameLevelAction.Base.CheckUSerInput(it)) }
+    LevelInput(modifier = Modifier) {
+        bottomBarActions.invoke(
+            LevelSelectActions.Base.CheckUSerInput(
+                it
+            )
+        )
+    }
 
     Row(
         modifier = Modifier
@@ -68,7 +74,7 @@ fun BottomBarContent(
                         interactionSource = interactionSource,
                         indication = null
                     ) {
-                        bottomBarActions.invoke(GameLevelAction.Base.OnUserTapHint(hint))
+                        bottomBarActions.invoke(LevelSelectActions.Base.OnUserTapHint(hint))
                     },
                 painter = painterResource(id = hint.hintImage()), contentDescription = null
             )

@@ -6,12 +6,11 @@ import com.muztus.domain_layer.model.PremiaLevelModel
 
 
 interface GameRepository {
+    var isMusicOn: Boolean
+
+    var isSoundOn: Boolean
 
     fun getGameMainInfo(): GameMainInfo
-
-    fun setGameMusicState(isOn: Boolean)
-
-    fun setGameSoundsState(isOn: Boolean)
 
     fun setGameCoinsAmount(amount: Int, starsAmount: Int)
 

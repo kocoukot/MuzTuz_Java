@@ -1,51 +1,124 @@
 package com.muztus.level_select_feature
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
+import android.annotation.SuppressLint
+import androidx.activity.compose.BackHandler
+import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material.Scaffold
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.material.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.muztus.core.compose.LetterSelectAlertDialog
+import com.muztus.core.compose.endGameAlert.EndGameLevelDialog
 import com.muztus.core.theme.MTTheme
+import com.muztus.level_select_feature.content.PremiumLevelScreenContent
+import com.muztus.level_select_feature.content.PremiumScreenContent
+import com.muztus.level_select_feature.model.GameToast
 import com.muztus.level_select_feature.model.LevelSelectActions
+import com.muztus.level_select_feature.model.SelectedLevel
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun LevelSelectContent(viewModel: LevelSelectViewModel) {
 
     val state by viewModel.state.collectAsState()
+    val selectedPremium by remember { mutableStateOf(state.premiaLevelList) }
+    val coinToast = remember { derivedStateOf { state.coinToast } }
+
+    val scaffoldState = rememberScaffoldState()
+
+
+    BackHandler {
+        viewModel.setInputActions(LevelSelectActions.Base.OnBackPressed)
+    }
+
+
+    if (state.showCompleteLevelAlert) {
+        EndGameLevelDialog(coinsAmountText = state.coinsAmountWin,
+            starsAmount = if (state.levelStarts < 0) 0 else state.levelStarts,
+            onActionClick = {
+                viewModel.setInputActions(LevelSelectActions.Base.CloseEndGameAlert)
+            })
+    }
+
+
+    state.showLetterAlert.takeIf { it.isNotEmpty() }?.let { answer ->
+        LetterSelectAlertDialog(answer) {
+            if (it >= 0) viewModel.setInputActions(LevelSelectActions.Base.UseOneLetterHint(it))
+        }
+    }
 
     Scaffold(
+        scaffoldState = scaffoldState,
+        snackbarHost = { scaffoldState.snackbarHostState },
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 8.dp),
         backgroundColor = MTTheme.colors.background
-    ) { _ ->
-
-
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(count = 3),
-            modifier = Modifier
-                .background(MTTheme.colors.background)
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        Box(
+            modifier = Modifier.fillMaxSize()
         ) {
-            items(state.data, key = { item -> item.levelIndex() }) { item ->
-                item.LevelImage(
-                    modifier = Modifier,
-                    onSelect = { index ->
-                        viewModel.setInputActions(LevelSelectActions.SelectLevel(index))
-                    })
 
+
+            Crossfade(targetState = state.selectedLevel) { targetState ->
+                when (targetState) {
+                    is SelectedLevel.Empty -> {
+                        PremiumScreenContent(selectedPremium, viewModel::setInputActions)
+                    }
+
+                    is SelectedLevel.SelectedLevelData -> {
+                        PremiumLevelScreenContent(targetState, viewModel::setInputActions)
+                    }
+                }
             }
 
+            when (coinToast.value) {
+                GameToast.Empty -> {}
+
+                else -> {
+                    val msgText = coinToast.value.toastText()
+                    LaunchedEffect(key1 = Unit) {
+                        scaffoldState.snackbarHostState.showSnackbar(msgText)
+                        viewModel.setInputActions(LevelSelectActions.Base.ClearToastCoins)
+                    }
+                }
+            }
+
+            MakeToast(
+                modifier = Modifier.align(Alignment.BottomCenter),
+                state = scaffoldState.snackbarHostState
+            )
         }
     }
 }
+
+@Composable
+fun MakeToast(modifier: Modifier = Modifier, state: SnackbarHostState) {
+
+    SnackbarHost(
+        modifier = modifier.padding(horizontal = 16.dp),
+        hostState = state,
+        snackbar = { data ->
+            Snackbar(
+                modifier = Modifier,
+                content = {
+                    Text(
+                        modifier = Modifier
+                            .padding(horizontal = 4.dp, vertical = 4.dp)
+                            .fillMaxWidth(),
+                        text = data.message,
+                        color = MTTheme.colors.white,
+                        textAlign = TextAlign.Center
+                    )
+                }
+            )
+        }
+    )
+}
+

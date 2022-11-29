@@ -5,7 +5,6 @@ import com.artline.muztus.ui.MainViewModel
 import com.artline.muztus.ui.mainMenu.MainMenuViewModel
 import com.muztus.domain_layer.repos.GameRepository
 import com.muztus.domain_layer.usecase.*
-import com.muztus.game_level_feature.GameLevelViewModel
 import com.muztus.level_select_feature.LevelSelectViewModel
 import com.muztus.premium_select_feature.PremiaSelectViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -17,12 +16,10 @@ val authModule = module {
 
     viewModel { PremiaSelectViewModel() }
 
-    viewModel { (selectedPremium: Int) -> LevelSelectViewModel(selectedPremium, get()) }
-
-    viewModel { (selectedPremium: Int, selectedLevel: Int) ->
-        GameLevelViewModel(
+    viewModel { (selectedPremium: Int) ->
+        LevelSelectViewModel(
             selectedPremium,
-            selectedLevel,
+            get(),
             get(),
             get(),
             get()

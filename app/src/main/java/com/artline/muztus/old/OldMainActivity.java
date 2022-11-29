@@ -113,14 +113,14 @@ public class OldMainActivity extends AppCompatActivity implements RewardedVideoA
 
     private void soundsStatusSet() {
         if (preferencesSounds.getBoolean("musicPlay", true)) {
-            musicButton.setImageResource(R.drawable.buton_music_on);
+            musicButton.setImageResource(R.drawable.button_music);
             //   MusicPlayerService.start(this,MusicPlayerService.MUSIC_MENU);
         } else {
             musicButton.setImageResource(R.drawable.buton_music_off);
         }
 
         if (preferencesSounds.getBoolean("soundsPlay", true)) {
-            soundsButton.setImageResource(R.drawable.buton_sound_on);
+            soundsButton.setImageResource(R.drawable.button_sound);
         } else {
             soundsButton.setImageResource(R.drawable.buton_sound_off);
         }
@@ -141,13 +141,13 @@ public class OldMainActivity extends AppCompatActivity implements RewardedVideoA
         textViewStars.setText(String.valueOf(preferencesPrizes.getInt("stars", 0)));
 
         if (preferencesSounds.getBoolean("musicPlay", true)) {
-            musicButton.setImageResource(R.drawable.buton_music_on);
+            musicButton.setImageResource(R.drawable.button_music);
         } else {
             musicButton.setImageResource(R.drawable.buton_music_off);
         }
 
         if (preferencesSounds.getBoolean("soundsPlay", true)) {
-            soundsButton.setImageResource(R.drawable.buton_sound_on);
+            soundsButton.setImageResource(R.drawable.button_sound);
         } else {
             soundsButton.setImageResource(R.drawable.buton_sound_off);
         }
@@ -245,7 +245,7 @@ public class OldMainActivity extends AppCompatActivity implements RewardedVideoA
             editor.putBoolean("musicPlay", false);
 
         } else {
-            musicButton.setImageResource(R.drawable.buton_music_on);
+            musicButton.setImageResource(R.drawable.button_music);
             MusicPlayerService.resume(this);
             editor.putBoolean("musicPlay", true);
         }
@@ -265,7 +265,7 @@ public class OldMainActivity extends AppCompatActivity implements RewardedVideoA
         } else {
             SoundsPlayerService.start(this, SoundsPlayerService.SOUND_ON_MUSIC, true);
 
-            soundsButton.setImageResource(R.drawable.buton_sound_on);
+            soundsButton.setImageResource(R.drawable.button_sound);
             MusicPlayerService.resume(this);
             editor.putBoolean("soundsPlay", true);
         }

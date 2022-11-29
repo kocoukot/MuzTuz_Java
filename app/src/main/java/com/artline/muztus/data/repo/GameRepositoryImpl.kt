@@ -22,13 +22,14 @@ class GameRepositoryImpl(
         get() = sharedPreferencesStorage.checkFirstLaunch()
 
 
-    override fun setGameMusicState(isOn: Boolean) {
+    override var isMusicOn: Boolean
+        get() = sharedPreferencesStorage.getMusicState()
+        set(value) = sharedPreferencesStorage.setMusicState(value)
 
-    }
+    override var isSoundOn: Boolean
+        get() = sharedPreferencesStorage.getSoundState()
+        set(value) = sharedPreferencesStorage.setSoundState(value)
 
-    override fun setGameSoundsState(isOn: Boolean) {
-
-    }
 
     override fun setGameCoinsAmount(amount: Int, starsAmount: Int) {
         sharedPreferencesStorage.addCoins(amount)

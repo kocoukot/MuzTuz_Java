@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="end_level_alert_title">Все верно!</string>
+    <string name="deep_link_level_fragment">muztus://levelSelectFragment</string>
+
+    <string name="ok">ОК</string>
+
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
 </resources>

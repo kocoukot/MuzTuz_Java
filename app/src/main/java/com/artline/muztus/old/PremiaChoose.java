@@ -228,13 +228,13 @@ public class PremiaChoose extends AppCompatActivity {
         textViewStars.setText(String.valueOf(preferencesPrizes.getInt("stars", 0)));
 
         if (preferencesSounds.getBoolean("musicPlay", true)) {
-            musicButton.setImageResource(R.drawable.buton_music_on);
+            musicButton.setImageResource(R.drawable.button_music);
         } else {
             musicButton.setImageResource(R.drawable.buton_music_off);
         }
 
         if (preferencesSounds.getBoolean("soundsPlay", true)) {
-            soundsButton.setImageResource(R.drawable.buton_sound_on);
+            soundsButton.setImageResource(R.drawable.button_sound);
         } else {
             soundsButton.setImageResource(R.drawable.buton_sound_off);
         }
@@ -275,7 +275,7 @@ public class PremiaChoose extends AppCompatActivity {
             editor.putBoolean("musicPlay", false);
 
         } else {
-            musicButton.setImageResource(R.drawable.buton_music_on);
+            musicButton.setImageResource(R.drawable.button_music);
             MusicPlayerService.resume(this);
             editor.putBoolean("musicPlay", true);
         }
@@ -292,7 +292,7 @@ public class PremiaChoose extends AppCompatActivity {
 
         } else {
             SoundsPlayerService.start(this, SoundsPlayerService.SOUND_ON_MUSIC, true);
-            soundsButton.setImageResource(R.drawable.buton_sound_on);
+            soundsButton.setImageResource(R.drawable.button_sound);
             editor.putBoolean("soundsPlay", true);
         }
         editor.apply();

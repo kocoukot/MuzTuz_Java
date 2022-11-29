@@ -36,9 +36,22 @@ class SharedPreferencesStorage(private val sharedPreferences: SharedPreferences)
         return isFirst
     }
 
+    fun getMusicState() = (get<Boolean>(ARG_MUSIC) ?: true)
+    fun setMusicState(isOn: Boolean) {
+        set(ARG_MUSIC, isOn)
+    }
+
+    fun getSoundState() = (get<Boolean>(ARG_SOUNDS) ?: true)
+    fun setSoundState(isOn: Boolean) {
+        set(ARG_SOUNDS, isOn)
+    }
 
 
     companion object Keys {
+        private const val ARG_MUSIC = "music_state"
+        private const val ARG_SOUNDS = "sounds_state"
+
+
         private const val ARG_COINS = "game_coins"
         private const val ARG_STARS = "game_stars"
         private const val ARG_IS_FIRST_LAUNCH = "is_first_launch"

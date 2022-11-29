@@ -27,7 +27,7 @@
             android:adjustViewBounds="true"
 
             android:onClick="onMelody"
-            android:src="@drawable/buton_music_on" />
+            android:src="@drawable/button_music" />
 
         <ImageView
             android:id="@+id/menu_sound"
@@ -38,7 +38,7 @@
             android:layout_weight="1"
             android:adjustViewBounds="true"
             android:onClick="onSounds"
-            app:srcCompat="@drawable/buton_sound_on" />
+            app:srcCompat="@drawable/button_sound" />
 
         <TextView
             android:id="@+id/menu_stars"
