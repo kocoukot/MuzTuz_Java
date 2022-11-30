@@ -34,14 +34,13 @@ class LevelSelectViewModel(
 
     override fun onGoBack() {
         when (getState().selectedLevel) {
-            is SelectedLevel.SelectedLevelData -> {
-                updateInfo { copy(selectedLevel = SelectedLevel.Empty) }
-            }
+            is SelectedLevel.SelectedLevelData -> updateInfo { copy(selectedLevel = SelectedLevel.Empty) }
             is SelectedLevel.Empty -> sendRoute(LevelSelectRoute.GoBack)
         }
     }
 
     override fun selectLevel(selectedLevel: Int) {
+        println("item level selected $selectedLevel")
         updateInfo {
             priseCoins = PRISE_COINS
             copy(
@@ -102,17 +101,15 @@ class LevelSelectViewModel(
             updateInfo { copy(showCompleteLevelAlert = true, coinsAmountWin = coinsAmountWin) }
             setCoinsAmountUseCase.invoke(priseCoins, getState().levelStarts)
             sendRoute(LevelSelectRoute.UpdateCoins)
+
+
             val levelIndex = getState().selectedLevel.getLevelIndex()
             val list = getState().premiaLevelList.toMutableList()
-
             list[levelIndex] = list[levelIndex].setPassed()
 
             println(getState().premiaLevelList)
-            updateInfo {
-                copy(
-                    premiaLevelList = list.toList()
-                )
-            }
+            updateInfo { copy(premiaLevelList = list.toList()) }
+
         } else {
             updateInfo {
                 copy(coinToast = GameToast.ToastInfo(toastText = R.string.wrong_answer))

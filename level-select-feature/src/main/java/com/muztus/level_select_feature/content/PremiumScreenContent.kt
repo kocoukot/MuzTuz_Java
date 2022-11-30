@@ -5,8 +5,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.muztus.core.theme.MTTheme
@@ -18,6 +18,14 @@ fun PremiumScreenContent(
     data: List<PremiaLevelModel>,
     onPremiumClick: (LevelSelectActions.Base) -> Unit
 ) {
+
+    val action = remember<(Int) -> Unit> {
+        { index ->
+            onPremiumClick.invoke(LevelSelectActions.Base.SelectLevel(index))
+        }
+    }
+
+
     LazyVerticalGrid(
         columns = GridCells.Fixed(count = 3),
         modifier = Modifier
@@ -26,12 +34,14 @@ fun PremiumScreenContent(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        items(data, key = { item -> item.levelIndex() }) { item ->
-            item.LevelImage(
-                modifier = Modifier,
-                onSelect = { index ->
-                    onPremiumClick.invoke(LevelSelectActions.Base.SelectLevel(index))
-                })
+        data.forEach { item ->
+            item(key = item.levelIndex()) {
+                item.LevelImage(
+                    modifier = Modifier,
+                    onSelect = action::invoke
+                )
+                println("item $item ${item.levelInfo()}")
+            }
         }
 
     }

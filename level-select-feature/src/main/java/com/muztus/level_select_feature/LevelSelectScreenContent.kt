@@ -2,7 +2,10 @@ package com.muztus.level_select_feature
 
 import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.Crossfade
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,6 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.muztus.core.compose.LetterSelectAlertDialog
 import com.muztus.core.compose.endGameAlert.EndGameLevelDialog
+import com.muztus.core.ext.castSafe
 import com.muztus.core.theme.MTTheme
 import com.muztus.level_select_feature.content.PremiumLevelScreenContent
 import com.muztus.level_select_feature.content.PremiumScreenContent
@@ -22,12 +26,15 @@ import com.muztus.level_select_feature.model.GameToast
 import com.muztus.level_select_feature.model.LevelSelectActions
 import com.muztus.level_select_feature.model.SelectedLevel
 
+@OptIn(ExperimentalAnimationApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun LevelSelectContent(viewModel: LevelSelectViewModel) {
 
     val state by viewModel.state.collectAsState()
-    val selectedPremium by remember { mutableStateOf(state.premiaLevelList) }
+    val selectedPremium = remember { derivedStateOf { state.premiaLevelList } }
+    val selectedLevel = remember { derivedStateOf { state.selectedLevel } }
+
     val coinToast = remember { derivedStateOf { state.coinToast } }
 
     val scaffoldState = rememberScaffoldState()
@@ -65,17 +72,24 @@ fun LevelSelectContent(viewModel: LevelSelectViewModel) {
             modifier = Modifier.fillMaxSize()
         ) {
 
-
-            Crossfade(targetState = state.selectedLevel) { targetState ->
-                when (targetState) {
-                    is SelectedLevel.Empty -> {
-                        PremiumScreenContent(selectedPremium, viewModel::setInputActions)
-                    }
-
-                    is SelectedLevel.SelectedLevelData -> {
-                        PremiumLevelScreenContent(targetState, viewModel::setInputActions)
-                    }
+            when (selectedLevel.value) {
+                is SelectedLevel.Empty -> {
+                    PremiumScreenContent(selectedPremium.value, viewModel::setInputActions)
                 }
+            }
+
+            AnimatedVisibility(
+                visible = selectedLevel.value is SelectedLevel.SelectedLevelData,
+                enter = scaleIn(),
+                exit = scaleOut()
+            ) {
+                selectedLevel.value.castSafe<SelectedLevel.SelectedLevelData>()
+                    ?.let { selectedLevel ->
+                        PremiumLevelScreenContent(
+                            selectedLevel,
+                            viewModel::setInputActions
+                        )
+                    }
             }
 
             when (coinToast.value) {
