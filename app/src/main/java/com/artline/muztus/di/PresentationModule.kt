@@ -26,7 +26,7 @@ val authModule = module {
         )
     }
 
-    viewModel { MainViewModel(get(), get()) }
+    viewModel { MainViewModel(get(), get(), get(), get()) }
 }
 
 
@@ -42,6 +42,10 @@ val domainModule = module {
     factory { ResetStatisticUseCase(get()) }
 
     factory { IsFirstLaunchUseCase(get()) }
+
+    factory { GetSoundsStateUseCase(get()) }
+
+    factory { SetSoundsStateUseCase(get()) }
 
 }
 

@@ -2,6 +2,7 @@ package com.artline.muztus.data
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import com.muztus.domain_layer.model.GameSoundsInfo
 
 class SharedPreferencesStorage(private val sharedPreferences: SharedPreferences) {
 
@@ -37,13 +38,12 @@ class SharedPreferencesStorage(private val sharedPreferences: SharedPreferences)
     }
 
     fun getMusicState() = (get<Boolean>(ARG_MUSIC) ?: true)
-    fun setMusicState(isOn: Boolean) {
-        set(ARG_MUSIC, isOn)
-    }
-
     fun getSoundState() = (get<Boolean>(ARG_SOUNDS) ?: true)
-    fun setSoundState(isOn: Boolean) {
-        set(ARG_SOUNDS, isOn)
+
+    fun setSoundsState(soundState: GameSoundsInfo) {
+        println("sound save soundState ${soundState}")
+        set(ARG_MUSIC, soundState.musicState.soundState())
+        set(ARG_SOUNDS, soundState.soundState.soundState())
     }
 
 

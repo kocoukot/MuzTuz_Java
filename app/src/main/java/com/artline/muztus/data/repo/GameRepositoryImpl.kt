@@ -2,17 +2,14 @@ package com.artline.muztus.data.repo
 
 import com.artline.muztus.data.SharedPreferencesStorage
 import com.muztus.data.premiaImagesList
-import com.muztus.domain_layer.model.GameLevelModel
-import com.muztus.domain_layer.model.GameMainInfo
-import com.muztus.domain_layer.model.LevelHints
-import com.muztus.domain_layer.model.PremiaLevelModel
+import com.muztus.domain_layer.model.*
 import com.muztus.domain_layer.repos.GameRepository
 
 class GameRepositoryImpl(
     private val sharedPreferencesStorage: SharedPreferencesStorage
 ) : GameRepository {
 
-    override fun getGameMainInfo(): GameMainInfo = GameMainInfo(
+    override fun getGameMainInfo(): GameStatsInfo = GameStatsInfo(
         coinsAmount = sharedPreferencesStorage.getCoinsAmount(),
         starsAmount = sharedPreferencesStorage.getStarsAmount(),
     )
@@ -20,16 +17,6 @@ class GameRepositoryImpl(
 
     override val isFirstLaunch: Boolean
         get() = sharedPreferencesStorage.checkFirstLaunch()
-
-
-    override var isMusicOn: Boolean
-        get() = sharedPreferencesStorage.getMusicState()
-        set(value) = sharedPreferencesStorage.setMusicState(value)
-
-    override var isSoundOn: Boolean
-        get() = sharedPreferencesStorage.getSoundState()
-        set(value) = sharedPreferencesStorage.setSoundState(value)
-
 
     override fun setGameCoinsAmount(amount: Int, starsAmount: Int) {
         sharedPreferencesStorage.addCoins(amount)
@@ -60,6 +47,20 @@ class GameRepositoryImpl(
 
     override fun resetStatistic() {
 
+    }
+
+    override fun getSoundsState(): GameSoundsInfo =
+        GameSoundsInfo(
+            soundState = IGameSound.GameSound.apply {
+                setSound(sharedPreferencesStorage.getSoundState())
+            },
+            musicState = IGameSound.GameMusic.apply {
+                setSound(sharedPreferencesStorage.getMusicState())
+            }
+        )
+
+    override fun setSoundsState(soundState: GameSoundsInfo) {
+        sharedPreferencesStorage.setSoundsState(soundState)
     }
 
 

@@ -1,16 +1,14 @@
 package com.muztus.domain_layer.repos
 
 import com.muztus.domain_layer.model.GameLevelModel
-import com.muztus.domain_layer.model.GameMainInfo
+import com.muztus.domain_layer.model.GameSoundsInfo
+import com.muztus.domain_layer.model.GameStatsInfo
 import com.muztus.domain_layer.model.PremiaLevelModel
 
 
 interface GameRepository {
-    var isMusicOn: Boolean
 
-    var isSoundOn: Boolean
-
-    fun getGameMainInfo(): GameMainInfo
+    fun getGameMainInfo(): GameStatsInfo
 
     fun setGameCoinsAmount(amount: Int, starsAmount: Int)
 
@@ -19,6 +17,10 @@ interface GameRepository {
     fun getSelectedPremiumData(selectedPremiumIndex: Int): List<PremiaLevelModel>
 
     fun resetStatistic()
+
+    fun getSoundsState(): GameSoundsInfo
+
+    fun setSoundsState(soundState: GameSoundsInfo)
 
     val isFirstLaunch: Boolean
 

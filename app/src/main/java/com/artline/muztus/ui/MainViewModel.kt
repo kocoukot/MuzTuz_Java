@@ -3,22 +3,28 @@ package com.artline.muztus.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.muztus.domain_layer.model.GameMainInfo
+import com.muztus.domain_layer.model.GameSoundsInfo
+import com.muztus.domain_layer.model.GameStatsInfo
+import com.muztus.domain_layer.model.IGameSound
 import com.muztus.domain_layer.usecase.GetGameCoinsUseCase
+import com.muztus.domain_layer.usecase.GetSoundsStateUseCase
 import com.muztus.domain_layer.usecase.SetCoinsAmountUseCase
+import com.muztus.domain_layer.usecase.SetSoundsStateUseCase
 
 class MainViewModel(
     private val getGameCoinsUseCase: GetGameCoinsUseCase,
-    private val setCoinsAmountUseCase: SetCoinsAmountUseCase
+    private val setCoinsAmountUseCase: SetCoinsAmountUseCase,
+    getSoundsStateUseCase: GetSoundsStateUseCase,
+    private val setSoundsStateUseCase: SetSoundsStateUseCase,
 ) : ViewModel() {
 
-    private val mCoins: MutableLiveData<GameMainInfo> = MutableLiveData(getGameCoinsUseCase())
-    val coins: LiveData<GameMainInfo>
+    private val mCoins: MutableLiveData<GameStatsInfo> = MutableLiveData(getGameCoinsUseCase())
+    val coins: LiveData<GameStatsInfo>
         get() = mCoins
 
-    init {
-
-    }
+    private val mSounds: MutableLiveData<GameSoundsInfo> = MutableLiveData(getSoundsStateUseCase())
+    val sounds: LiveData<GameSoundsInfo>
+        get() = mSounds
 
 
     fun addCoins() {
@@ -28,5 +34,15 @@ class MainViewModel(
 
     fun updateCoins() {
         mCoins.postValue(getGameCoinsUseCase.invoke())
+    }
+
+    fun soundChange(soundType: IGameSound) {
+        mSounds.value?.let {
+            println("sound VM ${it.soundState.soundState()}")
+            it.changeSound(soundType)
+            println("sound VM ${it.soundState.soundState()}")
+            setSoundsStateUseCase.invoke(it)
+            mSounds.value = it
+        }
     }
 }

@@ -50,18 +50,49 @@ class MainActivity : AppCompatActivity(), UpdateCoins {
         navHost?.apply {
             childFragmentManager.addOnBackStackChangedListener(onBackStackChangedListener)
         }
-        observeLiveData()
 
-        //todo fix remove after test
-        binding.imageView5.setOnClickListener {
-            viewModel.addCoins()
+
+        with(binding) {
+            imageView5.setOnClickListener {
+                viewModel.addCoins()
+            }
+
+            menuMusic.apply {
+                isActivated = true
+            }
+            menuSound.apply {
+                isActivated = true
+            }
+
+
         }
+        //todo fix remove after test
+
+        observeLiveData()
     }
 
     private fun observeLiveData() {
         viewModel.coins.observe(this) { mainInfo ->
             binding.menuCoins.text = mainInfo.coinsAmount.toString()
             binding.menuStars.text = mainInfo.starsAmount.toString()
+        }
+
+        viewModel.sounds.observe(this) { soundsInfo ->
+            println("sound activity ${soundsInfo}")
+
+            binding.menuMusic.apply {
+                setOnClickListener {
+                    viewModel.soundChange(soundsInfo.soundState)
+                    isActivated = soundsInfo.soundState.soundState()
+                }
+            }
+
+            binding.menuSound.apply {
+                setOnClickListener {
+                    viewModel.soundChange(soundsInfo.musicState)
+                    isActivated = soundsInfo.musicState.soundState()
+                }
+            }
         }
     }
 
