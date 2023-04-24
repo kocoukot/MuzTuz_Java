@@ -22,9 +22,11 @@ object Dependencies {
 
     object Navigation {
         private const val navVersion = "2.5.3"
-        const val fragment = "androidx.navigation:navigation-fragment-ktx:$navVersion"
-        const val ui = "androidx.navigation:navigation-ui-ktx:$navVersion"
-//        const val fragment = "androidx.navigation:navigation-dynamic-features-fragment:$navVersion"
+        const val fragment = "androidx.navigation:navigation-fragment:$navVersion"
+        const val ui = "androidx.navigation:navigation-ui:$navVersion"
+        const val fragmentKtx = "androidx.navigation:navigation-fragment-ktx:$navVersion"
+        const val uiKtx = "androidx.navigation:navigation-ui-ktx:$navVersion"
+        const val navigationDynamicFeatures = "androidx.navigation:navigation-dynamic-features-fragment:$navVersion"
     }
 
     object Compose {

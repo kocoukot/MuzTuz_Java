@@ -6,15 +6,20 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.NavHostFragment
-import com.artline.muztus.audio.MusicPlayerService
 import com.artline.muztus.databinding.ActivityMainBinding
+import com.artline.muztus.sounds.GameSound
+import com.artline.muztus.sounds.MusicPlayerService
+import com.artline.muztus.sounds.SoundsPlayerService
 import com.muztus.core.ext.SupportInfoBar
 import com.muztus.core.ext.castSafe
 import com.muztus.core_mvi.UpdateCoins
+import com.muztus.domain_layer.model.IGameSound
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : AppCompatActivity(), UpdateCoins {
+class MainActivity : AppCompatActivity(), UpdateCoins, com.artline.muztus.sounds.GameSoundPlay {
 
+    private val soundsPlayerService = SoundsPlayerService()
+    private val musicPlayerService: MusicPlayerService = MusicPlayerService(this)
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainViewModel by viewModel()
 
@@ -35,8 +40,7 @@ class MainActivity : AppCompatActivity(), UpdateCoins {
     override fun onResume() {
         super.onResume()
         FragmentManager.OnBackStackChangedListener { }
-        MusicPlayerService.start(this)
-        MusicPlayerService.release()
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,12 +68,24 @@ class MainActivity : AppCompatActivity(), UpdateCoins {
                 isActivated = true
             }
 
+            menuMusic.apply {
+                setOnClickListener {
+                    if (isActivated) musicPlayerService.pause() else musicPlayerService.resume(this@MainActivity)
+                    viewModel.soundChange(IGameSound.GameMusic)
+                }
+            }
 
+            menuSound.apply {
+                setOnClickListener {
+                    playGameSound(if (isActivated) GameSound.SoundOnMusic else GameSound.SoundOffMusic)
+                    viewModel.soundChange(IGameSound.GameSound)
+                }
+            }
         }
         //todo fix remove after test
-
         observeLiveData()
     }
+
 
     private fun observeLiveData() {
         viewModel.coins.observe(this) { mainInfo ->
@@ -78,20 +94,17 @@ class MainActivity : AppCompatActivity(), UpdateCoins {
         }
 
         viewModel.sounds.observe(this) { soundsInfo ->
-            println("sound activity ${soundsInfo}")
+            println("sound activity $soundsInfo")
 
             binding.menuMusic.apply {
-                setOnClickListener {
-                    viewModel.soundChange(soundsInfo.soundState)
-                    isActivated = soundsInfo.soundState.soundState()
+                isActivated = soundsInfo.musicState.soundState()
+                if (isActivated) {
+                    musicPlayerService.start(this@MainActivity)
                 }
             }
 
             binding.menuSound.apply {
-                setOnClickListener {
-                    viewModel.soundChange(soundsInfo.musicState)
-                    isActivated = soundsInfo.musicState.soundState()
-                }
+                isActivated = soundsInfo.soundState.soundState()
             }
         }
     }
@@ -103,6 +116,10 @@ class MainActivity : AppCompatActivity(), UpdateCoins {
 
     override fun updateCoins() {
         viewModel.updateCoins()
+    }
+
+    override fun playGameSound(soundType: GameSound) {
+        soundsPlayerService.start(this@MainActivity, soundType)
     }
 }
 

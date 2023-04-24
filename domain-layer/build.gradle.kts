@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.muztus.domain_layer"
-    compileSdk = 32
+    compileSdk = 33
 
     defaultConfig {
         minSdk = 27

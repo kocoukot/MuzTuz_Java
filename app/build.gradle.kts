@@ -69,6 +69,9 @@ dependencies {
 
     implementation(Dependencies.Navigation.fragment)
     implementation(Dependencies.Navigation.ui)
+    implementation(Dependencies.Navigation.fragmentKtx)
+    implementation(Dependencies.Navigation.uiKtx)
+    implementation(Dependencies.Navigation.navigationDynamicFeatures)
 
     val composeBom = platform("androidx.compose:compose-bom:2022.10.00")
     implementation(composeBom)
@@ -97,12 +100,14 @@ dependencies {
     api(project(":statistic-feature"))
     api(project(":creators-feature"))
     api(project(":level-select-feature"))
-    api(project(":premium-select-feature"))
+    api(project(":disk-select-feature"))
     api(project(":shop-feature"))
 
     api(project(":core"))
     api(project(":core-mvi"))
     api(project(":domain-layer"))
+
+    api(project(":sounds"))
 
 
 }

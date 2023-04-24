@@ -14,9 +14,9 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.muztus.core.compose.LetterSelectAlertDialog
+import com.muztus.core.compose.MakeToast
 import com.muztus.core.compose.endGameAlert.EndGameLevelDialog
 import com.muztus.core.ext.castSafe
 import com.muztus.core.theme.MTTheme
@@ -110,29 +110,5 @@ fun LevelSelectContent(viewModel: LevelSelectViewModel) {
             )
         }
     }
-}
-
-@Composable
-fun MakeToast(modifier: Modifier = Modifier, state: SnackbarHostState) {
-
-    SnackbarHost(
-        modifier = modifier.padding(horizontal = 16.dp),
-        hostState = state,
-        snackbar = { data ->
-            Snackbar(
-                modifier = Modifier,
-                content = {
-                    Text(
-                        modifier = Modifier
-                            .padding(horizontal = 4.dp, vertical = 4.dp)
-                            .fillMaxWidth(),
-                        text = data.message,
-                        color = MTTheme.colors.white,
-                        textAlign = TextAlign.Center
-                    )
-                }
-            )
-        }
-    )
 }
 

@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.muztus.shop_feature"
-    compileSdk = 32
+    compileSdk = 33
 
     defaultConfig {
         minSdk = 27

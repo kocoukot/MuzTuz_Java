@@ -18,3 +18,7 @@
 .idea.*
 /.idea/misc.xml
 /.idea/dictionaries/
+/buildSrc/build.*
+/buildSrc/build/*
+/buildSrc/build/
+/buildSrc/build/kotlin/

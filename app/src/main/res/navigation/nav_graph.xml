@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/levelSelectFragment">
+    app:startDestination="@id/splashScreenFragment">
 
     <fragment
         android:id="@+id/splashScreenFragment"
@@ -17,7 +17,36 @@
     <fragment
         android:id="@+id/mainMenuFragment"
         android:name="com.artline.muztus.ui.mainMenu.MainMenuFragment"
-        android:label="MainMenuFragment" />
+        android:label="MainMenuFragment">
+        <action
+            android:id="@+id/action_mainMenuFragment_to_shopFragment"
+            app:destination="@id/shopFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_mainMenuFragment_to_creatorsFragment"
+            app:destination="@id/creatorsFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_mainMenuFragment_to_statisticScreenFragment"
+            app:destination="@id/statisticScreenFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_mainMenuFragment_to_premiaSelectFragment"
+            app:destination="@id/premiaSelectFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
 
     <fragment
         android:id="@+id/creatorsFragment"

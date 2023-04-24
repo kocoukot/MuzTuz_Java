@@ -8,19 +8,19 @@ import com.muztus.core_mvi.ComposeRouteOpenWeb
 
 sealed class MainMenuRoute : ComposeFragmentRoute {
     object GoMainGame : MainMenuRoute(), ComposeRouteNavigation.GraphNavigate {
-        override fun destination(): Int = R.id.premiaSelectFragment
+        override fun destination(): Int = R.id.action_mainMenuFragment_to_premiaSelectFragment
     }
 
     object GoStatistic : MainMenuRoute(), ComposeRouteNavigation.GraphNavigate {
-        override fun destination(): Int = R.id.statisticScreenFragment
+        override fun destination(): Int = R.id.action_mainMenuFragment_to_statisticScreenFragment
     }
 
     object GoShop : MainMenuRoute(), ComposeRouteNavigation.GraphNavigate {
-        override fun destination(): Int = R.id.shopFragment
+        override fun destination(): Int = R.id.action_mainMenuFragment_to_shopFragment
     }
 
     object GoCreators : MainMenuRoute(), ComposeRouteNavigation.GraphNavigate {
-        override fun destination(): Int = R.id.creatorsFragment
+        override fun destination(): Int = R.id.action_mainMenuFragment_to_creatorsFragment
     }
 
     data class OpenSocials(private val webLink: String) : MainMenuRoute(), ComposeRouteOpenWeb {

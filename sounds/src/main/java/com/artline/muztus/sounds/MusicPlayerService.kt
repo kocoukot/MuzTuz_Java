@@ -1,77 +1,55 @@
-package com.artline.muztus.audio;
+package com.artline.muztus.sounds
 
-import android.content.Context;
-import android.media.MediaPlayer;
-import android.util.Log;
-import android.widget.Toast;
+import android.content.Context
+import android.media.MediaPlayer
 
-import com.artline.muztus.R;
+class MusicPlayerService(context: Context) {
 
-public class MusicPlayerService {
-    private static final String TAG = "MusicManager";
-    public static final int MUSIC_MENU = 0;
-
-    private static MediaPlayer mp;
-    private static int soundPosition = 0;
-
-
-    public static void start(Context context) {
-        startM(context);
+    private val mediaPlayer: MediaPlayer by lazy {
+        MediaPlayer.create(context, BG_MUSIC_RES)
     }
+    private val BG_MUSIC_RES = R.raw.background_music
+    private var soundPosition = 0
 
-    private static void startM(Context context) {
-        mp = MediaPlayer.create(context, R.raw.background_music);
-        if (!mp.isPlaying()) {
-            mp.start();
+    fun start(context: Context) {
+//        mediaPlayer = MediaPlayer.create(context, BG_MUSIC_RES)
+        if (!mediaPlayer.isPlaying) {
+            mediaPlayer.start()
         }
     }
 
-    private static boolean isPlaying() {
-        return mp != null && mp.isPlaying();
+//    fun setPosition(context: Context?) {
+//        soundPosition = mediaPlayer.currentPosition
+//        Toast.makeText(context, soundPosition, Toast.LENGTH_LONG).show()
+//    }
+
+    fun pause() {
+//        if (this::mediaPlayer.isInitialized) {
+        soundPosition = mediaPlayer.currentPosition
+        mediaPlayer.pause()
+//        }
     }
 
-    public static void setPosition(Context context){
-        soundPosition = mp.getCurrentPosition();
-        Toast.makeText(context, soundPosition,Toast.LENGTH_LONG).show();
+    fun resume(context: Context?) {
+//        if (this::mediaPlayer.isInitialized) {
+//            println("not null $soundPosition")
+        mediaPlayer.seekTo(soundPosition)
+        mediaPlayer.start()
+//        } else {
+//            mediaPlayer = MediaPlayer.create(context, BG_MUSIC_RES)
+//            mediaPlayer.start()
+//        }
     }
 
-
-
-    public static void pause() {
-        if (mp != null) {
-            soundPosition = mp.getCurrentPosition();
-            mp.pause();
-        }
-    }
-
-    public static void resume(Context context) {
-        if (mp != null) {
-            System.out.println("not null" + soundPosition);
-
-            mp.seekTo(soundPosition);
-            mp.start();
-        } else {
-            System.out.println(" null**");
-
-            mp = MediaPlayer.create(context, R.raw.background_music);
-            mp.start();
-        }
-    }
-
-
-    public static void release() {
-
-        Log.d(TAG, "Releasing media players");
-
-            try {
-                if (mp != null) {
-                    if (mp.isPlaying()) {
-                        mp.stop();
-                    }
-                    mp.release();
-                }
-            } catch (Exception e) {
-                Log.e(TAG, e.getMessage(), e);
-            }
-    }
+//    fun release() {
+//        try {
+//            if (this::mediaPlayer.isInitialized) {
+//                if (mediaPlayer.isPlaying) {
+//                    mediaPlayer.stop()
+//                }
+//                mediaPlayer.release()
+//            }
+//        } catch (e: Exception) {
+//        }
+//    }
 }
