@@ -26,6 +26,7 @@ interface PremiaLevelModel {
 
     fun setPassed(): Base
 
+    fun isPassed(): Boolean
 
     data class Base(
         val levelIndex: Int,
@@ -72,6 +73,7 @@ interface PremiaLevelModel {
         override fun levelIndex(): Int = levelIndex
         override fun levelInfo(): Base = this
         override fun setPassed(): Base = this.copy(isLevelPassed = true)
+        override fun isPassed(): Boolean = isLevelPassed
 
 
     }

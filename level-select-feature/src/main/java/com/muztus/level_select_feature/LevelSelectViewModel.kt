@@ -1,7 +1,7 @@
 package com.muztus.level_select_feature
 
 import androidx.lifecycle.viewModelScope
-import com.artline.muztus.sounds.GameSound
+import com.muztus.core.levelsdata.REQUARED_AMOUNT
 import com.muztus.core_mvi.BaseViewModel
 import com.muztus.database.LevelInfoEntity
 import com.muztus.domain_layer.model.HintModel
@@ -15,6 +15,7 @@ import com.muztus.level_select_feature.model.GameToast
 import com.muztus.level_select_feature.model.LevelSelectActions
 import com.muztus.level_select_feature.model.LevelSelectRoute
 import com.muztus.level_select_feature.model.LevelSelectState
+import com.muztus.level_select_feature.model.NextPremiaAlert
 import com.muztus.level_select_feature.model.SelectedLevel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -38,7 +39,15 @@ class LevelSelectViewModel(
     init {
         viewModelScope.launch {
             getPremiumDataUseCase(selectedPremium).let { premiaLevelsList ->
-                updateInfo { copy(premiaLevelList = premiaLevelsList) }
+                updateInfo {
+                    copy(
+                        premiaLevelList = premiaLevelsList,
+                        nextPremiaOpened = if (((premiaLevelsList.filter { it.isPassed() }.size.toDouble() / premiaLevelsList.size) * 100) > REQUARED_AMOUNT)
+                            NextPremiaAlert.IsShowed
+                        else
+                            NextPremiaAlert.NotShown
+                    )
+                }
             }
         }
     }
@@ -110,44 +119,52 @@ class LevelSelectViewModel(
     }
 
     override fun onCheckInput(userInput: String) {
-        if (getState().selectedLevel.checkUserInput(userInput)) {
-            var coinsAmountWin = "$priseCoins"
-            val gameEndTime = System.currentTimeMillis()
-            if ((gameEndTime - gameStartTime) < MAX_DURATION) {
-                coinsAmountWin += " x2"
-                priseCoins *= 2
-            }
-            updateInfo { copy(showCompleteLevelAlert = true, coinsAmountWin = coinsAmountWin) }
-            setCoinsAmountUseCase.invoke(priseCoins, getState().levelStarts)
-            sendRoute(LevelSelectRoute.UpdateCoins)
+//        if (getState().selectedLevel.checkUserInput(userInput)) {
+        var coinsAmountWin = "$priseCoins"
+        val gameEndTime = System.currentTimeMillis()
+        if ((gameEndTime - gameStartTime) < MAX_DURATION) {
+            coinsAmountWin += " x2"
+            priseCoins *= 2
+        }
+        updateInfo { copy(showCompleteLevelAlert = true, coinsAmountWin = coinsAmountWin) }
+        setCoinsAmountUseCase.invoke(priseCoins, getState().levelStarts)
+        sendRoute(LevelSelectRoute.UpdateCoins)
 
 
-            val levelIndex = getState().selectedLevel.getLevelIndex()
-            val list = getState().premiaLevelList.toMutableList()
+        val levelIndex = getState().selectedLevel.getLevelIndex()
+        val list = getState().premiaLevelList.toMutableList()
 
-            list[levelIndex] = list[levelIndex].setPassed()
+        list[levelIndex] = list[levelIndex].setPassed()
 
 //            sendRoute(LevelSelectRoute.PlaySound(GameSound))
 
-            println(getState().premiaLevelList)
-            viewModelScope.launch {
-                setLevelInfoUseCase.invoke(
-                    LevelInfoEntity(
-                        premiaIndex = selectedPremium,
-                        levelIndex = levelIndex,
-                        isSolved = true
-                    )
+        println(getState().premiaLevelList)
 
+        viewModelScope.launch {
+            setLevelInfoUseCase.invoke(
+                LevelInfoEntity(
+                    premiaIndex = selectedPremium,
+                    levelIndex = levelIndex,
+                    isSolved = true
                 )
-                updateInfo { copy(premiaLevelList = list.toList()) }
-            }
-        } else {
 
+            )
             updateInfo {
-                copy(coinToast = GameToast.ToastInfo(toastText = R.string.wrong_answer))
+                copy(
+                    premiaLevelList = list.toList(),
+                    nextPremiaOpened = if (nextPremiaOpened == NextPremiaAlert.NotShown &&
+                        (getState().premiaLevelList.filter { it.isPassed() }.size.toDouble() / getState().premiaLevelList.size) * 100 > REQUARED_AMOUNT
+                    ) NextPremiaAlert.IsShowing else NextPremiaAlert.NotShown
+                )
             }
-            sendRoute(LevelSelectRoute.PlaySound(GameSound.SoundWrongAnswer))
         }
+//        } else {
+//
+//            updateInfo {
+//                copy(coinToast = GameToast.ToastInfo(toastText = R.string.wrong_answer))
+//            }
+//            sendRoute(LevelSelectRoute.PlaySound(GameSound.SoundWrongAnswer))
+//        }
     }
 
     override fun useOneLetterHint(letterIndex: Int) {
@@ -162,6 +179,14 @@ class LevelSelectViewModel(
 
     override fun clearToastCoins() {
         updateInfo { copy(coinToast = GameToast.Empty) }
+    }
+
+    override fun closeNextPremiaAlert() {
+        updateInfo {
+            copy(
+                nextPremiaOpened = NextPremiaAlert.IsShowed
+            )
+        }
     }
 
     override fun lettersAmount() {
