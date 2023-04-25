@@ -36,6 +36,9 @@ interface SelectedLevel {
     fun onOneLetterHintUse(hint: HintUse, letterIndex: Int)
 
     fun getLevelIndex(): Int = 0
+
+    fun getSelectedLevel(): GameLevelModel
+
     data class SelectedLevelData(
         val selectedLevelModel: GameLevelModel = GameLevelModel.Empty,
         val showHintAlert: Boolean = false,
@@ -69,6 +72,8 @@ interface SelectedLevel {
 
         override fun getLevelIndex(): Int = gameLevelIndex
 
+        override fun getSelectedLevel(): GameLevelModel = selectedLevelModel
+
     }
 
 
@@ -79,5 +84,8 @@ interface SelectedLevel {
         override fun checkUserInput(input: String): Boolean = false
         override fun getCorrectAnswer(): String = ""
         override fun onOneLetterHintUse(hint: HintUse, letterIndex: Int) = Unit
+        override fun getSelectedLevel(): GameLevelModel {
+            return GameLevelModel.Empty
+        }
     }
 }

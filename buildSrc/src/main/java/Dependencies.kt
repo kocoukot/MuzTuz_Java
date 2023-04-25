@@ -53,4 +53,12 @@ object Dependencies {
         const val android = "io.insert-koin:koin-android:$koinComposeVersion"
 
     }
+
+    object Room {
+        private const val roomVersion = "2.5.1"
+
+        const val runTime = "androidx.room:room-runtime:$roomVersion"
+        const val compiler = "androidx.room:room-compiler:$roomVersion"
+        const val roomKtx = "androidx.room:room-ktx:$roomVersion"
+    }
 }

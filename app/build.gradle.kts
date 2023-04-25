@@ -90,6 +90,15 @@ dependencies {
     implementation(Dependencies.Koin.core)
     implementation(Dependencies.Koin.android)
 
+
+    implementation(Dependencies.Room.runTime)
+    kapt(Dependencies.Room.compiler)
+    implementation(Dependencies.Room.roomKtx)
+
+
+
+
+
     debugImplementation("com.squareup.leakcanary:leakcanary-android:2.9.1")
 
 
@@ -108,6 +117,7 @@ dependencies {
     api(project(":domain-layer"))
 
     api(project(":sounds"))
+    api(project(":database"))
 
 
 }

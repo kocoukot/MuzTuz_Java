@@ -1,4 +1,4 @@
-package com.muztus.domain_layer.usecase
+package com.muztus.domain_layer.usecase.global
 
 import com.muztus.domain_layer.repos.GameRepository
 

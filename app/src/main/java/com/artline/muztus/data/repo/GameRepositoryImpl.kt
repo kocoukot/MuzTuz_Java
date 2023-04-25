@@ -2,11 +2,20 @@ package com.artline.muztus.data.repo
 
 import com.artline.muztus.data.SharedPreferencesStorage
 import com.muztus.data.premiaImagesList
-import com.muztus.domain_layer.model.*
+import com.muztus.database.LevelInfoDAO
+import com.muztus.database.LevelInfoEntity
+import com.muztus.domain_layer.model.GameLevelModel
+import com.muztus.domain_layer.model.GameSoundsInfo
+import com.muztus.domain_layer.model.GameStatsInfo
+import com.muztus.domain_layer.model.HintModel
+import com.muztus.domain_layer.model.IGameSound
+import com.muztus.domain_layer.model.LevelHints
+import com.muztus.domain_layer.model.PremiaLevelModel
 import com.muztus.domain_layer.repos.GameRepository
 
 class GameRepositoryImpl(
-    private val sharedPreferencesStorage: SharedPreferencesStorage
+    private val sharedPreferencesStorage: SharedPreferencesStorage,
+    private val levelInfoDao: LevelInfoDAO
 ) : GameRepository {
 
     override fun getGameMainInfo(): GameStatsInfo = GameStatsInfo(
@@ -18,32 +27,57 @@ class GameRepositoryImpl(
     override val isFirstLaunch: Boolean
         get() = sharedPreferencesStorage.checkFirstLaunch()
 
+
     override fun setGameCoinsAmount(amount: Int, starsAmount: Int) {
         sharedPreferencesStorage.addCoins(amount)
         sharedPreferencesStorage.addStars(starsAmount)
     }
 
-    override fun getLevelInfo(premiumIndex: Int, levelIndex: Int): GameLevelModel =
-        GameLevelModel.Base(
+    override suspend fun getLevelInfo(premiumIndex: Int, levelIndex: Int): GameLevelModel {
+        val level = levelInfoDao.findLevel(premiumIndex, levelIndex)
+        println("found level $level")
+        val levelHints = if (level?.isSolved == true) {
+            LevelHints(
+                letterAmountHint = HintModel.LetterAmountHint(isUsed = true),
+                oneLetterHint = HintModel.OneLetterHint(
+                    isUsed = true,
+                    selectedLetters = 0
+                ),
+                songHint = HintModel.SongHint(isUsed = true),
+                correctAnswerHint = HintModel.CorrectAnswer(isUsed = true)
+            )
+        } else {
+            LevelHints()
+        }
+
+        return GameLevelModel.Base(
             index = levelIndex,
             premiumIndex = premiumIndex,
             correctAnswers = correctAnswersList[premiumIndex][levelIndex],
-            levelHints = LevelHints(),
+            levelHints = levelHints,
             levelImage = premiaImagesList[premiumIndex][levelIndex],
             songName = albumsList[premiumIndex][levelIndex],
-            isSolved = false,
+            isSolved = level?.isSolved ?: false,
             0
         )
+    }
 
-    override fun getSelectedPremiumData(selectedPremiumIndex: Int): List<PremiaLevelModel> =
-        premiaImagesList[selectedPremiumIndex].mapIndexed { index, img ->
+    override suspend fun setLevelInfo(levelInfo: LevelInfoEntity) {
+        levelInfoDao.insertOrUpdate(levelInfo)
+    }
+
+    override suspend fun getSelectedPremiumData(selectedPremiumIndex: Int): List<PremiaLevelModel> {
+        val premiaLevels = levelInfoDao.getPremiaLevels(selectedPremiumIndex)
+        return premiaImagesList[selectedPremiumIndex].mapIndexed { index, img ->
             PremiaLevelModel.Base(
                 levelIndex = index,
-                isLevelPassed = false,
+                isLevelPassed = premiaLevels.map { it.levelIndex }.contains(index),
                 levelImage = img,
             )
 
+
         }
+    }
 
     override fun resetStatistic() {
 
@@ -342,3 +376,4 @@ class GameRepositoryImpl(
         )
     }
 }
+

@@ -31,8 +31,7 @@ interface PremiaLevelModel {
         val levelIndex: Int,
         val isLevelPassed: Boolean,
         val levelImage: Int,
-
-        ) : PremiaLevelModel {
+    ) : PremiaLevelModel {
 
         @Composable
         override fun LevelImage(modifier: Modifier, onSelect: (Int) -> Unit) {

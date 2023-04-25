@@ -1,14 +1,23 @@
 package com.muztus.level_select_feature
 
+import androidx.lifecycle.viewModelScope
+import com.artline.muztus.sounds.GameSound
 import com.muztus.core_mvi.BaseViewModel
+import com.muztus.database.LevelInfoEntity
 import com.muztus.domain_layer.model.HintModel
 import com.muztus.domain_layer.model.HintUse
 import com.muztus.domain_layer.usecase.GetGameCoinsUseCase
-import com.muztus.domain_layer.usecase.GetLevelInfoUseCase
 import com.muztus.domain_layer.usecase.GetPremiumDataUseCase
 import com.muztus.domain_layer.usecase.SetCoinsAmountUseCase
-import com.muztus.level_select_feature.model.*
+import com.muztus.domain_layer.usecase.level.GetLevelInfoUseCase
+import com.muztus.domain_layer.usecase.level.SetLevelInfoUseCase
+import com.muztus.level_select_feature.model.GameToast
+import com.muztus.level_select_feature.model.LevelSelectActions
+import com.muztus.level_select_feature.model.LevelSelectRoute
+import com.muztus.level_select_feature.model.LevelSelectState
+import com.muztus.level_select_feature.model.SelectedLevel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 
 class LevelSelectViewModel(
     private val selectedPremium: Int,
@@ -16,7 +25,9 @@ class LevelSelectViewModel(
 
     private val getLevelInfoUseCase: GetLevelInfoUseCase,
     private val setCoinsAmountUseCase: SetCoinsAmountUseCase,
-    private val getGameCoinsUseCase: GetGameCoinsUseCase
+    private val getGameCoinsUseCase: GetGameCoinsUseCase,
+
+    private val setLevelInfoUseCase: SetLevelInfoUseCase
 ) : BaseViewModel.Base<LevelSelectState, LevelSelectActions.Base>(
     mState = MutableStateFlow(LevelSelectState())
 ), LevelSelectActions, HintUse {
@@ -25,7 +36,11 @@ class LevelSelectViewModel(
     private var priseCoins = PRISE_COINS
 
     init {
-        updateInfo { copy(premiaLevelList = getPremiumDataUseCase(selectedPremium)) }
+        viewModelScope.launch {
+            getPremiumDataUseCase(selectedPremium).let { premiaLevelsList ->
+                updateInfo { copy(premiaLevelList = premiaLevelsList) }
+            }
+        }
     }
 
     override fun setInputActions(action: LevelSelectActions.Base) {
@@ -41,19 +56,23 @@ class LevelSelectViewModel(
 
     override fun selectLevel(selectedLevel: Int) {
         println("item level selected $selectedLevel")
-        updateInfo {
-            priseCoins = PRISE_COINS
-            copy(
-                levelStarts = 3,
-                selectedLevel = SelectedLevel.SelectedLevelData(
-                    selectedLevelModel = getLevelInfoUseCase(
-                        premiumIndex = selectedPremium,
-                        levelIndex = selectedLevel
-                    ),
-                    gameLevelIndex = selectedLevel
-                )
-
+        viewModelScope.launch {
+            val levelInfo = getLevelInfoUseCase(
+                premiumIndex = selectedPremium,
+                levelIndex = selectedLevel
             )
+
+            updateInfo {
+                priseCoins = PRISE_COINS
+                copy(
+                    levelStarts = 3,
+                    selectedLevel = SelectedLevel.SelectedLevelData(
+                        selectedLevelModel = levelInfo,
+                        gameLevelIndex = selectedLevel
+                    )
+
+                )
+            }
         }
         gameStartTime = System.currentTimeMillis()
     }
@@ -105,15 +124,29 @@ class LevelSelectViewModel(
 
             val levelIndex = getState().selectedLevel.getLevelIndex()
             val list = getState().premiaLevelList.toMutableList()
+
             list[levelIndex] = list[levelIndex].setPassed()
 
-            println(getState().premiaLevelList)
-            updateInfo { copy(premiaLevelList = list.toList()) }
+//            sendRoute(LevelSelectRoute.PlaySound(GameSound))
 
+            println(getState().premiaLevelList)
+            viewModelScope.launch {
+                setLevelInfoUseCase.invoke(
+                    LevelInfoEntity(
+                        premiaIndex = selectedPremium,
+                        levelIndex = levelIndex,
+                        isSolved = true
+                    )
+
+                )
+                updateInfo { copy(premiaLevelList = list.toList()) }
+            }
         } else {
+
             updateInfo {
                 copy(coinToast = GameToast.ToastInfo(toastText = R.string.wrong_answer))
             }
+            sendRoute(LevelSelectRoute.PlaySound(GameSound.SoundWrongAnswer))
         }
     }
 

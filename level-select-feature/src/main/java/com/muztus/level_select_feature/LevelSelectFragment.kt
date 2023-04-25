@@ -1,7 +1,9 @@
 package com.muztus.level_select_feature
 
 import androidx.compose.runtime.Composable
+import com.artline.muztus.sounds.GameSoundPlay
 import com.muztus.core.ext.SupportInfoBar
+import com.muztus.core.ext.requireArg
 import com.muztus.core_mvi.BaseFragment
 import com.muztus.core_mvi.ComposeFragmentRoute
 import com.muztus.core_mvi.UpdateCoins
@@ -13,7 +15,8 @@ class LevelSelectFragment : BaseFragment.BaseF<LevelSelectViewModel>(), SupportI
     override val viewModel: LevelSelectViewModel by viewModel {
         parametersOf(selectedPremium)
     }
-    private val selectedPremium = 3// by requireArg<Int>(ARG_PREMIUM_INDEX) //todo fix later
+
+    private val selectedPremium by requireArg<Int>(ARG_PREMIUM_INDEX) //todo fix later
 
     override var screenContent: (@Composable (LevelSelectViewModel) -> Unit)? =
         { LevelSelectContent(viewModel) }
@@ -22,6 +25,9 @@ class LevelSelectFragment : BaseFragment.BaseF<LevelSelectViewModel>(), SupportI
         super.observeData { route ->
             when (route) {
                 LevelSelectRoute.UpdateCoins -> (requireActivity() as UpdateCoins).updateCoins()
+                is LevelSelectRoute.PlaySound -> (requireActivity() as GameSoundPlay).playGameSound(
+                    route.soundType
+                )
             }
         }
     }

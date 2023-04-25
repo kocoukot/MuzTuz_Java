@@ -20,5 +20,5 @@
 /.idea/dictionaries/
 /buildSrc/build.*
 /buildSrc/build/*
-/buildSrc/build/
 /buildSrc/build/kotlin/
+/buildSrc/build/

@@ -7,9 +7,9 @@ import com.muztus.domain_layer.model.GameSoundsInfo
 import com.muztus.domain_layer.model.GameStatsInfo
 import com.muztus.domain_layer.model.IGameSound
 import com.muztus.domain_layer.usecase.GetGameCoinsUseCase
-import com.muztus.domain_layer.usecase.GetSoundsStateUseCase
 import com.muztus.domain_layer.usecase.SetCoinsAmountUseCase
-import com.muztus.domain_layer.usecase.SetSoundsStateUseCase
+import com.muztus.domain_layer.usecase.global.GetSoundsStateUseCase
+import com.muztus.domain_layer.usecase.global.SetSoundsStateUseCase
 
 class MainViewModel(
     private val getGameCoinsUseCase: GetGameCoinsUseCase,

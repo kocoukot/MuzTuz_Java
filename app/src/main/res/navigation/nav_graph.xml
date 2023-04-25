@@ -60,7 +60,15 @@
     <fragment
         android:id="@+id/premiaSelectFragment"
         android:name="com.muztus.premium_select_feature.PremiaSelectFragment"
-        android:label="PremiaSelectFragment" />
+        android:label="PremiaSelectFragment">
+        <action
+            android:id="@+id/action_premiaSelectFragment_to_levelSelectFragment"
+            app:destination="@id/levelSelectFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
 
     <fragment
         android:id="@+id/levelSelectFragment"

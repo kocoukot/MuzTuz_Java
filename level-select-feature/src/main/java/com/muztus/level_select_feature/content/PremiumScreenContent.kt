@@ -48,11 +48,5 @@ fun PremiumScreenContent(
         item {
             Spacer(modifier = Modifier.height(16.dp))
         }
-//        data.forEach { item ->
-//            item(key = item.levelIndex()) {
-//
-//            }
-//        }
-
     }
 }

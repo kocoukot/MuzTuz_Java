@@ -17,6 +17,7 @@ interface GameLevelModel {
     fun onOneLetterHintUse(hintUse: HintUse, letterIndex: Int) = Unit
     fun songHintUse(hintUse: HintUse) = Unit
 
+    fun isSolved(): Boolean = false
 
     data class Base(
         private val index: Int,
@@ -67,8 +68,13 @@ interface GameLevelModel {
         override fun songHintUse(hintUse: HintUse) {
             levelHints.songHint.onHintUsed(hintUse)
         }
+
+        override fun isSolved(): Boolean = isSolved
+
     }
 
 
-    object Empty : GameLevelModel
+    object Empty : GameLevelModel {
+//        override fun toEntity(): LevelInfoEntity? = null
+    }
 }

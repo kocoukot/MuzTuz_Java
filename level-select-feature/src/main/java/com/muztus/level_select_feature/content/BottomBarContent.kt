@@ -7,11 +7,26 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,7 +53,7 @@ fun BottomBarContent(
     val isKeyboardOpen by keyboardAsState()
     val hintPadding by animateDpAsState(targetValue = if (isKeyboardOpen == Keyboard.Opened) 0.dp else 8.dp)
 
-    LevelInput(modifier = Modifier) {
+    LevelInput(modifier = Modifier, isSolved = data.isSolved()) {
         bottomBarActions.invoke(
             LevelSelectActions.Base.CheckUSerInput(
                 it
@@ -85,6 +100,7 @@ fun BottomBarContent(
 @Composable
 fun LevelInput(
     modifier: Modifier,
+    isSolved: Boolean,
     onAction: (String) -> Unit
 ) {
     var input by remember { mutableStateOf("") }
@@ -121,6 +137,7 @@ fun LevelInput(
                 focusedIndicatorColor = MTTheme.colors.mainDarkBrown,
                 unfocusedIndicatorColor = MTTheme.colors.alertBackground,
             ),
+            enabled = isSolved.not(),
             value = input,
             singleLine = true,
             keyboardOptions = KeyboardOptions(
@@ -142,7 +159,7 @@ fun LevelInput(
         Button(
             contentPadding = PaddingValues(6.dp),
             interactionSource = interactionSource,
-            enabled = input.isNotEmpty(),
+            enabled = if (isSolved) false else input.isNotEmpty(),
             onClick = { onAction.invoke(input) },
             modifier = Modifier.size(width = 48.dp, height = 40.dp),
             colors = ButtonDefaults.buttonColors(

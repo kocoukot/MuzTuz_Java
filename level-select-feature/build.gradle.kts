@@ -62,4 +62,7 @@ dependencies {
     api(project(":core"))
     api(project(":core-mvi"))
     api(project(":domain-layer"))
+    api(project(":sounds"))
+    api(project(":database"))
+
 }

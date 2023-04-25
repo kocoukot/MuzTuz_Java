@@ -11,6 +11,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -33,6 +34,7 @@ interface BaseFragment<VM : BaseViewModel> {
                         startActivity(intent)
 
                     }
+
                     else -> composeRoute?.invoke(route)
                 }
             }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -48,12 +50,22 @@ interface BaseFragment<VM : BaseViewModel> {
                 when (screen) {
                     is ComposeRouteNavigation.DeepLinkNavigate -> {
                         if (screen.needPop()) popBackStack()
-                        navigate(Uri.parse("${getString(screen.destination())}/${screen.arguments}"))
+                        navigate(
+                            Uri.parse("${getString(screen.destination())}/${screen.arguments}"),
+                            NavOptions.Builder()
+                                .setEnterAnim(R.anim.fade_in)
+                                .setExitAnim(R.anim.fade_out)
+                                .setPopEnterAnim(R.anim.fade_in)
+                                .setPopExitAnim(R.anim.fade_out)
+                                .build()
+                        )
                     }
+
                     is ComposeRouteNavigation.GraphNavigate -> {
                         if (screen.needPop()) popBackStack()
                         navigate(screen.destination(), screen.bundle)
                     }
+
                     is ComposeRouteNavigation.ComposeRouteFinishApp -> requireActivity().finish()
                     is ComposeRouteNavigation.PopNavigation -> popBackStack()
                 }

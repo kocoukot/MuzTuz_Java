@@ -4,8 +4,8 @@ import com.artline.muztus.ui.mainMenu.model.MainMenuActions
 import com.artline.muztus.ui.mainMenu.model.MainMenuRoute
 import com.artline.muztus.ui.mainMenu.model.MainMenuState
 import com.muztus.core_mvi.BaseViewModel
-import com.muztus.domain_layer.usecase.IsFirstLaunchUseCase
-import com.muztus.domain_layer.usecase.ResetStatisticUseCase
+import com.muztus.domain_layer.usecase.global.IsFirstLaunchUseCase
+import com.muztus.domain_layer.usecase.global.ResetStatisticUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class MainMenuViewModel(

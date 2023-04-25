@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.NavHostFragment
 import com.artline.muztus.databinding.ActivityMainBinding
 import com.artline.muztus.sounds.GameSound
+import com.artline.muztus.sounds.GameSoundPlay
 import com.artline.muztus.sounds.MusicPlayerService
 import com.artline.muztus.sounds.SoundsPlayerService
 import com.muztus.core.ext.SupportInfoBar
@@ -16,7 +17,7 @@ import com.muztus.core_mvi.UpdateCoins
 import com.muztus.domain_layer.model.IGameSound
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : AppCompatActivity(), UpdateCoins, com.artline.muztus.sounds.GameSoundPlay {
+class MainActivity : AppCompatActivity(), UpdateCoins, GameSoundPlay {
 
     private val soundsPlayerService = SoundsPlayerService()
     private val musicPlayerService: MusicPlayerService = MusicPlayerService(this)
@@ -82,7 +83,6 @@ class MainActivity : AppCompatActivity(), UpdateCoins, com.artline.muztus.sounds
                 }
             }
         }
-        //todo fix remove after test
         observeLiveData()
     }
 
