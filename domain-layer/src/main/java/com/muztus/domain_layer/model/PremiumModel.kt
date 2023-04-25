@@ -2,8 +2,10 @@ package com.muztus.domain_layer.model
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,16 +24,24 @@ interface PremiumModel {
         private val premiumProgress: Int,
         private val premiumLvlAmount: Int,
         private val premiumImage: Int,
+        private val isOpened: Boolean
     ) : PremiumModel {
 
         @Composable
-        override fun SetPremiaImage(modifier: Modifier, onSelect: (PremiumModel) -> Unit) {
+        override fun SetPremiaImage(
+            modifier: Modifier,
+            onSelect: (PremiumModel) -> Unit
+        ) {
             Image(
                 modifier = modifier
                     .size(200.dp)
                     .shadow(8.dp, shape = CircleShape)
                     .clip(CircleShape)
-                    .clickable {
+                    .clickable(
+                        enabled = isOpened,
+                        interactionSource = MutableInteractionSource(),
+                        indication = rememberRipple()
+                    ) {
                         onSelect.invoke(this)
                     },
                 painter = painterResource(id = premiumImage),

@@ -1,7 +1,7 @@
 package com.artline.muztus.data.repo
 
 import com.artline.muztus.data.SharedPreferencesStorage
-import com.muztus.data.premiaImagesList
+import com.muztus.core.levelsdata.premiaImagesList
 import com.muztus.database.LevelInfoDAO
 import com.muztus.database.LevelInfoEntity
 import com.muztus.domain_layer.model.GameLevelModel
@@ -12,6 +12,7 @@ import com.muztus.domain_layer.model.IGameSound
 import com.muztus.domain_layer.model.LevelHints
 import com.muztus.domain_layer.model.PremiaLevelModel
 import com.muztus.domain_layer.repos.GameRepository
+import kotlinx.coroutines.flow.Flow
 
 class GameRepositoryImpl(
     private val sharedPreferencesStorage: SharedPreferencesStorage,
@@ -61,6 +62,9 @@ class GameRepositoryImpl(
             0
         )
     }
+
+    override suspend fun getDisksInfo(): Flow<List<LevelInfoEntity>> = levelInfoDao.getAllLevels()
+
 
     override suspend fun setLevelInfo(levelInfo: LevelInfoEntity) {
         levelInfoDao.insertOrUpdate(levelInfo)

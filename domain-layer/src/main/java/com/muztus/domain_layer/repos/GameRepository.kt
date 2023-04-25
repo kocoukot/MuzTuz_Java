@@ -5,6 +5,7 @@ import com.muztus.domain_layer.model.GameLevelModel
 import com.muztus.domain_layer.model.GameSoundsInfo
 import com.muztus.domain_layer.model.GameStatsInfo
 import com.muztus.domain_layer.model.PremiaLevelModel
+import kotlinx.coroutines.flow.Flow
 
 
 interface GameRepository {
@@ -24,6 +25,8 @@ interface GameRepository {
     fun setSoundsState(soundState: GameSoundsInfo)
 
     suspend fun getLevelInfo(premiumIndex: Int, levelIndex: Int): GameLevelModel
+
+    suspend fun getDisksInfo(): Flow<List<LevelInfoEntity>>
 
     suspend fun setLevelInfo(levelInfo: LevelInfoEntity)
 

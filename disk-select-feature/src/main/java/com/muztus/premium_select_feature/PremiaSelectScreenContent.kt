@@ -22,6 +22,7 @@ import com.muztus.premium_select_feature.model.PremiaSelectActions
 fun PremiaSelectContent(viewModel: PremiaSelectViewModel) {
 
     val state by viewModel.state.collectAsState()
+
     Surface(
         modifier = Modifier
             .fillMaxSize()
@@ -35,15 +36,12 @@ fun PremiaSelectContent(viewModel: PremiaSelectViewModel) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             items(state.data,
-                key = {
-                    it.premiumNumber()
-                }) { item ->
+                key = { it.premiumNumber() }) { item ->
+
                 item.SetPremiaImage(
                     modifier = Modifier,
-                    onSelect = { mocdel ->
-                        viewModel.setInputActions(
-                            PremiaSelectActions.SelectedPremia(mocdel)
-                        )
+                    onSelect = { model ->
+                        viewModel.setInputActions(PremiaSelectActions.SelectedPremia(model))
                     }
                 )
             }

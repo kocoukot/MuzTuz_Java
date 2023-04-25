@@ -19,6 +19,7 @@ var premiaDisksList = listOf(
         R.drawable.lvl19
     ),
     listOf(
+        R.drawable.lvl20,
         R.drawable.lvl21,
         R.drawable.lvl22,
         R.drawable.lvl23,
@@ -40,6 +41,7 @@ var premiaDisksList = listOf(
         R.drawable.lvl219
     ),
     listOf(
+        R.drawable.lvl30,
         R.drawable.lvl31,
         R.drawable.lvl32,
         R.drawable.lvl32,
@@ -61,6 +63,7 @@ var premiaDisksList = listOf(
         R.drawable.lvl319
     ),
     listOf(
+        R.drawable.lvl40,
         R.drawable.lvl41,
         R.drawable.lvl42,
         R.drawable.lvl42,
@@ -82,6 +85,7 @@ var premiaDisksList = listOf(
         R.drawable.lvl419
     ),
     listOf(
+        R.drawable.lvl50,
         R.drawable.lvl51,
         R.drawable.lvl52,
         R.drawable.lvl52,
@@ -103,6 +107,7 @@ var premiaDisksList = listOf(
         R.drawable.lvl519
     ),
     listOf(
+        R.drawable.lvl60,
         R.drawable.lvl61,
         R.drawable.lvl62,
         R.drawable.lvl62,

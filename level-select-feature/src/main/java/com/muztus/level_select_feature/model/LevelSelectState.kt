@@ -15,6 +15,7 @@ data class LevelSelectState(
     val levelStarts: Int = 3,
     val coinsAmountWin: String = "",
     val showLetterAlert: String = "",
+    val nextPremiaOpened: NextPremiaAlert = NextPremiaAlert.NotShown
 )
 
 interface SelectedLevel {
@@ -88,4 +89,12 @@ interface SelectedLevel {
             return GameLevelModel.Empty
         }
     }
+}
+
+
+interface NextPremiaAlert {
+    object NotShown : NextPremiaAlert
+    object IsShowing : NextPremiaAlert
+    object IsShowed : NextPremiaAlert
+
 }

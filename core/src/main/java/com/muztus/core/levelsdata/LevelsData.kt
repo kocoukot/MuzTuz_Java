@@ -1,9 +1,8 @@
-package com.muztus.data
+package com.muztus.core.levelsdata
 
-import com.muztus.level_select_feature.R
+import com.muztus.core.R
 
-
-val requaredAmount = 75
+val REQUARED_AMOUNT = 75
 
 var premiaImagesList = listOf(
     listOf(R.drawable.artist_0_1_mumitrol),

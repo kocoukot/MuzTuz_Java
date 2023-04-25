@@ -8,6 +8,7 @@ import com.muztus.database.AppDatabase
 import com.muztus.domain_layer.repos.GameRepository
 import com.muztus.domain_layer.usecase.GetGameCoinsUseCase
 import com.muztus.domain_layer.usecase.GetPremiumDataUseCase
+import com.muztus.domain_layer.usecase.GetPremiumStateUseCase
 import com.muztus.domain_layer.usecase.SetCoinsAmountUseCase
 import com.muztus.domain_layer.usecase.global.GetSoundsStateUseCase
 import com.muztus.domain_layer.usecase.global.IsFirstLaunchUseCase
@@ -29,7 +30,7 @@ val authModule = module {
 
     viewModel { MainMenuViewModel(get(), get()) }
 
-    viewModel { PremiaSelectViewModel() }
+    viewModel { PremiaSelectViewModel(get()) }
 
     viewModel { (selectedPremium: Int) ->
         LevelSelectViewModel(
@@ -66,6 +67,8 @@ val domainModule = module {
     factory { SetSoundsStateUseCase(get()) }
 
     factory { SetLevelInfoUseCase(get()) }
+
+    factory { GetPremiumStateUseCase(get()) }
 
 }
 

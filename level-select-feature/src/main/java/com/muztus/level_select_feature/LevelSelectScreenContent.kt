@@ -15,6 +15,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.muztus.core.compose.AlertButtons
+import com.muztus.core.compose.AlertDialogComp
 import com.muztus.core.compose.LetterSelectAlertDialog
 import com.muztus.core.compose.MakeToast
 import com.muztus.core.compose.endGameAlert.EndGameLevelDialog
@@ -24,6 +26,7 @@ import com.muztus.level_select_feature.content.PremiumLevelScreenContent
 import com.muztus.level_select_feature.content.PremiumScreenContent
 import com.muztus.level_select_feature.model.GameToast
 import com.muztus.level_select_feature.model.LevelSelectActions
+import com.muztus.level_select_feature.model.NextPremiaAlert
 import com.muztus.level_select_feature.model.SelectedLevel
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -36,6 +39,16 @@ fun LevelSelectContent(viewModel: LevelSelectViewModel) {
     val selectedLevel = remember { derivedStateOf { state.selectedLevel } }
 
     val coinToast = remember { derivedStateOf { state.coinToast } }
+
+    if (state.nextPremiaOpened == NextPremiaAlert.IsShowing) {
+        AlertDialogComp(
+            dialogText = "Поздравляем с открытием следующей премии!",
+            alertButtonsType = AlertButtons.OkButtonAlert()
+        ) {
+            viewModel.setInputActions(LevelSelectActions.Base.OnCloseNextPremiaAlert)
+
+        }
+    }
 
     val scaffoldState = rememberScaffoldState()
 
