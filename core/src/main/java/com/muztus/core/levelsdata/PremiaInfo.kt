@@ -1,6 +1,6 @@
-package com.muztus.premium_select_feature.data
+package com.muztus.core.levelsdata
 
-import com.muztus.premium_select_feature.R
+import com.muztus.core.R
 
 var premiaDisksList = listOf(
     listOf(

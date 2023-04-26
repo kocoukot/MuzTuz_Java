@@ -1,6 +1,8 @@
 package com.artline.muztus.ui
 
+import android.animation.ValueAnimator
 import android.os.Bundle
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -89,8 +91,29 @@ class MainActivity : AppCompatActivity(), UpdateCoins, GameSoundPlay {
 
     private fun observeLiveData() {
         viewModel.coins.observe(this) { mainInfo ->
-            binding.menuCoins.text = mainInfo.coinsAmount.toString()
-            binding.menuStars.text = mainInfo.starsAmount.toString()
+//            binding.menuStars.text = mainInfo.starsAmount.toString()
+
+            viewAnimator(
+                binding.menuStars.text.toString().toInt(),
+                mainInfo.starsAmount,
+                binding.menuStars
+            )
+            viewAnimator(
+                binding.menuCoins.text.toString().toInt(),
+                mainInfo.coinsAmount,
+                binding.menuCoins
+            )
+//            val animator = ValueAnimator.ofInt(
+//                binding.menuCoins.text.toString().toInt(),
+//                mainInfo.coinsAmount
+//            ) //0 is min number, 600 is max number
+//            animator.duration = 300 //Duration is in milliseconds
+//            animator.addUpdateListener { animation ->
+//                binding.menuCoins.text = (animation.animatedValue.toString())
+//            }
+//            animator.start()
+
+
         }
 
         viewModel.sounds.observe(this) { soundsInfo ->
@@ -107,6 +130,18 @@ class MainActivity : AppCompatActivity(), UpdateCoins, GameSoundPlay {
                 isActivated = soundsInfo.soundState.soundState()
             }
         }
+    }
+
+    private fun viewAnimator(first: Int, second: Int, view: TextView) {
+        val animator = ValueAnimator.ofInt(
+            first,
+            second
+        ) //0 is min number, 600 is max number
+        animator.duration = 300 //Duration is in milliseconds
+        animator.addUpdateListener { animation ->
+            view.text = (animation.animatedValue.toString())
+        }
+        animator.start()
     }
 
 

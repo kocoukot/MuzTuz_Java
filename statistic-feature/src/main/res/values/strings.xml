@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="statistic_summary_duration">Общее время игры: %s</string>
     <string name="statistic_levels_passed">Уровней пройдено: %d</string>
+
+    <string name="statistic_fastest_level_text">Самый быстрый ответ: %s</string>
+    <string name="statistic_longest_level_text">Самый долгий ответ: %s</string>
+    <string name="statistic_hints_used">Использованно подсказок: %d</string>
+
+    <string name="statistic_empty_stata">К сожалению для формирвоания статистики мало данных.</string>
+    <string name="statistic_statistic_title">СТАТИСТИКА</string>
+
+
 </resources>

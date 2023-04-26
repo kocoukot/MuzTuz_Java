@@ -97,6 +97,7 @@ class LevelSelectViewModel(
                     )
                 )
             }
+
         } else {
             updateInfo {
                 copy(
@@ -142,19 +143,12 @@ class LevelSelectViewModel(
             println(getState().premiaLevelList)
 
             viewModelScope.launch {
-                setLevelInfoUseCase.invoke(
-                    LevelInfoEntity(
-                        premiaIndex = selectedPremium,
-                        levelIndex = levelIndex,
-                        isSolved = true
-                    )
-
-                )
                 updateInfo {
                     copy(
                         premiaLevelList = list.toList(),
                     )
                 }
+                saveLevelState()
             }
         } else {
 
@@ -186,6 +180,7 @@ class LevelSelectViewModel(
     override fun useOneLetterHint(letterIndex: Int) {
         getState().selectedLevel.onOneLetterHintUse(this, letterIndex)
         updateInfo { copy(showLetterAlert = "") }
+        saveLevelState()
     }
 
     override fun clearToastCoins() {
@@ -202,6 +197,7 @@ class LevelSelectViewModel(
 
     override fun lettersAmount() {
         getState().selectedLevel.lettersAmountUse(this)
+        saveLevelState()
     }
 
     override fun showLetterSelect() {
@@ -210,6 +206,7 @@ class LevelSelectViewModel(
 
     override fun songHint() {
         getState().selectedLevel.showSongHint(this)
+        saveLevelState()
     }
 
     override fun answerHint() {
@@ -226,6 +223,28 @@ class LevelSelectViewModel(
             )
         }
         sendRoute(LevelSelectRoute.UpdateCoins)
+    }
+
+    private fun saveLevelState() {
+        viewModelScope.launch {
+            setLevelInfoUseCase.invoke(
+                LevelInfoEntity(
+                    premiaIndex = selectedPremium,
+                    levelIndex = getState().selectedLevel.getLevelIndex(),
+                    isSolved = getState().premiaLevelList[getState().selectedLevel.getLevelIndex()].isPassed(),
+                    levelDuration = getState().selectedLevel.getSelectedLevel()
+                        .countLevelDuration(System.currentTimeMillis() - gameStartTime),
+                    isLettersAmountUsed = getState().selectedLevel.getSelectedLevel()
+                        .getLevelHintsState().letterAmountHint.isUsed,
+                    selectedLetterIndex = getState().selectedLevel.getSelectedLevel()
+                        .getLevelHintsState().oneLetterHint.selectedLetters,
+                    isSongOpened = getState().selectedLevel.getSelectedLevel()
+                        .getLevelHintsState().songHint.isUsed,
+                    isAnswerUsed = getState().selectedLevel.getSelectedLevel()
+                        .getLevelHintsState().correctAnswerHint.isUsed,
+                )
+            )
+        }
     }
 
 

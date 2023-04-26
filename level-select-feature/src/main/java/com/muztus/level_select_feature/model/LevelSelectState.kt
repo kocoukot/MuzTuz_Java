@@ -27,17 +27,13 @@ interface SelectedLevel {
     fun hideUseHintAlert(): SelectedLevel = this
 
     fun lettersAmountUse(hint: HintUse)
-
+    fun onOneLetterHintUse(hint: HintUse, letterIndex: Int)
     fun showSongHint(hint: HintUse)
 
+
     fun checkUserInput(input: String): Boolean
-
     fun getCorrectAnswer(): String
-
-    fun onOneLetterHintUse(hint: HintUse, letterIndex: Int)
-
     fun getLevelIndex(): Int = 0
-
     fun getSelectedLevel(): GameLevelModel
 
     data class SelectedLevelData(
