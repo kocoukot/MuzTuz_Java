@@ -35,21 +35,21 @@ class GameRepositoryImpl(
     }
 
     override suspend fun getLevelInfo(premiumIndex: Int, levelIndex: Int): GameLevelModel {
-        val level = levelInfoDao.findLevel(premiumIndex, levelIndex)
-        println("found level $level")
-        val levelHints = if (level?.isSolved == true) {
+        val levelEnt = levelInfoDao.findLevel(premiumIndex, levelIndex)
+        val levelHints = levelEnt?.let { level ->
             LevelHints(
-                letterAmountHint = HintModel.LetterAmountHint(isUsed = true),
+                letterAmountHint = HintModel.LetterAmountHint(isUsed = level.isLettersAmountUsed || levelEnt.isSolved),
                 oneLetterHint = HintModel.OneLetterHint(
-                    isUsed = true,
-                    selectedLetters = 0
+                    isUsed = level.selectedLetterIndex >= 0 || levelEnt.isSolved,
+                    selectedLetters = level.selectedLetterIndex
                 ),
-                songHint = HintModel.SongHint(isUsed = true),
-                correctAnswerHint = HintModel.CorrectAnswer(isUsed = true)
+                songHint = HintModel.SongHint(isUsed = level.isSongOpened || levelEnt.isSolved),
+                correctAnswerHint = HintModel.CorrectAnswer(isUsed = level.isAnswerUsed || levelEnt.isSolved)
             )
-        } else {
+        } ?: run {
             LevelHints()
         }
+
 
         return GameLevelModel.Base(
             index = levelIndex,
@@ -58,8 +58,8 @@ class GameRepositoryImpl(
             levelHints = levelHints,
             levelImage = premiaImagesList[premiumIndex][levelIndex],
             songName = albumsList[premiumIndex][levelIndex],
-            isSolved = level?.isSolved ?: false,
-            0
+            isSolved = levelEnt?.isSolved ?: false,
+            levelEnt?.levelDuration ?: 0
         )
     }
 
@@ -75,11 +75,9 @@ class GameRepositoryImpl(
         return premiaImagesList[selectedPremiumIndex].mapIndexed { index, img ->
             PremiaLevelModel.Base(
                 levelIndex = index,
-                isLevelPassed = premiaLevels.map { it.levelIndex }.contains(index),
+                isLevelPassed = premiaLevels.find { it.levelIndex == index }?.isSolved ?: false,
                 levelImage = img,
             )
-
-
         }
     }
 

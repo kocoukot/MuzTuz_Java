@@ -19,6 +19,10 @@ interface GameLevelModel {
 
     fun isSolved(): Boolean = false
 
+    fun getLevelHintsState(): LevelHints
+
+    fun countLevelDuration(currentDuration: Long): Long = 0
+
     data class Base(
         private val index: Int,
         private val premiumIndex: Int,
@@ -70,11 +74,15 @@ interface GameLevelModel {
         }
 
         override fun isSolved(): Boolean = isSolved
+        override fun getLevelHintsState(): LevelHints = levelHints
+        override fun countLevelDuration(currentDuration: Long): Long =
+            gameDuration + currentDuration
 
     }
 
 
     object Empty : GameLevelModel {
-//        override fun toEntity(): LevelInfoEntity? = null
+
+        override fun getLevelHintsState(): LevelHints = LevelHints()
     }
 }
