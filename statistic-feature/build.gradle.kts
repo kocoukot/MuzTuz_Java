@@ -27,7 +27,9 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
     buildFeatures {
+        viewBinding = true
         compose = true
     }
     composeOptions {
@@ -58,11 +60,15 @@ dependencies {
     implementation(Dependencies.Navigation.fragment)
     implementation(Dependencies.Navigation.ui)
 
+    implementation(Dependencies.Koin.core)
+    implementation(Dependencies.Koin.android)
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 
     api(project(":core"))
     api(project(":core-mvi"))
+    api(project(":domain-layer"))
 
 }

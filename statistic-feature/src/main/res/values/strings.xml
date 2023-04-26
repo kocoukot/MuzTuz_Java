@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="statistic_levels_passed">Уровней пройдено: %d</string>
+</resources>

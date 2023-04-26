@@ -19,12 +19,10 @@ class MainViewModel(
 ) : ViewModel() {
 
     private val mCoins: MutableLiveData<GameStatsInfo> = MutableLiveData(getGameCoinsUseCase())
-    val coins: LiveData<GameStatsInfo>
-        get() = mCoins
+    val coins: LiveData<GameStatsInfo> = mCoins
 
     private val mSounds: MutableLiveData<GameSoundsInfo> = MutableLiveData(getSoundsStateUseCase())
-    val sounds: LiveData<GameSoundsInfo>
-        get() = mSounds
+    val sounds: LiveData<GameSoundsInfo> = mSounds
 
 
     fun addCoins() {

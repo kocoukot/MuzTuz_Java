@@ -25,4 +25,7 @@ interface LevelInfoDAO {
     @Query("SELECT * FROM $LEVEL_TABLE_NAME")
     fun getAllLevels(): Flow<List<LevelInfoEntity>>
 
+    @Query("DELETE FROM $LEVEL_TABLE_NAME")
+    fun clearAllLevels()
+
 }

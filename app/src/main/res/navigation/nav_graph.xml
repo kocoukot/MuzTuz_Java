@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/splashScreenFragment"
-        android:name="com.artline.muztus.ui.start.StartScreenFragment"
+        android:name="com.artline.muztus.ui.splash.StartScreenFragment"
         android:label="SplashScreenFragment">
         <action
             android:id="@+id/action_splashScreenFragment_to_mainMenuFragment"
@@ -55,7 +55,7 @@
 
     <fragment
         android:id="@+id/statisticScreenFragment"
-        android:name="com.muztus.statistic.StatisticScreen"
+        android:name="com.muztus.statistic.StatisticFragment"
         android:label="StatisticScreen" />
     <fragment
         android:id="@+id/premiaSelectFragment"

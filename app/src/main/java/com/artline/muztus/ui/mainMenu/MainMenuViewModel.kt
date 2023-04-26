@@ -1,12 +1,17 @@
 package com.artline.muztus.ui.mainMenu
 
+import androidx.lifecycle.viewModelScope
+import com.artline.muztus.sounds.GameSound
 import com.artline.muztus.ui.mainMenu.model.MainMenuActions
 import com.artline.muztus.ui.mainMenu.model.MainMenuRoute
 import com.artline.muztus.ui.mainMenu.model.MainMenuState
 import com.muztus.core_mvi.BaseViewModel
 import com.muztus.domain_layer.usecase.global.IsFirstLaunchUseCase
 import com.muztus.domain_layer.usecase.global.ResetStatisticUseCase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainMenuViewModel(
     private val isFirstLaunchUseCase: IsFirstLaunchUseCase,
@@ -32,9 +37,16 @@ class MainMenuViewModel(
     }
 
     override fun resetStatistic(isReset: Boolean) {
-        isReset.takeIf { it }
-            ?.let { resetStatisticUseCase() }
-            .also { updateInfo { copy(showResetAlert = false) } }
+        viewModelScope.launch {
+            isReset.takeIf { it }
+                ?.let { withContext(Dispatchers.IO) { resetStatisticUseCase() } }
+                .also {
+                    sendRoute(MainMenuRoute.PlaySound(GameSound.SoundResetAll))
+                    sendRoute(MainMenuRoute.ClearStarts)
+
+                    updateInfo { copy(showResetAlert = false) }
+                }
+        }
     }
 
     override fun closeFirstLaunchAlert() {

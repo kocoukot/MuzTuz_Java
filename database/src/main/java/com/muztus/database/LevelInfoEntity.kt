@@ -11,7 +11,6 @@ import com.muztus.database.LevelTable.LEVEL_TABLE_PREMIA_INDEX
     primaryKeys = [LEVEL_TABLE_PREMIA_INDEX, LEVEL_TABLE_LEVEL_INDEX]
 )
 data class LevelInfoEntity(
-//    @PrimaryKey val uid: String,
     @ColumnInfo(name = LEVEL_TABLE_PREMIA_INDEX) val premiaIndex: Int,
     @ColumnInfo(name = LEVEL_TABLE_LEVEL_INDEX) val levelIndex: Int,
     @ColumnInfo(name = "is_solved") val isSolved: Boolean,

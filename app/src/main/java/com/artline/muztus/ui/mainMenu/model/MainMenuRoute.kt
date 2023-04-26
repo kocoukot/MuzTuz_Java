@@ -1,6 +1,7 @@
 package com.artline.muztus.ui.mainMenu.model
 
 import com.artline.muztus.R
+import com.artline.muztus.sounds.GameSound
 import com.muztus.core_mvi.ComposeFragmentRoute
 import com.muztus.core_mvi.ComposeRouteNavigation
 import com.muztus.core_mvi.ComposeRouteOpenWeb
@@ -26,4 +27,8 @@ sealed class MainMenuRoute : ComposeFragmentRoute {
     data class OpenSocials(private val webLink: String) : MainMenuRoute(), ComposeRouteOpenWeb {
         override fun getWebUrl(): String = webLink
     }
+
+    data class PlaySound(val soundType: GameSound) : MainMenuRoute()
+
+    object ClearStarts : MainMenuRoute()
 }

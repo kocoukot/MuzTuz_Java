@@ -18,6 +18,7 @@ import com.muztus.domain_layer.usecase.level.GetLevelInfoUseCase
 import com.muztus.domain_layer.usecase.level.SetLevelInfoUseCase
 import com.muztus.level_select_feature.LevelSelectViewModel
 import com.muztus.premium_select_feature.PremiaSelectViewModel
+import com.muztus.statistic.StatisticViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -44,6 +45,8 @@ val authModule = module {
     }
 
     viewModel { MainViewModel(get(), get(), get(), get()) }
+
+    viewModel { StatisticViewModel(get()) }
 
 
 }
