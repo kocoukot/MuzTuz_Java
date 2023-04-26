@@ -35,7 +35,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.muztus.core.ext.Keyboard
 import com.muztus.core.ext.keyboardAsState
@@ -142,7 +141,6 @@ fun LevelInput(
             singleLine = true,
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Sentences,
-                keyboardType = KeyboardType.Text
             ),
             onValueChange = {
                 input = it.letters()

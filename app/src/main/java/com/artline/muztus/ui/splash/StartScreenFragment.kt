@@ -1,4 +1,4 @@
-package com.artline.muztus.ui.start
+package com.artline.muztus.ui.splash
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -5,5 +5,5 @@ import com.muztus.domain_layer.repos.GameRepository
 class ResetStatisticUseCase(
     private val gameRepository: GameRepository
 ) {
-    operator fun invoke() = gameRepository.resetStatistic()
+    suspend operator fun invoke() = gameRepository.resetStatistic()
 }

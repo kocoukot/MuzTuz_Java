@@ -83,8 +83,9 @@ class GameRepositoryImpl(
         }
     }
 
-    override fun resetStatistic() {
-
+    override suspend fun resetStatistic() {
+        sharedPreferencesStorage.clearStarts()
+        levelInfoDao.clearAllLevels()
     }
 
     override fun getSoundsState(): GameSoundsInfo =

@@ -22,6 +22,8 @@ class SharedPreferencesStorage(private val sharedPreferences: SharedPreferences)
     fun getCoinsAmount() = get<Int>(ARG_COINS) ?: 0
 
     fun getStarsAmount() = get<Int>(ARG_STARS) ?: 0
+    fun clearStarts() = set(ARG_STARS, 0)
+
 
     fun addCoins(amount: Int) {
         set(ARG_COINS, getCoinsAmount() + amount)

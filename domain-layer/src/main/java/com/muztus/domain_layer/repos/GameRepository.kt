@@ -18,7 +18,7 @@ interface GameRepository {
 
     suspend fun getSelectedPremiumData(selectedPremiumIndex: Int): List<PremiaLevelModel>
 
-    fun resetStatistic()
+    suspend fun resetStatistic()
 
     fun getSoundsState(): GameSoundsInfo
 
