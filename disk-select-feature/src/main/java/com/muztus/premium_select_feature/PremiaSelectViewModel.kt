@@ -2,11 +2,11 @@ package com.muztus.premium_select_feature
 
 import androidx.lifecycle.viewModelScope
 import com.muztus.core.levelsdata.REQUARED_AMOUNT
+import com.muztus.core.levelsdata.premiaDisksList
 import com.muztus.core.levelsdata.premiaImagesList
 import com.muztus.core_mvi.BaseViewModel
 import com.muztus.domain_layer.model.PremiumModel
 import com.muztus.domain_layer.usecase.GetPremiumStateUseCase
-import com.muztus.premium_select_feature.data.premiaDisksList
 import com.muztus.premium_select_feature.model.PremiaSelectActions
 import com.muztus.premium_select_feature.model.PremiaSelectState
 import com.muztus.premium_select_feature.model.PremiumAction
