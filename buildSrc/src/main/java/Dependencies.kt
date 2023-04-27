@@ -17,7 +17,8 @@ object Dependencies {
     }
 
     object GoogleAd {
-        const val mobileAd = "com.google.android.gms:play-services-ads:19.2.0"
+        const val mobileAd = "com.google.android.gms:play-services-ads:21.0.0"
+        const val billing = "com.android.billingclient:billing-ktx:5.0.0"
     }
 
     object Navigation {

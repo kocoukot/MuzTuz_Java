@@ -57,7 +57,9 @@ dependencies {
     implementation(Dependencies.Navigation.fragment)
     implementation(Dependencies.Navigation.ui)
 
+    implementation(Dependencies.GoogleAd.billing)
 
+    api(project(":sounds"))
     api(project(":core"))
     api(project(":core-mvi"))
     api(project(":domain-layer"))
