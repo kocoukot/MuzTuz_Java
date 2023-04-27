@@ -29,7 +29,8 @@ class StatisticViewModel(
                             summaryTime = premList.sumOf { it.levelDuration },
                             levelsPassed = premList.filter { it.isSolved }.size,
                             hintsUsed = premList.filter { it.isSongOpened || it.isAnswerUsed || it.isLettersAmountUsed || it.selectedLetterIndex >= 0 }.size,
-                            fastestLevel = premList.minBy { it.levelDuration },
+                            fastestLevel = premList.filter { it.levelDuration > 0 }
+                                .minBy { it.levelDuration },
                             longestLevel = premList.maxBy { it.levelDuration }
                         )
                     )
