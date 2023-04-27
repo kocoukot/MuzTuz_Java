@@ -60,18 +60,8 @@ class MainActivity : AppCompatActivity(), UpdateCoins, GameSoundPlay {
 
 
         with(binding) {
-            imageView5.setOnClickListener {
-                viewModel.addCoins()
-            }
-
             menuMusic.apply {
                 isActivated = true
-            }
-            menuSound.apply {
-                isActivated = true
-            }
-
-            menuMusic.apply {
                 setOnClickListener {
                     if (isActivated) musicPlayerService.pause() else musicPlayerService.resume(this@MainActivity)
                     viewModel.soundChange(IGameSound.GameMusic)
@@ -79,6 +69,7 @@ class MainActivity : AppCompatActivity(), UpdateCoins, GameSoundPlay {
             }
 
             menuSound.apply {
+                isActivated = true
                 setOnClickListener {
                     playGameSound(if (isActivated) GameSound.SoundOnMusic else GameSound.SoundOffMusic)
                     viewModel.soundChange(IGameSound.GameSound)
