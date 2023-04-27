@@ -340,7 +340,7 @@ class TutorialFragment : Fragment(), SupportInfoBar {
                     handler!!.postDelayed({ showInfo(R.string.thirdHelp, 3) }, delay.toLong())
                 }
             } else {
-                imageView.setImageResource(R.mipmap.vybor_bukvy_podskazki_space)
+                imageView.setImageResource(R.drawable.vybor_bukvy_podskazki_space)
             }
             linearLayout.addView(imageView)
         }
