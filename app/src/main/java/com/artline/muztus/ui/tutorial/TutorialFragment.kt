@@ -16,7 +16,6 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.artline.muztus.R
-import com.artline.muztus.commonFuncs.LevelsInfo
 import com.artline.muztus.databinding.ActivityTutorialLvlBinding
 import com.artline.muztus.sounds.GameSound
 import com.artline.muztus.sounds.GameSoundPlay
@@ -37,14 +36,8 @@ class TutorialFragment : Fragment(), SupportInfoBar {
     private val dialogsToShow = LinkedBlockingQueue<Dialog?>()
     private var handler: Handler? = null
 
-    //    private var editText: EditText? = null
     private var width = 0
     private var idButton = 0
-
-
-    private var correctAnswer: String? = null
-    private var artistName: Array<String> = emptyArray()
-    private var lvlPast = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -63,10 +56,6 @@ class TutorialFragment : Fragment(), SupportInfoBar {
         val displayMetrics = DisplayMetrics()
         requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
         width = displayMetrics.widthPixels
-
-        artistName = LevelsInfo().correctAnswersList[0][0]
-        correctAnswer = artistName[0]
-
         with(binding) {
             buttonSayAnswer.apply {
                 setOnClickListener {
@@ -304,33 +293,6 @@ class TutorialFragment : Fragment(), SupportInfoBar {
             }
         }
         builder.show()
-    }
-
-    private fun onCheckAnswer() {
-        val answer = binding.editTextTutorial.text.toString().trim { it <= ' ' }
-            .lowercase(Locale.getDefault()) //берем ответ, переводим в строку, обрезаем пробелы и приводим к нижнему регистру
-        for (s in artistName) {                //перебор всех ответов
-            if (answer == s) {
-                lvlPast = 1
-                (requireActivity() as GameSoundPlay).playGameSound(GameSound.SoundWin)
-
-                //если правильный ответ угадан
-                binding.amoutnLettes.text = "М У М И Й  Т Р О Л Л Ь"
-//                val progressEditor = preferencesProgress!!.edit()
-//                progressEditor.putInt("solved" + 0 + 0, 1)
-//                progressEditor.apply()
-                showInfo(R.string.lastText, 7)
-                break
-            }
-        }
-        if (answer.isEmpty()) {
-            (requireActivity() as GameSoundPlay).playGameSound(GameSound.SoundWrongAnswer)
-            toastShower.showToast(requireContext(), "Для начала нужно ввести хоть какой-то ответ!")
-        } else if (lvlPast != 1) {
-            (requireActivity() as GameSoundPlay).playGameSound(GameSound.SoundWrongAnswer)
-            //если ответ неправильный, то сообщаем об этом
-            toastShower.showToast(requireContext(), "Неправильный ответ!")
-        }
     }
 
     private fun setTextViewAmountLetters(id: Int) {

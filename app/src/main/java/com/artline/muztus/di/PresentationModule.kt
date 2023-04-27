@@ -7,7 +7,7 @@ import com.artline.muztus.ui.mainMenu.MainMenuViewModel
 import com.artline.muztus.ui.tutorial.TutorialViewModel
 import com.muztus.database.AppDatabase
 import com.muztus.domain_layer.repos.GameRepository
-import com.muztus.domain_layer.usecase.GetGameCoinsUseCase
+import com.muztus.domain_layer.usecase.GetGameStarsCoinsUseCase
 import com.muztus.domain_layer.usecase.GetPremiumDataUseCase
 import com.muztus.domain_layer.usecase.GetPremiumStateUseCase
 import com.muztus.domain_layer.usecase.SetCoinsAmountUseCase
@@ -56,7 +56,7 @@ val authModule = module {
 
 
 val domainModule = module {
-    factory { GetGameCoinsUseCase(get()) }
+    factory { GetGameStarsCoinsUseCase(get()) }
 
     factory { SetCoinsAmountUseCase(get()) }
 
