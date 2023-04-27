@@ -103,17 +103,6 @@ class MainActivity : AppCompatActivity(), UpdateCoins, GameSoundPlay {
                 mainInfo.coinsAmount,
                 binding.menuCoins
             )
-//            val animator = ValueAnimator.ofInt(
-//                binding.menuCoins.text.toString().toInt(),
-//                mainInfo.coinsAmount
-//            ) //0 is min number, 600 is max number
-//            animator.duration = 300 //Duration is in milliseconds
-//            animator.addUpdateListener { animation ->
-//                binding.menuCoins.text = (animation.animatedValue.toString())
-//            }
-//            animator.start()
-
-
         }
 
         viewModel.sounds.observe(this) { soundsInfo ->

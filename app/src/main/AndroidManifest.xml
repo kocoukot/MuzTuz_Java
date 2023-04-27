@@ -11,34 +11,6 @@
         android:supportsRtl="true"
         android:theme="@style/MuzTus.AppTheme">
 
-        <activity android:name="com.artline.muztus.old.Level" />
-        <activity android:name="com.artline.muztus.old.Premia" />
-        <activity
-            android:name="com.artline.muztus.old.Statistika"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.artline.muztus.ui.tutorial.TutorialFragment"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.artline.muztus.old.PremiaChoose"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name="com.artline.muztus.old.OldMainActivity"
-            android:exported="true"
-            android:icon="@drawable/artist_1_1_pugacheva"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.BROWSABLE" />
-
-            </intent-filter>
-
-        </activity> <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
-
-
         <activity
             android:name="com.artline.muztus.ui.MainActivity"
             android:exported="true"
