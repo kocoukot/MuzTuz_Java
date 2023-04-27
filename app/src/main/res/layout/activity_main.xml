@@ -51,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:srcCompat="@mipmap/zvezda_ochki" />
+            app:srcCompat="@drawable/zvezda_ochki" />
 
         <TextView
             android:id="@+id/menu_coins"
@@ -68,7 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:srcCompat="@mipmap/moneta" />
+            app:srcCompat="@drawable/moneta" />
 
     </LinearLayout>
 
