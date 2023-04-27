@@ -32,10 +32,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.muztus.core.ext.Keyboard
 import com.muztus.core.ext.keyboardAsState
 import com.muztus.core.ext.letters
@@ -52,7 +57,7 @@ fun BottomBarContent(
     val isKeyboardOpen by keyboardAsState()
     val hintPadding by animateDpAsState(targetValue = if (isKeyboardOpen == Keyboard.Opened) 0.dp else 8.dp)
 
-    LevelInput(modifier = Modifier, isSolved = data.isSolved()) {
+    LevelInput(modifier = Modifier.padding(horizontal = 16.dp), isSolved = data.isSolved()) {
         bottomBarActions.invoke(
             LevelSelectActions.Base.CheckUSerInput(
                 it
@@ -64,7 +69,7 @@ fun BottomBarContent(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = hintPadding),
-        horizontalArrangement = Arrangement.SpaceAround,
+//        horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.Bottom
     ) {
         for (hint in data.hintsRow()) {
@@ -72,16 +77,16 @@ fun BottomBarContent(
             val isPressed by interactionSource.collectIsPressedAsState()
             val levelImageScale by animateFloatAsState(
                 targetValue =
-
                 if (isKeyboardOpen == Keyboard.Opened && isPressed) 0.6f
                 else if (isKeyboardOpen == Keyboard.Opened || isPressed) 0.8f
                 else 1f
             )
 
             Image(
+                contentScale = ContentScale.FillWidth,
                 modifier = Modifier
-                    .scale(levelImageScale)
                     .weight(1f)
+                    .scale(levelImageScale)
                     .clip(CircleShape)
                     .clickable(
                         enabled = !(hint.isEnabled()),
@@ -126,6 +131,10 @@ fun LevelInput(
     ) {
 
         TextField(
+            textStyle = TextStyle.Default.copy(
+                fontSize = 24.sp,
+                fontFamily = FontFamily(Font(R.font.optima_bold))
+            ),
             modifier = Modifier
                 .weight(1f)
                 .padding(end = 8.dp, top = 0.dp),
@@ -150,6 +159,8 @@ fun LevelInput(
                     Text(
                         stringResource(id = R.string.input_hint),
                         modifier = Modifier,
+                        fontSize = 24.sp,
+                        fontFamily = FontFamily(Font(R.font.optima_bold))
                     )
 
             })
