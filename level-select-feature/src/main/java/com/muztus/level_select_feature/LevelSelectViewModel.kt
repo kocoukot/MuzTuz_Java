@@ -7,7 +7,7 @@ import com.muztus.core_mvi.BaseViewModel
 import com.muztus.database.LevelInfoEntity
 import com.muztus.domain_layer.model.HintModel
 import com.muztus.domain_layer.model.HintUse
-import com.muztus.domain_layer.usecase.GetGameCoinsUseCase
+import com.muztus.domain_layer.usecase.GetGameStarsCoinsUseCase
 import com.muztus.domain_layer.usecase.GetPremiumDataUseCase
 import com.muztus.domain_layer.usecase.SetCoinsAmountUseCase
 import com.muztus.domain_layer.usecase.level.GetLevelInfoUseCase
@@ -27,7 +27,7 @@ class LevelSelectViewModel(
 
     private val getLevelInfoUseCase: GetLevelInfoUseCase,
     private val setCoinsAmountUseCase: SetCoinsAmountUseCase,
-    private val getGameCoinsUseCase: GetGameCoinsUseCase,
+    private val getGameStarsCoinsUseCase: GetGameStarsCoinsUseCase,
 
     private val setLevelInfoUseCase: SetLevelInfoUseCase
 ) : BaseViewModel.Base<LevelSelectState, LevelSelectActions.Base>(
@@ -88,7 +88,7 @@ class LevelSelectViewModel(
     }
 
     override fun onHintSelect(selectedHint: HintModel) {
-        if (selectedHint.canUseHint(getGameCoinsUseCase.invoke().coinsAmount)) {
+        if (selectedHint.canUseHint(getGameStarsCoinsUseCase.invoke().coinsAmount)) {
             updateInfo {
                 copy(
                     selectedLevel = selectedLevel.setSelectedHint(

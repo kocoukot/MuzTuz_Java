@@ -2,9 +2,8 @@ package com.muztus.domain_layer.usecase
 
 import com.muztus.domain_layer.repos.GameRepository
 
-class GetStatisticDataUseCase(
+class GetGameStarsCoinsUseCase(
     private val gameRepository: GameRepository
 ) {
-    suspend operator fun invoke(premiumIndex: Int) =
-        gameRepository.getSelectedPremiumData(premiumIndex)
+    operator fun invoke() = gameRepository.getGameMainInfo()
 }

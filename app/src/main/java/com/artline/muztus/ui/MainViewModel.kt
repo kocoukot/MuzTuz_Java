@@ -6,13 +6,13 @@ import androidx.lifecycle.ViewModel
 import com.muztus.domain_layer.model.GameSoundsInfo
 import com.muztus.domain_layer.model.GameStatsInfo
 import com.muztus.domain_layer.model.IGameSound
-import com.muztus.domain_layer.usecase.GetGameCoinsUseCase
+import com.muztus.domain_layer.usecase.GetGameStarsCoinsUseCase
 import com.muztus.domain_layer.usecase.SetCoinsAmountUseCase
 import com.muztus.domain_layer.usecase.global.GetSoundsStateUseCase
 import com.muztus.domain_layer.usecase.global.SetSoundsStateUseCase
 
 class MainViewModel(
-    private val getGameCoinsUseCase: GetGameCoinsUseCase,
+    private val getGameCoinsUseCase: GetGameStarsCoinsUseCase,
     private val setCoinsAmountUseCase: SetCoinsAmountUseCase,
     getSoundsStateUseCase: GetSoundsStateUseCase,
     private val setSoundsStateUseCase: SetSoundsStateUseCase,
