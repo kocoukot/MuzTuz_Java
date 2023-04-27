@@ -21,6 +21,7 @@ class StatisticFragment : Fragment() {
 
 
     private val timeFormatter = DateFormatter()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

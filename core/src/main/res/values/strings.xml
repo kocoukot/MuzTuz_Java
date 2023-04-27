@@ -2,6 +2,7 @@
 <resources>
     <string name="end_level_alert_title">Все верно!</string>
     <string name="deep_link_level_fragment">muztus://levelSelectFragment</string>
+    <string name="deep_link_level_tutorial_fragment">muztus://levelTutorialFragment</string>
 
     <string name="ok">ОК</string>
 

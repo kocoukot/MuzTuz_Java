@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/splashScreenFragment">
 
@@ -68,6 +69,13 @@
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_premiaSelectFragment_to_tutorialLvl"
+            app:destination="@id/tutorialLvl"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
     </fragment>
 
     <fragment
@@ -84,5 +92,13 @@
         android:id="@+id/shopFragment"
         android:name="com.muztus.shop_feature.ShopFragment"
         android:label="ShopFragment" />
+    <fragment
+        android:id="@+id/tutorialLvl"
+        android:name="com.artline.muztus.ui.tutorial.TutorialFragment"
+        android:label="activity_tutorial_lvl"
+        tools:layout="@layout/activity_tutorial_lvl">
+        <deepLink app:uri="muztus://levelTutorialFragment/" />
+
+    </fragment>
 
 </navigation>

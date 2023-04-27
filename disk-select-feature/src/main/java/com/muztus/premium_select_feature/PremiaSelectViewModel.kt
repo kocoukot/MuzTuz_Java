@@ -39,7 +39,9 @@ class PremiaSelectViewModel(
                     }
 
                     val imageIndex =
-                        if (index < 2) ((passedPremiumLevelsAmount.toDouble() / item.size) * 10).toInt() else {
+                        if (index == 0) passedPremiumLevelsAmount
+                        else if (index < 2) (((passedPremiumLevelsAmount.toDouble()) / item.size) * 10).toInt()
+                        else {
                             if (isPremiaOpened) passedPremiumLevelsAmount + 1 else 0
                         }
 
@@ -67,7 +69,12 @@ class PremiaSelectViewModel(
     }
 
     override fun selectPremia(premia: PremiumModel) {
-        sendRoute(PremiumSelectRoute.GoLevelSelect(premia.premiumNumber()))
+        sendRoute(
+            if (premia.premiumNumber() == 0)
+                PremiumSelectRoute.GoTutorial
+            else
+                PremiumSelectRoute.GoLevelSelect(premia.premiumNumber())
+        )
     }
 
 }
