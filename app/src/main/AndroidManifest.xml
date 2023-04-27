@@ -17,7 +17,7 @@
             android:name="com.artline.muztus.old.Statistika"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.artline.muztus.old.TutorialLvl"
+            android:name="com.artline.muztus.ui.tutorial.TutorialFragment"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.artline.muztus.old.PremiaChoose"

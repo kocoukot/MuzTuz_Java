@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".old.TutorialLvl">
+    tools:context=".ui.tutorial.TutorialFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
 
@@ -14,84 +14,15 @@
         android:layout_height="match_parent"
         android:background="@color/background"
         android:orientation="vertical"
-        tools:context=".old.TutorialLvl">
+        tools:context=".ui.tutorial.TutorialFragment">
 
-
-        <LinearLayout
-            android:id="@+id/linearLayout2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_marginTop="20dp"
-            android:gravity="end"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/tutorialMusic"
-                android:layout_width="10dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:onClick="onMelody"
-                android:src="@drawable/button_music" />
-
-            <ImageView
-                android:id="@+id/tutorialSounds"
-                android:layout_width="10dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:onClick="onSounds"
-                app:srcCompat="@drawable/button_sound" />
-
-            <TextView
-                android:id="@+id/tutorialStars"
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:lines="01"
-                android:text="0"
-                android:textSize="20sp" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                app:srcCompat="@mipmap/zvezda_ochki" />
-
-            <TextView
-                android:id="@+id/tutorialCoins"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:lines="01"
-                android:text="0"
-                android:textSize="20sp" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                app:srcCompat="@mipmap/moneta" />
-
-        </LinearLayout>
 
         <TextView
             android:id="@+id/textSongName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:fontFamily="@font/optima_bold"
             android:text="Альбом: Точно Ртуть Алоэ\nПесня: Невеста?"
             android:textSize="15sp"
@@ -100,12 +31,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:id="@+id/linearLayout4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="10dp"
             android:orientation="horizontal"
             app:layout_constraintBottom_toTopOf="@+id/linearLayoutHelps"
@@ -124,16 +56,16 @@
                 android:cursorVisible="false"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
-                android:freezesText="true"
                 android:fontFamily="@font/optima_bold"
+                android:freezesText="true"
                 android:gravity="start"
+                android:hint="@string/input_hint"
+                android:importantForAutofill="no"
                 android:inputType="text"
-                android:hint="Введите ответ..."
                 android:textColorHighlight="#9E943F"
                 android:textColorLink="#020202"
                 android:textCursorDrawable="@android:color/background_dark"
-                android:textSize="24sp"
-                android:importantForAutofill="no" />
+                android:textSize="24sp" />
 
             <Button
                 android:id="@+id/buttonSayAnswer"
@@ -141,9 +73,9 @@
                 android:layout_height="53dp"
                 android:background="@drawable/buton_vvod_galka"
                 android:enabled="false"
+                android:onClick="onCheckAnswer"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayoutHelps"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:onClick="onCheckAnswer"/>
+                app:layout_constraintEnd_toEndOf="parent" />
         </LinearLayout>
 
 
@@ -153,8 +85,8 @@
             android:layout_height="100dp"
             android:layout_weight="0.25"
             android:gravity="center_horizontal"
-
             android:orientation="horizontal"
+            android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -165,10 +97,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-
                 android:background="@drawable/buton_help_letters_amount"
-                android:enabled="false"
-                android:onClick="onShowAmountLetters" />
+                android:enabled="false" />
 
             <Button
                 android:id="@+id/buttonShowOneLetter"
@@ -176,8 +106,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/buton_help_one_letter"
-                android:enabled="false"
-                android:onClick="onShowOneLetter" />
+                android:enabled="false" />
 
             <Button
                 android:id="@+id/buttonSongName"
@@ -185,19 +114,15 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/buton_help_song"
-
-                android:enabled="false"
-                android:onClick="onShowSongName" />
+                android:enabled="false" />
 
             <Button
                 android:id="@+id/buttonHelpAnswer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-
                 android:background="@drawable/buton_help_answer"
-                android:enabled="false"
-                android:onClick="onShowAnswer"/>
+                android:enabled="false" />
 
 
         </LinearLayout>
@@ -220,12 +145,13 @@
 
         <ImageView
             android:id="@+id/imageView6"
-            android:layout_width="385dp"
+            android:layout_width="match_parent"
             android:layout_height="312dp"
+            android:layout_marginHorizontal="16dp"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.5"
             app:srcCompat="@drawable/artist_0_1_mumitrol" />
 
@@ -235,11 +161,12 @@
             android:layout_width="80dp"
             android:layout_height="100dp"
             android:layout_gravity="bottom"
+            android:background="@drawable/row_anim_right"
             android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.914"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
             android:id="@+id/imageBlueRow6"
@@ -248,6 +175,7 @@
             android:layout_gravity="bottom"
             android:layout_marginStart="65dp"
             android:layout_weight="1"
+            android:background="@drawable/row_anim_right"
             android:focusable="true"
             android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
@@ -260,14 +188,16 @@
             android:id="@+id/imageBlueRow1"
             android:layout_width="80dp"
             android:layout_height="100dp"
+            android:background="@drawable/row_anim_left"
             android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@+id/linearLayoutHelps"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
             android:id="@+id/imageBlueRow2"
             android:layout_width="80dp"
             android:layout_height="100dp"
+            android:background="@drawable/row_anim_right"
             android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@+id/linearLayoutHelps"
             app:layout_constraintStart_toStartOf="parent" />

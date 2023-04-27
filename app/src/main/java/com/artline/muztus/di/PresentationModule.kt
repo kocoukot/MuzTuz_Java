@@ -4,6 +4,7 @@ import androidx.room.Room
 import com.artline.muztus.data.repo.GameRepositoryImpl
 import com.artline.muztus.ui.MainViewModel
 import com.artline.muztus.ui.mainMenu.MainMenuViewModel
+import com.artline.muztus.ui.tutorial.TutorialViewModel
 import com.muztus.database.AppDatabase
 import com.muztus.domain_layer.repos.GameRepository
 import com.muztus.domain_layer.usecase.GetGameCoinsUseCase
@@ -47,6 +48,8 @@ val authModule = module {
     viewModel { MainViewModel(get(), get(), get(), get()) }
 
     viewModel { StatisticViewModel(get()) }
+
+    viewModel { TutorialViewModel(get()) }
 
 
 }

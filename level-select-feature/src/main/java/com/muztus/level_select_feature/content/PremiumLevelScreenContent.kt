@@ -42,7 +42,6 @@ fun PremiumLevelScreenContent(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp)
             .background(MTTheme.colors.background)
     ) {
 
@@ -52,14 +51,17 @@ fun PremiumLevelScreenContent(
                     color = MTTheme.colors.white,
                     fontSize = 12.sp,
                     text = data.selectedLevelModel.getLevelSongHint(),
-                    modifier = Modifier.align(Alignment.TopStart)
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .padding(horizontal = 16.dp)
                 )
             }
 
         Box(
             modifier = Modifier
-                .size(110.dp)
+                .size(140.dp)
                 .align(Alignment.TopEnd)
+                .padding(horizontal = 16.dp)
         ) {
             Image(
                 modifier = Modifier,
@@ -95,7 +97,7 @@ fun PremiumLevelScreenContent(
 
                     Text(
                         color = MTTheme.colors.buttonPressed,
-                        fontSize = 16.sp,
+                        fontSize = 28.sp,
                         text = if (data.selectedLevelModel.isSolved()) data.selectedLevelModel.getCorrectAnswer()
                             .split(" ")
                             .joinToString(" ") { it.replaceFirstChar { char -> char.uppercase() } } else hintString,
