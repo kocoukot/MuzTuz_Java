@@ -18,9 +18,12 @@ class ShopViewModel(
         action.handle(this)
     }
 
-
     override fun itemSelect(selectedItem: ShopItem) {
         sendRoute(ShopRoute.ShopItemSelect(selectedItem))
+    }
+
+    override fun freeCoinsSelect() {
+        sendRoute(ShopRoute.ShowAd)
     }
 
     fun onProductListGot(list: List<ShopItem>) {
@@ -30,8 +33,6 @@ class ShopViewModel(
     }
 
     fun onCoinsBought(bought: Int) {
-
         setCoinsAmountUseCase.invoke(bought)
-
     }
 }

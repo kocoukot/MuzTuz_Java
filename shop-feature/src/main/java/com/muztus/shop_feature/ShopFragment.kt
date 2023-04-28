@@ -11,27 +11,24 @@ import com.muztus.core_mvi.BaseFragment
 import com.muztus.core_mvi.ComposeFragmentRoute
 import com.muztus.core_mvi.UpdateCoins
 import com.muztus.shop_feature.data.ShopRoute
+import com.muztus.shop_feature.model.AdsService
 import com.muztus.shop_feature.model.BillingClientService
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+
 class ShopFragment : BaseFragment.BaseF<ShopViewModel>(), SupportInfoBar {
     override val viewModel: ShopViewModel by viewModel()
+
+    private lateinit var adsClient: AdsService
 
     private val billingClient by lazy {
         BillingClientService(
             onProductsReceived = { mapedList ->
                 viewModel.onProductListGot(mapedList)
             },
-            onProductSuccess = {
-                viewModel.onCoinsBought(it)
-                lifecycleScope.launch {
-                    delay(100)
-                    (requireActivity() as GameSoundPlay).playGameSound(GameSound.SoundGotCoins)
-                    (requireActivity() as UpdateCoins).updateCoins()
-                }
-            },
+            onProductSuccess = this::onCoinsGot,
         ).apply {
             clientInit(requireContext())
         }
@@ -40,6 +37,7 @@ class ShopFragment : BaseFragment.BaseF<ShopViewModel>(), SupportInfoBar {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         billingClient.billStartConnection()
+        adsClient = AdsService(requireContext(), this::onCoinsGot)
     }
 
 
@@ -53,7 +51,18 @@ class ShopFragment : BaseFragment.BaseF<ShopViewModel>(), SupportInfoBar {
                 is ShopRoute.ShopItemSelect -> {
                     billingClient.launchBillFlow(route.selectedItem.prodDetail, requireActivity())
                 }
+
+                ShopRoute.ShowAd -> adsClient.showAd(requireActivity())
             }
+        }
+    }
+
+    private fun onCoinsGot(amount: Int) {
+        viewModel.onCoinsBought(amount)
+        lifecycleScope.launch {
+            delay(100)
+            (requireActivity() as GameSoundPlay).playGameSound(GameSound.SoundGotCoins)
+            (requireActivity() as UpdateCoins).updateCoins()
         }
     }
 }
