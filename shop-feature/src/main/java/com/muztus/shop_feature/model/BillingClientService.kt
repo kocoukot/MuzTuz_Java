@@ -106,6 +106,8 @@ class BillingClientService(
                 }.sortedBy { it.formattedPrice }
 //                println("productDetailsList $productDetailsList")
                 onProductsReceived.invoke(prodList)
+            } else {
+                println("billling msg ${billingResult.debugMessage} ")
             }
         }
     }
