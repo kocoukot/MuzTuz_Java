@@ -43,7 +43,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.muztus.core.ext.Keyboard
 import com.muztus.core.ext.keyboardAsState
-import com.muztus.core.ext.letters
 import com.muztus.core.theme.MTTheme
 import com.muztus.domain_layer.model.GameLevelModel
 import com.muztus.level_select_feature.R
@@ -152,7 +151,7 @@ fun LevelInput(
                 capitalization = KeyboardCapitalization.Sentences,
             ),
             onValueChange = {
-                input = it.letters()
+                input = it
             },
             placeholder = {
                 if (input.isEmpty())

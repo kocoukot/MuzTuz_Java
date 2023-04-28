@@ -8,9 +8,10 @@ var premiaImagesList = listOf(
     listOf(R.drawable.artist_0_1_mumitrol),
     listOf(
         R.drawable.artist_1_1_pugacheva,
-        R.drawable.artist_1_5_leps,
-        R.drawable.artist_1_4_mihaylov,
         R.drawable.artist_1_2_timati,
+        R.drawable.artist_1_3_bi2,
+        R.drawable.artist_1_4_mihaylov,
+        R.drawable.artist_1_5_leps,
         R.drawable.artist_1_6_elka,
         R.drawable.artist_1_7_bilan,
         R.drawable.artist_1_8_shnur,
