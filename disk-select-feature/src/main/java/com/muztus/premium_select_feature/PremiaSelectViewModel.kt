@@ -40,8 +40,9 @@ class PremiaSelectViewModel(
 
                     val imageIndex =
                         if (index == 0) passedPremiumLevelsAmount
-                        else if (index < 2) (((passedPremiumLevelsAmount.toDouble()) / item.size) * 10).toInt()
-                        else {
+                        else if (index < 2) {
+                            if (passedPremiumLevelsAmount == 0) 0 else passedPremiumLevelsAmount - 1
+                        } else {
                             if (isPremiaOpened) passedPremiumLevelsAmount + 1 else 0
                         }
 
