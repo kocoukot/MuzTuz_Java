@@ -1,18 +1,28 @@
 package com.muztus.shop_feature
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.VectorConverter
+import androidx.compose.animation.core.animateValue
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -28,34 +38,100 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.muztus.core.compose.GameMainButton
 import com.muztus.core.theme.MTTheme
 import com.muztus.shop_feature.data.ShopActions
 import com.muztus.shop_feature.model.ShopItem
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun ShopScreenContent(viewModel: ShopViewModel) {
 
     val state by viewModel.state.collectAsState()
 
-    Surface(modifier = Modifier.fillMaxSize(), color = MTTheme.colors.background) {
+    val imgsList = listOf(
+        R.drawable.bm_ogonki_1_animaciya,
+        R.drawable.bm_ogonki_2_animaciya,
+        R.drawable.bm_ogonki_3_animaciya,
+        R.drawable.bm_ogonki_4_animaciya,
+    )
 
-        LazyColumn(
+
+    val infiniteTransition = rememberInfiniteTransition()
+
+    val index = infiniteTransition.animateValue(
+        initialValue = 0,
+        targetValue = 3,
+        typeConverter = Int.VectorConverter,
+        animationSpec = infiniteRepeatable(
+            animation = tween(350, easing = LinearEasing),
+            repeatMode = RepeatMode.Reverse
+        )
+    )
+
+    Surface(modifier = Modifier.fillMaxSize(), color = MTTheme.colors.background) {
+        Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(
-                    horizontal = 16.dp,
-                    vertical = 24.dp
-                )
+                .padding(top = 24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            items(state.productList, key = { item -> item.productId }) { item ->
-                ShopButton(item) {
-                    viewModel.setInputActions(ShopActions.Base.OnShopItemSelect(item))
+            Text(
+                text = "МАГАЗИН",
+                fontSize = 24.sp,
+                color = MTTheme.colors.buttonPressed
+            )
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(
+                        horizontal = 16.dp,
+                        vertical = 4.dp
+                    )
+            ) {
+                items(state.productList, key = { item -> item.productId }) { item ->
+                    ShopButton(item) {
+                        viewModel.setInputActions(ShopActions.Base.OnShopItemSelect(item))
+                    }
+                }
+
+                item {
+                    Box(
+                        modifier = Modifier.padding(top = 24.dp),
+                        contentAlignment = Alignment.TopCenter
+                    ) {
+                        GameMainButton(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(60.dp),
+                            buttonText = stringResource(id = R.string.free_coins_btn_name),
+                            onButtonClicked = {
+                                viewModel.setInputActions(ShopActions.Base.OnFreeCoinsSelect)
+                            }
+                        )
+
+                        Image(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .align(Alignment.BottomCenter)
+                                .offset(y = 30.dp),
+                            painter = painterResource(id = R.drawable.bm_animaciya),
+                            contentDescription = null
+                        )
+                        Image(
+                            modifier = Modifier.offset(x = -2.dp, y = -2.dp),
+                            painter = painterResource(imgsList[index.value]),
+                            contentDescription = null
+                        )
+                    }
                 }
             }
         }
@@ -87,6 +163,7 @@ fun ShopButton(shopItem: ShopItem, onItemSelect: () -> Unit) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(60.dp)
+                .shadow(8.dp)
                 .align(Alignment.BottomCenter)
                 .clip(RoundedCornerShape(4.dp))
                 .drawBehind {
@@ -138,22 +215,3 @@ fun ShopButton(shopItem: ShopItem, onItemSelect: () -> Unit) {
 
     }
 }
-//
-//
-//@Preview(showBackground = true)
-//@Composable
-//fun SHopBtnPrev2() {
-//    ShopButton(2)
-//}
-//
-//@Preview(showBackground = true)
-//@Composable
-//fun SHopBtnPrev4() {
-//    ShopButton(4)
-//}
-//
-//@Preview(showBackground = true)
-//@Composable
-//fun SHopBtnPrev1() {
-//    ShopButton(1)
-//}

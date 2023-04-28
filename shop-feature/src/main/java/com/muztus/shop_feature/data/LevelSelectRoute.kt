@@ -9,5 +9,5 @@ sealed class ShopRoute : ComposeFragmentRoute {
 
     data class PlaySound(val soundType: GameSound) : ShopRoute()
     data class ShopItemSelect(val selectedItem: ShopItem) : ShopRoute()
-
+    object ShowAd : ShopRoute()
 }
