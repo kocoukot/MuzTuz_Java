@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity(), UpdateCoins, GameSoundPlay {
             menuMusic.apply {
                 isActivated = true
                 setOnClickListener {
-                    if (isActivated) musicPlayerService.pause() else musicPlayerService.resume(this@MainActivity)
+                    if (isActivated) musicPlayerService.pause() else musicPlayerService.resume()
                     viewModel.soundChange(IGameSound.GameMusic)
                 }
             }
@@ -102,7 +102,7 @@ class MainActivity : AppCompatActivity(), UpdateCoins, GameSoundPlay {
             binding.menuMusic.apply {
                 isActivated = soundsInfo.musicState.soundState()
                 if (isActivated) {
-                    musicPlayerService.start(this@MainActivity)
+                    musicPlayerService.start()
                 }
             }
 
