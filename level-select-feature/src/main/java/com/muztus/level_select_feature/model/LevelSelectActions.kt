@@ -19,6 +19,9 @@ interface LevelSelectActions {
     fun closeNextPremiaAlert()
 
 
+    fun getFreeCoins()
+
+
     sealed class Base {
         abstract fun handle(action: LevelSelectActions)
 
@@ -51,6 +54,9 @@ interface LevelSelectActions {
             override fun handle(action: LevelSelectActions) = action.clearToastCoins()
         }
 
+        object OnFreeCoins : Base() {
+            override fun handle(action: LevelSelectActions) = action.getFreeCoins()
+        }
 
         object OnBackPressed : Base() {
             override fun handle(action: LevelSelectActions) = action.onGoBack()

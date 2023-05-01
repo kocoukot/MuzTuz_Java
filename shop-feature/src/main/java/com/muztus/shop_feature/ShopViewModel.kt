@@ -1,11 +1,11 @@
 package com.muztus.shop_feature
 
+import com.artline.muztus.billing_feature.ShopItem
 import com.muztus.core_mvi.BaseViewModel
 import com.muztus.domain_layer.usecase.SetCoinsAmountUseCase
 import com.muztus.shop_feature.data.ShopActions
 import com.muztus.shop_feature.data.ShopRoute
 import com.muztus.shop_feature.data.ShopState
-import com.muztus.shop_feature.model.ShopItem
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class ShopViewModel(

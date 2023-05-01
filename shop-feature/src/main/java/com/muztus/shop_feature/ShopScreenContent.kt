@@ -46,10 +46,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.artline.muztus.billing_feature.ShopItem
 import com.muztus.core.compose.GameMainButton
 import com.muztus.core.theme.MTTheme
 import com.muztus.shop_feature.data.ShopActions
-import com.muztus.shop_feature.model.ShopItem
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable

@@ -195,6 +195,10 @@ class LevelSelectViewModel(
         }
     }
 
+    override fun getFreeCoins() {
+        sendRoute(LevelSelectRoute.GetFreeCoins)
+    }
+
     override fun lettersAmount() {
         getState().selectedLevel.lettersAmountUse(this)
         saveLevelState()

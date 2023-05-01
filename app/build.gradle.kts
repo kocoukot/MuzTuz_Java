@@ -119,6 +119,7 @@ dependencies {
 
     api(project(":sounds"))
     api(project(":database"))
+    api(project(":billing-feature"))
 
 
 }
