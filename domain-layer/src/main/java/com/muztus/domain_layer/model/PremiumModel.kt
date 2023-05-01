@@ -34,7 +34,7 @@ interface PremiumModel {
         ) {
             Image(
                 modifier = modifier
-                    .size(200.dp)
+                    .size(if (premiumNumber == 1) 170.dp else 200.dp)
                     .shadow(8.dp, shape = CircleShape)
                     .clip(CircleShape)
                     .clickable(

@@ -7,7 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
+import com.artline.muztus.billing_feature.AdsService
 import com.artline.muztus.databinding.ActivityMainBinding
 import com.artline.muztus.sounds.GameSound
 import com.artline.muztus.sounds.GameSoundPlay
@@ -15,16 +17,20 @@ import com.artline.muztus.sounds.MusicPlayerService
 import com.artline.muztus.sounds.SoundsPlayerService
 import com.muztus.core.ext.SupportInfoBar
 import com.muztus.core.ext.castSafe
+import com.muztus.core_mvi.AdsActivity
 import com.muztus.core_mvi.UpdateCoins
 import com.muztus.domain_layer.model.IGameSound
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : AppCompatActivity(), UpdateCoins, GameSoundPlay {
+class MainActivity : AppCompatActivity(), UpdateCoins, GameSoundPlay, AdsActivity {
+    private lateinit var binding: ActivityMainBinding
+    private val viewModel: MainViewModel by viewModel()
 
     private val soundsPlayerService = SoundsPlayerService()
     private val musicPlayerService: MusicPlayerService = MusicPlayerService(this)
-    private lateinit var binding: ActivityMainBinding
-    private val viewModel: MainViewModel by viewModel()
+    private lateinit var adsClient: AdsService
 
     private val navHost by lazy {
         supportFragmentManager.findFragmentById(binding.navHostView.id)
@@ -76,7 +82,18 @@ class MainActivity : AppCompatActivity(), UpdateCoins, GameSoundPlay {
                 }
             }
         }
+
+        adsClient = AdsService(this, this::onCoinsGot)
+
         observeLiveData()
+    }
+
+    override fun onCoinsGot(amount: Int) {
+        viewModel.addCoins(amount)
+        lifecycleScope.launch {
+            delay(500)
+            playGameSound(GameSound.SoundGotCoins)
+        }
     }
 
 
@@ -135,6 +152,11 @@ class MainActivity : AppCompatActivity(), UpdateCoins, GameSoundPlay {
 
     override fun playGameSound(soundType: GameSound) {
         soundsPlayerService.start(this@MainActivity, soundType)
+    }
+
+
+    override fun showAd() {
+        adsClient.showAd(this)
     }
 }
 

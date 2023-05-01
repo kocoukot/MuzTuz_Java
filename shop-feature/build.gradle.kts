@@ -14,11 +14,6 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
 
-        val key: String = com.android.build.gradle.internal.cxx.configure.gradleLocalProperties(
-            rootDir
-        ).getProperty("GOOGLE_WATCH_KEY")
-
-        buildConfigField("String", "GOOGLE_WATCH_KEY", key)
     }
 
     buildTypes {
@@ -65,10 +60,10 @@ dependencies {
     implementation(Dependencies.Navigation.ui)
 
     implementation(Dependencies.GoogleAd.billing)
-    implementation(Dependencies.GoogleAd.mobileAd)
 
     api(project(":sounds"))
     api(project(":core"))
     api(project(":core-mvi"))
     api(project(":domain-layer"))
+    api(project(":billing-feature"))
 }

@@ -4,15 +4,15 @@ import android.os.Bundle
 import android.view.View
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.lifecycleScope
+import com.artline.muztus.billing_feature.BillingClientService
 import com.artline.muztus.sounds.GameSound
 import com.artline.muztus.sounds.GameSoundPlay
 import com.muztus.core.ext.SupportInfoBar
+import com.muztus.core_mvi.AdsActivity
 import com.muztus.core_mvi.BaseFragment
 import com.muztus.core_mvi.ComposeFragmentRoute
 import com.muztus.core_mvi.UpdateCoins
 import com.muztus.shop_feature.data.ShopRoute
-import com.muztus.shop_feature.model.AdsService
-import com.muztus.shop_feature.model.BillingClientService
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -21,12 +21,10 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class ShopFragment : BaseFragment.BaseF<ShopViewModel>(), SupportInfoBar {
     override val viewModel: ShopViewModel by viewModel()
 
-    private lateinit var adsClient: AdsService
-
     private val billingClient by lazy {
         BillingClientService(
-            onProductsReceived = { mapedList ->
-                viewModel.onProductListGot(mapedList)
+            onProductsReceived = { mappedList ->
+                viewModel.onProductListGot(mappedList)
             },
             onProductSuccess = this::onCoinsGot,
         ).apply {
@@ -37,7 +35,6 @@ class ShopFragment : BaseFragment.BaseF<ShopViewModel>(), SupportInfoBar {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         billingClient.billStartConnection()
-        adsClient = AdsService(requireContext(), this::onCoinsGot)
     }
 
 
@@ -52,7 +49,7 @@ class ShopFragment : BaseFragment.BaseF<ShopViewModel>(), SupportInfoBar {
                     billingClient.launchBillFlow(route.selectedItem.prodDetail, requireActivity())
                 }
 
-                ShopRoute.ShowAd -> adsClient.showAd(requireActivity())
+                ShopRoute.ShowAd -> (requireActivity() as AdsActivity).showAd()
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.muztus.shop_feature.model
+package com.artline.muztus.billing_feature
 
 import com.android.billingclient.api.ProductDetails
 

@@ -1,4 +1,4 @@
-package com.muztus.shop_feature.model
+package com.artline.muztus.billing_feature
 
 import android.app.Activity
 import android.content.Context
@@ -12,7 +12,6 @@ import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.QueryProductDetailsParams
 import com.android.billingclient.api.consumePurchase
-import com.muztus.shop_feature.R
 import kotlinx.coroutines.runBlocking
 
 class BillingClientService(
@@ -84,7 +83,6 @@ class BillingClientService(
                     )
                 )
                 .build()
-
         billingClient.queryProductDetailsAsync(queryProductDetailsParams) { billingResult, productDetailsList ->
             if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                 prodList = productDetailsList.map { prodDetails ->

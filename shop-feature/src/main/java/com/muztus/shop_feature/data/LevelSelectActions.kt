@@ -1,6 +1,6 @@
 package com.muztus.shop_feature.data
 
-import com.muztus.shop_feature.model.ShopItem
+import com.artline.muztus.billing_feature.ShopItem
 
 interface ShopActions {
     fun itemSelect(selectedItem: ShopItem)

@@ -10,4 +10,6 @@ sealed class LevelSelectRoute : ComposeFragmentRoute {
 
     data class PlaySound(val soundType: GameSound) : LevelSelectRoute()
 
+    object GetFreeCoins : LevelSelectRoute()
+
 }

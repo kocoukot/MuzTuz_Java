@@ -25,8 +25,8 @@ class MainViewModel(
     val sounds: LiveData<GameSoundsInfo> = mSounds
 
 
-    fun addCoins() {
-        setCoinsAmountUseCase(100) //todo remove after test
+    fun addCoins(amount: Int) {
+        setCoinsAmountUseCase(amount)
         updateCoins()
     }
 

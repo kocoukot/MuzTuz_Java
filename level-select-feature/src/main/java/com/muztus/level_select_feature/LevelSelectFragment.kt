@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import com.artline.muztus.sounds.GameSoundPlay
 import com.muztus.core.ext.SupportInfoBar
 import com.muztus.core.ext.requireArg
+import com.muztus.core_mvi.AdsActivity
 import com.muztus.core_mvi.BaseFragment
 import com.muztus.core_mvi.ComposeFragmentRoute
 import com.muztus.core_mvi.UpdateCoins
@@ -16,7 +17,8 @@ class LevelSelectFragment : BaseFragment.BaseF<LevelSelectViewModel>(), SupportI
         parametersOf(selectedPremium)
     }
 
-    private val selectedPremium by requireArg<Int>(ARG_PREMIUM_INDEX) //todo fix later
+
+    private val selectedPremium by requireArg<Int>(ARG_PREMIUM_INDEX)
 
     override var screenContent: (@Composable (LevelSelectViewModel) -> Unit)? =
         { LevelSelectContent(viewModel) }
@@ -28,6 +30,8 @@ class LevelSelectFragment : BaseFragment.BaseF<LevelSelectViewModel>(), SupportI
                 is LevelSelectRoute.PlaySound -> (requireActivity() as GameSoundPlay).playGameSound(
                     route.soundType
                 )
+
+                LevelSelectRoute.GetFreeCoins -> (requireActivity() as AdsActivity).showAd()
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.muztus.shop_feature.model
+package com.artline.muztus.billing_feature
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -9,7 +9,6 @@ import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
-import com.muztus.shop_feature.BuildConfig
 import timber.log.Timber
 
 class AdsService(
