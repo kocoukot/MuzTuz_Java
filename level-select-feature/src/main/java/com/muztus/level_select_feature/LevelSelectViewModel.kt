@@ -111,45 +111,13 @@ class LevelSelectViewModel(
     }
 
     override fun onHintAlertDecision(isTrue: Boolean) {
-        isTrue
-            .takeIf { it }
-            ?.let {
-                getState().selectedLevel.onHintUse(this)
-            }.also {
-                updateInfo { copy(selectedLevel = selectedLevel.hideUseHintAlert()) }
-            }
+        if (isTrue) getState().selectedLevel.onHintUse(this)
+        updateInfo { copy(selectedLevel = selectedLevel.hideUseHintAlert()) }
     }
 
     override fun onCheckInput(userInput: String) {
         if (getState().selectedLevel.checkUserInput(userInput)) {
-            var coinsAmountWin = "$priseCoins"
-            val gameEndTime = System.currentTimeMillis()
-            if ((gameEndTime - gameStartTime) < MAX_DURATION) {
-                coinsAmountWin += " x2"
-                priseCoins *= 2
-            }
-            updateInfo { copy(showCompleteLevelAlert = true, coinsAmountWin = coinsAmountWin) }
-            setCoinsAmountUseCase.invoke(priseCoins, getState().levelStarts)
-            sendRoute(LevelSelectRoute.UpdateCoins)
-
-
-            val levelIndex = getState().selectedLevel.getLevelIndex()
-            val list = getState().premiaLevelList.toMutableList()
-
-            list[levelIndex] = list[levelIndex].setPassed()
-
-            sendRoute(LevelSelectRoute.PlaySound(GameSound.SoundWin))
-
-            println(getState().premiaLevelList)
-
-            viewModelScope.launch {
-                updateInfo {
-                    copy(
-                        premiaLevelList = list.toList(),
-                    )
-                }
-                saveLevelState()
-            }
+            answerHint()
         } else {
 
             updateInfo {
@@ -214,7 +182,36 @@ class LevelSelectViewModel(
     }
 
     override fun answerHint() {
-//todo
+        getState().selectedLevel.levelAnswerHint(this)
+
+        var coinsAmountWin = "$priseCoins"
+        val gameEndTime = System.currentTimeMillis()
+        if ((gameEndTime - gameStartTime) < MAX_DURATION) {
+            coinsAmountWin += " x2"
+            priseCoins *= 2
+        }
+        updateInfo { copy(showCompleteLevelAlert = true, coinsAmountWin = coinsAmountWin) }
+        setCoinsAmountUseCase.invoke(priseCoins, getState().levelStarts)
+        sendRoute(LevelSelectRoute.UpdateCoins)
+
+
+        val levelIndex = getState().selectedLevel.getLevelIndex()
+        val list = getState().premiaLevelList.toMutableList()
+
+        list[levelIndex] = list[levelIndex].setPassed()
+
+        sendRoute(LevelSelectRoute.PlaySound(GameSound.SoundWin))
+
+        println(getState().premiaLevelList)
+
+        viewModelScope.launch {
+            updateInfo {
+                copy(
+                    premiaLevelList = list.toList(),
+                )
+            }
+            saveLevelState()
+        }
     }
 
     override fun changeCoinsAmount(hintPrice: Int) {
