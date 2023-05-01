@@ -1,15 +1,30 @@
 package com.muztus.domain_layer.model
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.sp
+import com.muztus.core.theme.MTTheme
+
 interface GameLevelModel {
 
     fun checkUserInput(userInput: String): Boolean = false
 
     fun hintsRow(): List<HintModel> = emptyList()
 
-    fun getLevelImage(): Int = 0
+    @Composable
+    fun GetLevelImage(modifier: Modifier) = Unit
 
-    fun getLevelSongHint(): String = ""
-    fun getLettersAmount(): String = ""
+    @Composable
+    fun GetLevelSongHint(modifier: Modifier) = Unit
+
+    @Composable
+    fun GetLettersAmount(modifier: Modifier) = Unit
+
     fun getCorrectAnswer(): String = ""
 
 
@@ -39,22 +54,46 @@ interface GameLevelModel {
 
         override fun hintsRow(): List<HintModel> = levelHints.getHintsList()
 
-        override fun getLevelImage(): Int = levelImage
+        @Composable
+        override fun GetLevelImage(modifier: Modifier) {
+            Box(
+                modifier = modifier,
+                contentAlignment = Alignment.Center
+            ) {
+                Image(
+                    painter = painterResource(id = levelImage),
+                    contentDescription = "level image"
+                )
+            }
+        }
 
-        override fun getLevelSongHint(): String = songName
+        @Composable
+        override fun GetLevelSongHint(modifier: Modifier) {
+            levelHints.songHint.HintAnswer(modifier, hintText = songName)
+        }
 
-        override fun getLettersAmount(): String =
-            if (levelHints.letterAmountHint.isEnabled() || levelHints.oneLetterHint.isEnabled()) {
-                val answer = correctAnswers.first()
-                val choosenLetterIndex = levelHints.oneLetterHint.selectedLetters
-                val choosenLetter =
-                    if (choosenLetterIndex >= 0) answer[choosenLetterIndex].uppercase() else ""
-                correctAnswers.first().mapIndexed { index, char ->
-                    if (choosenLetterIndex == index) choosenLetter else {
-                        if (char.equals(' ', true)) " " else "_"
-                    }
-                }.joinToString(" ")
-            } else ""
+        @Composable
+        override fun GetLettersAmount(modifier: Modifier) {
+            if (isSolved) {
+                Text(
+                    color = MTTheme.colors.buttonPressed,
+                    fontSize = 28.sp,
+                    text = correctAnswers.first().chunked(1).joinToString(separator = " ")
+                        .uppercase(),
+                    modifier = modifier
+                )
+            } else if (levelHints.oneLetterHint.selectedLetterIndex >= 0) levelHints.oneLetterHint.HintAnswer(
+                modifier = modifier,
+                hintText = correctAnswers.first()
+            )
+            else {
+                levelHints.letterAmountHint.HintAnswer(
+                    modifier = modifier,
+                    hintText = correctAnswers.first()
+                )
+            }
+        }
+
 
         override fun getCorrectAnswer(): String = correctAnswers.first()
 
@@ -66,7 +105,8 @@ interface GameLevelModel {
         override fun onOneLetterHintUse(hintUse: HintUse, letterIndex: Int) {
             levelHints.letterAmountHint.onHintUsed()
             levelHints.oneLetterHint.onHintUsed(hintUse)
-            levelHints.oneLetterHint = levelHints.oneLetterHint.copy(selectedLetters = letterIndex)
+            levelHints.oneLetterHint =
+                levelHints.oneLetterHint.copy(selectedLetterIndex = letterIndex)
         }
 
         override fun songHintUse(hintUse: HintUse) {
@@ -82,7 +122,6 @@ interface GameLevelModel {
 
 
     object Empty : GameLevelModel {
-
         override fun getLevelHintsState(): LevelHints = LevelHints()
     }
 }

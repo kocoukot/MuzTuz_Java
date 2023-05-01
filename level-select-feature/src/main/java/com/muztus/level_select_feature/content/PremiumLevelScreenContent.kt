@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,10 +23,8 @@ import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.muztus.core.compose.AlertDialogComp
 import com.muztus.core.theme.MTTheme
-import com.muztus.domain_layer.model.HintModel
 import com.muztus.level_select_feature.R
 import com.muztus.level_select_feature.model.LevelSelectActions
 import com.muztus.level_select_feature.model.SelectedLevel
@@ -55,20 +52,24 @@ fun PremiumLevelScreenContent(
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .padding(top = 8.dp)
             .background(MTTheme.colors.background)
     ) {
 
-        data.selectedLevelModel.hintsRow().filterIsInstance<HintModel.SongHint>().first()
-            .takeIf { it.isEnabled() }?.let {
-                Text(
-                    color = MTTheme.colors.white,
-                    fontSize = 12.sp,
-                    text = data.selectedLevelModel.getLevelSongHint(),
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .padding(horizontal = 16.dp)
-                )
-            }
+
+        /**
+         * song hint
+         */
+        data.selectedLevelModel.GetLevelSongHint(
+            Modifier
+                .align(Alignment.TopStart)
+                .padding(horizontal = 16.dp)
+        )
+
+
+        /**
+         * Free coins button
+         */
 
         if (!data.selectedLevelModel.isSolved()) {
             Box(
@@ -95,6 +96,11 @@ fun PremiumLevelScreenContent(
                 )
             }
         }
+
+        /**
+         * Level UI
+         */
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -103,35 +109,20 @@ fun PremiumLevelScreenContent(
             verticalArrangement = Arrangement.Bottom,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Box(
-                modifier = Modifier
+
+            /** Level Image*/
+            data.selectedLevelModel.GetLevelImage(
+                Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp)
-                    .weight(1f),
-                contentAlignment = Alignment.Center
-            ) {
-                Image(
-                    painterResource(id = data.selectedLevelModel.getLevelImage()),
-                    modifier = Modifier,
-                    contentDescription = null,
-                )
-            }
+                    .weight(1f)
+            )
 
-            data.selectedLevelModel.getLettersAmount().takeIf { it.isNotEmpty() }
-                ?.let { hintString ->
 
-                    Text(
-                        color = MTTheme.colors.buttonPressed,
-                        fontSize = 28.sp,
-                        text = if (data.selectedLevelModel.isSolved()) data.selectedLevelModel.getCorrectAnswer()
-                            .split(" ")
-                            .joinToString(" ") { it.replaceFirstChar { char -> char.uppercase() } } else hintString,
-                        modifier = Modifier
-                    )
-                }
+            /**  Letters amount hint used */
+            data.selectedLevelModel.GetLettersAmount(modifier = Modifier)
+
             BottomBarContent(data.selectedLevelModel, onAction::invoke)
         }
-
-
     }
 }

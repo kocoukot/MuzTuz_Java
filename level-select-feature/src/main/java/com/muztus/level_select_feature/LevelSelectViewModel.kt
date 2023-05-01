@@ -241,7 +241,7 @@ class LevelSelectViewModel(
                     isLettersAmountUsed = getState().selectedLevel.getSelectedLevel()
                         .getLevelHintsState().letterAmountHint.isUsed,
                     selectedLetterIndex = getState().selectedLevel.getSelectedLevel()
-                        .getLevelHintsState().oneLetterHint.selectedLetters,
+                        .getLevelHintsState().oneLetterHint.selectedLetterIndex,
                     isSongOpened = getState().selectedLevel.getSelectedLevel()
                         .getLevelHintsState().songHint.isUsed,
                     isAnswerUsed = getState().selectedLevel.getSelectedLevel()
