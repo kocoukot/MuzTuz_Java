@@ -70,30 +70,31 @@ fun PremiumLevelScreenContent(
                 )
             }
 
-        Box(
-            modifier = Modifier
-                .size(160.dp)
-                .align(Alignment.TopEnd)
-                .padding(horizontal = 16.dp),
-        ) {
-            Image(
+        if (!data.selectedLevelModel.isSolved()) {
+            Box(
                 modifier = Modifier
-                    .scale(scale)
-                    .pointerInteropFilter {
-                        when (it.action) {
-                            MotionEvent.ACTION_DOWN -> boxSelection.value = true
-                            MotionEvent.ACTION_UP -> {
-                                boxSelection.value = false
-                                onAction.invoke(LevelSelectActions.Base.OnFreeCoins)
+                    .size(160.dp)
+                    .align(Alignment.TopEnd)
+                    .padding(horizontal = 16.dp),
+            ) {
+                Image(
+                    modifier = Modifier
+                        .scale(scale)
+                        .pointerInteropFilter {
+                            when (it.action) {
+                                MotionEvent.ACTION_DOWN -> boxSelection.value = true
+                                MotionEvent.ACTION_UP -> {
+                                    boxSelection.value = false
+                                    onAction.invoke(LevelSelectActions.Base.OnFreeCoins)
+                                }
                             }
-                        }
-                        true
-                    },
-                painter = painterResource(id = R.drawable.img_free_coin_chest),
-                contentDescription = null
-            )
+                            true
+                        },
+                    painter = painterResource(id = R.drawable.img_free_coin_chest),
+                    contentDescription = null
+                )
+            }
         }
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()

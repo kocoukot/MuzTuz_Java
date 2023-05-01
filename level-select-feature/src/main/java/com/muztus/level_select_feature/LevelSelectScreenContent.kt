@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.Box
@@ -93,8 +95,8 @@ fun LevelSelectContent(viewModel: LevelSelectViewModel) {
 
             AnimatedVisibility(
                 visible = selectedLevel.value is SelectedLevel.SelectedLevelData,
-                enter = scaleIn(),
-                exit = scaleOut()
+                enter = scaleIn() + fadeIn(),
+                exit = scaleOut() + fadeOut()
             ) {
                 selectedLevel.value.castSafe<SelectedLevel.SelectedLevelData>()
                     ?.let { selectedLevel ->
