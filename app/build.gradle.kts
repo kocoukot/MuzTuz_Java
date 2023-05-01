@@ -31,8 +31,8 @@ android {
         applicationId = "com.artline.muztus"
         minSdk = 27
         targetSdk = 33
-        versionCode = 5
-        versionName = "1.0"
+        versionCode = 6
+        versionName = "2.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
     }
