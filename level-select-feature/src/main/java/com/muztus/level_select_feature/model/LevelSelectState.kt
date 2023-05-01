@@ -29,7 +29,7 @@ interface SelectedLevel {
     fun lettersAmountUse(hint: HintUse)
     fun onOneLetterHintUse(hint: HintUse, letterIndex: Int)
     fun showSongHint(hint: HintUse)
-
+    fun levelAnswerHint(hint: HintUse)
 
     fun checkUserInput(input: String): Boolean
     fun getCorrectAnswer(): String
@@ -59,10 +59,15 @@ interface SelectedLevel {
             selectedLevelModel.songHintUse(hint)
         }
 
+        override fun levelAnswerHint(hint: HintUse) {
+            selectedLevelModel.showLevelAnswer(hint)
+        }
+
         override fun checkUserInput(input: String): Boolean =
             selectedLevelModel.checkUserInput(input)
 
         override fun getCorrectAnswer(): String = selectedLevelModel.getCorrectAnswer()
+
         override fun onOneLetterHintUse(hint: HintUse, letterIndex: Int) {
             selectedLevelModel.onOneLetterHintUse(hint, letterIndex)
         }
@@ -78,6 +83,8 @@ interface SelectedLevel {
         override fun onHintUse(hint: HintUse) = Unit
         override fun lettersAmountUse(hint: HintUse) = Unit
         override fun showSongHint(hint: HintUse) = Unit
+        override fun levelAnswerHint(hint: HintUse) = Unit
+
         override fun checkUserInput(input: String): Boolean = false
         override fun getCorrectAnswer(): String = ""
         override fun onOneLetterHintUse(hint: HintUse, letterIndex: Int) = Unit
