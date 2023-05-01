@@ -41,7 +41,7 @@ class GameRepositoryImpl(
                 letterAmountHint = HintModel.LetterAmountHint(isUsed = level.isLettersAmountUsed || levelEnt.isSolved),
                 oneLetterHint = HintModel.OneLetterHint(
                     isUsed = level.selectedLetterIndex >= 0 || levelEnt.isSolved,
-                    selectedLetters = level.selectedLetterIndex
+                    selectedLetterIndex = level.selectedLetterIndex
                 ),
                 songHint = HintModel.SongHint(isUsed = level.isSongOpened || levelEnt.isSolved),
                 correctAnswerHint = HintModel.CorrectAnswer(isUsed = level.isAnswerUsed || levelEnt.isSolved)

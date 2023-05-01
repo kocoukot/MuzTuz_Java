@@ -3,7 +3,6 @@ package com.muztus.level_select_feature.content
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
@@ -32,7 +31,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -56,6 +54,8 @@ fun BottomBarContent(
     val isKeyboardOpen by keyboardAsState()
     val hintPadding by animateDpAsState(targetValue = if (isKeyboardOpen == Keyboard.Opened) 0.dp else 8.dp)
 
+
+    /** Level answer input */
     LevelInput(modifier = Modifier.padding(horizontal = 16.dp), isSolved = data.isSolved()) {
         bottomBarActions.invoke(
             LevelSelectActions.Base.CheckUSerInput(
@@ -64,11 +64,12 @@ fun BottomBarContent(
         )
     }
 
+    /** Level hints row */
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = hintPadding),
-//        horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.Bottom
     ) {
         for (hint in data.hintsRow()) {
@@ -80,21 +81,16 @@ fun BottomBarContent(
                 else if (isKeyboardOpen == Keyboard.Opened || isPressed) 0.8f
                 else 1f
             )
-
-            Image(
-                contentScale = ContentScale.FillWidth,
-                modifier = Modifier
-                    .weight(1f)
-                    .scale(levelImageScale)
-                    .clip(CircleShape)
-                    .clickable(
-                        enabled = !(hint.isEnabled()),
-                        interactionSource = interactionSource,
-                        indication = null
-                    ) {
-                        bottomBarActions.invoke(LevelSelectActions.Base.OnUserTapHint(hint))
-                    },
-                painter = painterResource(id = hint.hintImage()), contentDescription = null
+            hint.HintImage(modifier = Modifier
+                .weight(1f)
+                .scale(levelImageScale)
+                .clip(CircleShape)
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null
+                ) {
+                    bottomBarActions.invoke(LevelSelectActions.Base.OnUserTapHint(hint))
+                }
             )
         }
     }
