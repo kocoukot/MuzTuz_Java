@@ -1,7 +1,21 @@
 package com.artline.muztus.sounds
 
+/**
+ *[SoundWin] - game level finish sound
+ *[SoundWrongAnswer] - game level wrong answer
+ *[SoundWarningView] - game alert appear sound
+ *[SoundSpendMoney] - spend money sound
+[SoundResetAll] - reset game statistic
+[SoundOpenPremia] - open new premia sound
+[SoundOnMusic] / [SoundOffMusic] - turn on / off sound effects
+[SoundGotCoins] - received conins sound
+[SoundGameover] - pass level heint use sound
+ */
+
+
 interface GameSound {
     fun soundRes(): Int
+
 
     object SoundWin : GameSound {
         override fun soundRes(): Int = R.raw.win
@@ -40,11 +54,6 @@ interface GameSound {
 
     object SoundGotCoins : GameSound {
         override fun soundRes(): Int = R.raw.bought_coins
-
-    }
-
-    object SoundAppearView : GameSound {
-        override fun soundRes(): Int = R.raw.appearing_view
 
     }
 

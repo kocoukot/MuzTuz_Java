@@ -98,6 +98,7 @@ class LevelSelectViewModel(
                 )
             }
 
+            sendRoute(LevelSelectRoute.PlaySound(GameSound.SoundWarningView))
         } else {
             updateInfo {
                 copy(
@@ -117,7 +118,8 @@ class LevelSelectViewModel(
 
     override fun onCheckInput(userInput: String) {
         if (getState().selectedLevel.checkUserInput(userInput)) {
-            answerHint()
+            sendRoute(LevelSelectRoute.PlaySound(GameSound.SoundWin))
+            successFinish()
         } else {
 
             updateInfo {
@@ -181,9 +183,7 @@ class LevelSelectViewModel(
         saveLevelState()
     }
 
-    override fun answerHint() {
-        getState().selectedLevel.levelAnswerHint(this)
-
+    private fun successFinish() {
         var coinsAmountWin = "$priseCoins"
         val gameEndTime = System.currentTimeMillis()
         if ((gameEndTime - gameStartTime) < MAX_DURATION) {
@@ -200,8 +200,6 @@ class LevelSelectViewModel(
 
         list[levelIndex] = list[levelIndex].setPassed()
 
-        sendRoute(LevelSelectRoute.PlaySound(GameSound.SoundWin))
-
         println(getState().premiaLevelList)
 
         viewModelScope.launch {
@@ -214,6 +212,13 @@ class LevelSelectViewModel(
         }
     }
 
+    override fun answerHint() {
+        getState().selectedLevel.levelAnswerHint(this)
+        successFinish()
+        sendRoute(LevelSelectRoute.PlaySound(GameSound.SoundGameover))
+
+    }
+
     override fun changeCoinsAmount(hintPrice: Int) {
         priseCoins -= HINT_USE_DECREASE
         setCoinsAmountUseCase(-hintPrice)
@@ -224,6 +229,8 @@ class LevelSelectViewModel(
             )
         }
         sendRoute(LevelSelectRoute.UpdateCoins)
+        sendRoute(LevelSelectRoute.PlaySound(GameSound.SoundSpendMoney))
+
     }
 
     private fun saveLevelState() {
