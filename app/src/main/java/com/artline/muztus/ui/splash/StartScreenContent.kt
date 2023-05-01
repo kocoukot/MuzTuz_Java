@@ -123,7 +123,7 @@ fun SplashScreenContent(onPlay: () -> Unit) {
 }
 
 @Composable
-private fun ScreenImage(
+fun ScreenImage(
     modifier: Modifier = Modifier,
     image: Int
 ) {
