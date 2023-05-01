@@ -48,8 +48,8 @@ class MainActivity : AppCompatActivity(), UpdateCoins, GameSoundPlay, AdsActivit
 
     override fun onResume() {
         super.onResume()
-        FragmentManager.OnBackStackChangedListener { }
 
+        if (binding.menuMusic.isActivated) musicPlayerService.resume()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -158,6 +158,12 @@ class MainActivity : AppCompatActivity(), UpdateCoins, GameSoundPlay, AdsActivit
     override fun showAd() {
         adsClient.showAd(this)
     }
+
+    override fun onPause() {
+        super.onPause()
+        musicPlayerService.pause()
+    }
+
 }
 
 
