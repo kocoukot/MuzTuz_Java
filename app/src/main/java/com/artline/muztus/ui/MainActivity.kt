@@ -49,9 +49,8 @@ class MainActivity : AppCompatActivity(), UpdateCoins, GameSoundPlay, AdsActivit
     override fun onResume() {
         super.onResume()
 
-        if (binding.menuMusic.isActivated) musicPlayerService.resume()
+        // if (binding.menuMusic.isActivated) musicPlayerService.resume()
     }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(
